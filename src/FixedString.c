@@ -5,7 +5,11 @@
 #include <string.h>
 
 #include "../header/FixedString.h"
-
+/**
+ * Initialise FixedString struct
+ * @param string : String to put in FixedString
+ * @return FixedString : Struct with initialised variables
+ */
 FSTRING fsinit(const char *string)
 {
     int i;
@@ -25,6 +29,10 @@ FSTRING fsinit(const char *string)
     return tmp;
 }
 
+/**
+ * Free all dynamic allocated variables in tmp
+ * @param tmp
+ */
 void fsfree(FSTRING tmp)
 {
     free(tmp.string);
