@@ -2,7 +2,7 @@
 // Created by julie on 13/11/2021.
 //
 
-#include "../header/List.h"
+#include "../../header/struct/List.h"
 #include <stdlib.h>
 /**
  * Initialise variables of LIST

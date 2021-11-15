@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../header/FixedString.h"
+#include "../../header/struct/FixedString.h"
 /**
  * Initialise FixedString struct
  * @param string : String to put in FixedString

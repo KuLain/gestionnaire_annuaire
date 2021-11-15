@@ -2,7 +2,7 @@
 // Created by julie on 13/11/2021.
 //
 
-#include "../header/Record.h"
+#include "../../header/struct/Record.h"
 #include <stdlib.h>
 
 #define N 7
