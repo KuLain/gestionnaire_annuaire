@@ -30,7 +30,7 @@ FSTRING fsinit(const char *string)
 }
 
 /**
- * Free all dynamic allocated variables in tmp
+ * Free all dynamic allocation variables in tmp
  * @param tmp
  */
 void fsfree(FSTRING tmp)
