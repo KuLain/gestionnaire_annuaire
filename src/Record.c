@@ -20,7 +20,6 @@ RECORD* rinit(char **infos)
     tmp->content = malloc(sizeof(FSTRING)*N);
     for (i = 0; i < N; i++)
     {
-        printf("%s\n", infos[i]);
         tmp->content[i] = fsinit(infos[i]);
     }
     return tmp;
