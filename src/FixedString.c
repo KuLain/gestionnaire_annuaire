@@ -6,26 +6,26 @@
 
 #include "../header/FixedString.h"
 
-FSTRING fsinit(const char *chaine)
+FSTRING fsinit(const char *string)
 {
     int i;
-    int n = strlen(chaine);
+    int n = strlen(string);
     FSTRING tmp;
 
-    tmp.chaine = malloc(sizeof(char)*(n+1));
+    tmp.string = malloc(sizeof(char)*(n+1));
     tmp.length = n;
 
 
     for (i = 0; i < n; i++)
     {
-        tmp.chaine[i] = chaine[i];
+        tmp.string[i] = string[i];
     }
-    tmp.chaine[n] = '\0';
+    tmp.string[n] = '\0';
 
     return tmp;
 }
 
-void fsdelete(FSTRING chaine)
+void fsdelete(FSTRING tmp)
 {
-    free(chaine.chaine);
+    free(tmp.string);
 }

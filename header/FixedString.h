@@ -6,11 +6,11 @@
 #define SAE1_2_FIXEDSTRING_H
 
 typedef struct FixedString {
-    char *chaine;
+    char *string;
     int length;
 } FSTRING;
 
-FSTRING fsinit(const char *chaine);
-void fsdelete(FSTRING chaine);
+FSTRING fsinit(const char *string);
+void fsdelete(FSTRING tmp);
 
 #endif //SAE1_2_FIXEDSTRING_H
