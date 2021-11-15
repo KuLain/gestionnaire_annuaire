@@ -25,7 +25,7 @@ FSTRING fsinit(const char *string)
     return tmp;
 }
 
-void fsdelete(FSTRING tmp)
+void fsfree(FSTRING tmp)
 {
     free(tmp.string);
 }
