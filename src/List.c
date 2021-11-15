@@ -4,7 +4,10 @@
 
 #include "../header/List.h"
 #include <stdlib.h>
-
+/**
+ * Initialise variables of LIST
+ * @return pointer to LIST with initialised variables
+ */
 LIST* linit()
 {
     LIST *tmp = malloc(sizeof(LIST));
@@ -13,6 +16,11 @@ LIST* linit()
     return tmp;
 }
 
+/**
+ * Append element to the LIST
+ * @param tmp Pointer to LIST
+ * @param elt Pointer to the element to append
+ */
 void lpush(LIST *tmp, void* elt)
 {
     tmp->content = realloc(tmp->content, sizeof(void*)*(tmp->length+1));
@@ -25,6 +33,10 @@ void lpush(LIST *tmp, void* elt)
     tmp->length++;
 }
 
+/**
+ * Free all RECORD pointer in LIST and LIST pointer
+ * @param tmp Pointer to LIST
+ */
 void lfree_record(LIST *tmp)
 {
     int i;
@@ -36,6 +48,10 @@ void lfree_record(LIST *tmp)
     free(tmp);
 }
 
+/**
+ * Display all RECORD in LIST
+ * @param tmp Pointer to LIST
+ */
 void ldisplay_record(LIST *tmp)
 {
     int i;
