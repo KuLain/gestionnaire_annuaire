@@ -11,6 +11,7 @@ typedef struct FixedString {
 } FSTRING;
 
 FSTRING fsinit(const char *string);
+FSTRING fscat(FSTRING s1, FSTRING s2);
 void fsfree(FSTRING tmp);
 
 #endif //SAE1_2_FIXEDSTRING_H

@@ -29,6 +29,20 @@ FSTRING fsinit(const char *string)
     return tmp;
 }
 
+FSTRING fscat(FSTRING s1, FSTRING s2)
+{
+    FSTRING tmp;
+    int i, j;
+
+    tmp.length = s1.length + s2.length;
+    tmp.string = malloc(sizeof(char)*(tmp.length+1));
+
+    for (i = 0; i < s1.length; i++) tmp.string[i] = s1.string[i];
+    for (j = 0; j < s2 .length; j++, i++) tmp.string[i] = s2.string[j];
+
+    return tmp;
+}
+
 /**
  * Free all dynamic allocation in tmp
  * @param tmp
