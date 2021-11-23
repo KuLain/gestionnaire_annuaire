@@ -9,11 +9,13 @@
 #include <stdio.h>
 
 typedef struct Record {
-    FSTRING *content;
+    fpos_t start;
+    FSTRING mail;
+    FSTRING phone;
 } RECORD;
 
-RECORD* rinit(char **infos);
-void rdisplay(RECORD *r);
+RECORD* rinit(fpos_t beginning, FSTRING mail, FSTRING telephone);
+void rdisplay(FILE *fp, RECORD *r);
 void rfree(RECORD *r);
 
 #endif //SAE1_2_RECORD_H

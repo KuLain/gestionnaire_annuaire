@@ -73,17 +73,3 @@ void lfree_record(LIST *tmp)
     free(tmp->content);
     free(tmp);
 }
-
-/**
- * Display all RECORD in LIST
- * @param tmp Pointer to LIST
- */
-void ldisplay_record(LIST *tmp)
-{
-    int i;
-    for (i = 0; i < tmp->length; i++)
-    {
-        rdisplay((RECORD*)tmp->content[i]);
-        printf("\n");
-    }
-}

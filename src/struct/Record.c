@@ -7,37 +7,24 @@
 
 #define N 7
 
-/**
- * Initialise all variable of a RECORD
- * @param infos : Array of 7 strings matching [name, surname, city, postal code, phone, mail, job]
- * @return : pointer to the created RECORD with an array of 7 initialised FSTRING
- */
-RECORD* rinit(char **infos)
+RECORD* rinit(fpos_t beginning, FSTRING mail, FSTRING telephone)
 {
     RECORD* tmp = malloc(sizeof(RECORD));
-    int i;
-
-    tmp->content = malloc(sizeof(FSTRING)*N);
-    for (i = 0; i < N; i++)
-    {
-        tmp->content[i] = fsinit(infos[i]);
-    }
+    tmp->start = beginning;
+    tmp->mail = mail;
+    tmp->phone = telephone;
     return tmp;
 }
 
-/**
- * Display 7 strings of the RECORD
- * @param r : pointer to RECORD
- */
-void rdisplay(RECORD *r)
+void rdisplay(FILE *fp,RECORD *r)
 {
-    int i;
-    printf("%s\t", r->content[0].string);
-    for (i = 1; i < N-1; i++)
-    {
-        printf("%s\t", r->content[i].string);
-    }
-    printf("%s", r->content[N-1].string);
+    char buffer[N][50];
+    fsetpos(fp, &r->start);
+    fscanf(fp, "%s;%s;%s;%s;%s;%s;%s", buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5],buffer[6]);
+    printf("Prenom : %s\n", buffer[0]);
+    printf("Nom : %s\n", buffer[1]);
+    printf("Mail : %s\n", r->mail);
+    printf("Téléphone : %s", r->phone);
 }
 
 /**
@@ -46,11 +33,7 @@ void rdisplay(RECORD *r)
  */
 void rfree(RECORD *r)
 {
-    int i;
-    for (i = 0; i < N-1; i++)
-    {
-        fsfree(r->content[i]);
-    }
-    free(r->content);
+    fsfree(r->phone);
+    fsfree(r->mail);
     free(r);
 }
