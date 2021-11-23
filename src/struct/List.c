@@ -33,6 +33,32 @@ void lpush(LIST *tmp, void* elt)
     tmp->length++;
 }
 
+void* lpop(LIST *tmp)
+{
+    if (tmp->length == 0)
+    {
+        perror("Liste vide");
+        exit(EXIT_FAILURE);
+    }
+    void* elt = tmp->content[tmp->length-1];
+    tmp->content = realloc(tmp->content, sizeof(void*)*(tmp->length-1));
+    tmp->length--;
+    return elt;
+}
+
+RECORD* lpop_record(LIST *tmp)
+{
+    if (tmp->length == 0)
+    {
+        perror("Liste vide");
+        exit(EXIT_FAILURE);
+    }
+    RECORD * elt = (RECORD*)tmp->content[tmp->length-1];
+    tmp->content = realloc(tmp->content, sizeof(void*)*(tmp->length-1));
+    tmp->length--;
+    return elt;
+}
+
 /**
  * Free all RECORD pointer in LIST and LIST pointer
  * @param tmp Pointer to LIST
