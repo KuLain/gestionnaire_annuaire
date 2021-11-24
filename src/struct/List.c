@@ -46,30 +46,8 @@ void* lpop(LIST *tmp)
     return elt;
 }
 
-RECORD* lpop_record(LIST *tmp)
-{
-    if (tmp->length == 0)
-    {
-        perror("Liste vide");
-        exit(EXIT_FAILURE);
-    }
-    RECORD * elt = (RECORD*)tmp->content[tmp->length-1];
-    tmp->content = realloc(tmp->content, sizeof(void*)*(tmp->length-1));
-    tmp->length--;
-    return elt;
-}
-
-/**
- * Free all RECORD pointer in LIST and LIST pointer
- * @param tmp Pointer to LIST
- */
-void lfree_record(LIST *tmp)
+void lfree(LIST *tmp)
 {
     int i;
-    for (i = 0; i < tmp->length; i++)
-    {
-        rfree((RECORD*)tmp->content[i]);
-    }
-    free(tmp->content);
-    free(tmp);
+    for (i = 0; i < tmp->length; i++) free(tmp->content[i]);
 }

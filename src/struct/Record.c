@@ -7,7 +7,7 @@
 
 #define N 7
 
-RECORD* rinit(fpos_t beginning, FSTRING mail, FSTRING telephone)
+RECORD* rinit(fpos_t beginning, char mail[], char telephone[])
 {
     RECORD* tmp = malloc(sizeof(RECORD));
     tmp->start = beginning;
@@ -33,7 +33,7 @@ void rdisplay(FILE *fp,RECORD *r)
  */
 void rfree(RECORD *r)
 {
-    fsfree(r->phone);
-    fsfree(r->mail);
+    free(r->phone);
+    free(r->mail);
     free(r);
 }

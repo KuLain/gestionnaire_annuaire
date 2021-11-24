@@ -5,16 +5,15 @@
 #ifndef SAE1_2_RECORD_H
 #define SAE1_2_RECORD_H
 
-#include "FixedString.h"
 #include <stdio.h>
 
 typedef struct Record {
     fpos_t start;
-    FSTRING mail;
-    FSTRING phone;
+    char *mail;
+    char *phone;
 } RECORD;
 
-RECORD* rinit(fpos_t beginning, FSTRING mail, FSTRING telephone);
+RECORD* rinit(fpos_t beginning, char mail[], char telephone[]);
 void rdisplay(FILE *fp, RECORD *r);
 void rfree(RECORD *r);
 
