@@ -11,7 +11,8 @@ typedef struct List {
 } LIST ;
 
 LIST* linit();
-void lpush(LIST *liste, void* elt);
-void* lpop(LIST *tmp);
-void lfree(LIST *tmp);
+void lpush(LIST*, void*);
+void* lpop(LIST*);
+void* lpop_i(LIST*, int);
+void lfree(LIST*);
 #endif //SAE1_2_LIST_H
