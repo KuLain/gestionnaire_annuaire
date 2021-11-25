@@ -69,9 +69,9 @@ RECORD* aapop(AARRAY* array, char prenom[], char nom[], char mail[], char teleph
     RECORD* tmp;
 
     if (mail == NULL) {
-        while (i < array->content[indice]->length && !(strcmp(((RECORD*)array->content[indice]->content[i])->phone, telephone))) i++;
+        while (i < array->content[indice]->length && !(strcmp(((RECORD*)array->content[indice]->content[i])->data[4], telephone))) i++;
     } else {
-        while (i < array->content[indice]->length && !(strcmp(((RECORD*)array->content[indice]->content[i])->mail, mail))) i++;
+        while (i < array->content[indice]->length && !(strcmp(((RECORD*)array->content[indice]->content[i])->data[5], mail))) i++;
     }
     if (i == array->content[indice]->length) {
         perror("The record doesn't exist");
