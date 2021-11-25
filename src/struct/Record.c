@@ -4,6 +4,7 @@
 
 #include "../../header/struct/Record.h"
 #include <stdlib.h>
+#include <string.h>
 
 #define N 7
 
@@ -14,14 +15,19 @@ RECORD* rinit(char **data)
     int i;
     for (i = 0; i < N; i++)
     {
-        tmp->data[i] = data[i];
+        tmp->data[i] = realloc(data[i], strlen(data[i])+1);
     }
     return tmp;
 }
 
 void rdisplay(RECORD *r)
 {
-    // TODO
+    int i;
+    printf("%s `| ", r->data[0]);
+    for (i = 1; i < 6; i++) {
+        printf("%s `| ", r->data[i]);
+    }
+    printf("%s", r->data[6]);
 }
 
 /**
