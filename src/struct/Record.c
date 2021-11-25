@@ -7,24 +7,21 @@
 
 #define N 7
 
-RECORD* rinit(fpos_t beginning, char mail[], char telephone[])
+RECORD* rinit(char **data)
 {
     RECORD* tmp = malloc(sizeof(RECORD));
-    tmp->start = beginning;
-    tmp->mail = mail;
-    tmp->phone = telephone;
+    tmp->data = malloc(sizeof(char*)*N);
+    int i;
+    for (i = 0; i < N; i++)
+    {
+        tmp->data[i] = data[i];
+    }
     return tmp;
 }
 
-void rdisplay(FILE *fp,RECORD *r)
+void rdisplay(RECORD *r)
 {
-    char buffer[N][50];
-    fsetpos(fp, &r->start);
-    fscanf(fp, "%s;%s;%s;%s;%s;%s;%s", buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5],buffer[6]);
-    printf("Prenom : %s\n", buffer[0]);
-    printf("Nom : %s\n", buffer[1]);
-    printf("Mail : %s\n", r->mail);
-    printf("Téléphone : %s", r->phone);
+    // TODO
 }
 
 /**
@@ -33,7 +30,10 @@ void rdisplay(FILE *fp,RECORD *r)
  */
 void rfree(RECORD *r)
 {
-    free(r->phone);
-    free(r->mail);
+    int i;
+    for (i = 0; i < N; i++)
+    {
+        free(r->data[i]);
+    }
     free(r);
 }

@@ -8,13 +8,11 @@
 #include <stdio.h>
 
 typedef struct Record {
-    fpos_t start;
-    char *mail;
-    char *phone;
+    char **data;
 } RECORD;
 
-RECORD* rinit(fpos_t beginning, char mail[], char telephone[]);
-void rdisplay(FILE *fp, RECORD *r);
+RECORD* rinit(char **data);
+void rdisplay(RECORD *r);
 void rfree(RECORD *r);
 
 #endif //SAE1_2_RECORD_H
