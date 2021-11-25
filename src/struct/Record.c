@@ -23,11 +23,11 @@ RECORD* rinit(char **data)
 void rdisplay(RECORD *r)
 {
     int i;
-    printf("%s `| ", r->data[0]);
-    for (i = 1; i < 6; i++) {
-        printf("%s `| ", r->data[i]);
+    printf("%s %s\n", r->data[0], r->data[1]);
+    for (i = 2; i < 6; i++) {
+        printf("\t| %s\n", r->data[i]);
     }
-    printf("%s", r->data[6]);
+    printf("\t| %s", r->data[6]);
 }
 
 /**
