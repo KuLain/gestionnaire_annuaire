@@ -12,7 +12,7 @@
 LIST* linit()
 {
     LIST *liste = malloc(sizeof(LIST));
-    if (liste->content == NULL)
+    if (liste == NULL)
     {
         perror("Erreur lors de la reallocation de la memoire");
         exit(EXIT_FAILURE);
