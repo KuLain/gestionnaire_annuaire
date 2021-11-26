@@ -62,6 +62,29 @@ void aapush(AARRAY* array, char prenom[], char nom[], RECORD* elt)
     array->length++;
 }
 
+RECORD* aavalue_mail(AARRAY* array, char prenom[], char nom[], char mail[])
+{
+    int index = hash(prenom, nom, array->size);
+    LIST* tmp = array->content[index];
+    if (tmp == NULL) {
+        perror("No data associated with thoses keys ");
+        return NULL;
+    }
+    int i = 0;
+    while (i < tmp->length && strcmp(((RECORD*)tmp->content[i])->data[5], mail) != 0) i++;
+    if (i == tmp->length) {
+        perror("No data associated with thoses keys ");
+        return NULL;
+    } else {
+        return (RECORD*)tmp->content[i];
+    }
+}
+
+RECORD* aavalue_phone(AARRAY* array, char prenom[], char nom[], char phone[])
+{
+
+}
+
 RECORD* aapop(AARRAY* array, char prenom[], char nom[], char mail[], char telephone[])
 {
     assert(array->length > 0 && (mail == NULL || telephone == NULL));
