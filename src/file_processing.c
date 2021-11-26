@@ -70,3 +70,19 @@ void parse_csv(AARRAY* array, char path[],char delim)
     } while (!feof(fp));
     fclose(fp);
 }
+
+void aaray_csv(AARRAY* array, char path[])
+{
+    FILE *fp = fopen(path, "w");
+    RECORD *tmp;
+    int i, j;
+    for (i = 0; i < array->size; i++) {
+        if (array->content[i] != NULL) {
+            for (j = 0; j < array->content[i]->length; j++) {
+                tmp = (RECORD*)array->content[i]->content[j];
+                fprintf(fp, "%s,%s,%s,%s,%s,%s,%s\n",tmp->data[0],tmp->data[1],tmp->data[2],tmp->data[3],tmp->data[4],tmp->data[5],tmp->data[6]);
+            }
+        }
+    }
+    fclose(fp);
+}
