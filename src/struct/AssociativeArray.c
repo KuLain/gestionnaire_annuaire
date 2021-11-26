@@ -82,7 +82,20 @@ RECORD* aavalue_mail(AARRAY* array, char prenom[], char nom[], char mail[])
 
 RECORD* aavalue_phone(AARRAY* array, char prenom[], char nom[], char phone[])
 {
-
+    int index = hash(prenom, nom, array->size);
+    LIST* tmp = array->content[index];
+    if (tmp == NULL) {
+        perror("No data associated with thoses keys ");
+        return NULL;
+    }
+    int i = 0;
+    while (i < tmp->length && strcmp(((RECORD*)tmp->content[i])->data[4], phone) != 0) i++;
+    if (i == tmp->length) {
+        perror("No data associated with thoses keys ");
+        return NULL;
+    } else {
+        return (RECORD*)tmp->content[i];
+    }
 }
 
 RECORD* aapop(AARRAY* array, char prenom[], char nom[], char mail[], char telephone[])
