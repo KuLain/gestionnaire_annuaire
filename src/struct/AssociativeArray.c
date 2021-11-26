@@ -59,6 +59,7 @@ void aapush(AARRAY* array, char prenom[], char nom[], RECORD* elt)
     int indice = hash(prenom, nom, array->size);
     if (array->content[indice] == NULL) array->content[indice] = linit();
     lpush(array->content[indice], elt);
+    array->length++;
 }
 
 RECORD* aapop(AARRAY* array, char prenom[], char nom[], char mail[], char telephone[])
