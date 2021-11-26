@@ -15,7 +15,7 @@ RECORD* rinit(char **data)
     int i;
     for (i = 0; i < N; i++)
     {
-        tmp->data[i] = realloc(data[i], strlen(data[i])+1);
+        tmp->data[i] = data[i];
     }
     return tmp;
 }
