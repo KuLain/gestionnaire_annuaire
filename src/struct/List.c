@@ -78,3 +78,12 @@ void lfree(LIST *liste)
     int i;
     for (i = 0; i < liste->length; i++) free(liste->content[i]);
 }
+
+void lfree_record(LIST* liste)
+{
+    int i;
+    for (i = 0; i < liste->length; i++) {
+        rfree((RECORD*)liste->content[i]);
+    }
+    free(liste);
+}

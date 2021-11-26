@@ -15,4 +15,5 @@ void lpush(LIST*, void*);
 void* lpop(LIST*);
 void* lpop_i(LIST*, int);
 void lfree(LIST*);
+void lfree_record(LIST*);
 #endif //SAE1_2_LIST_H

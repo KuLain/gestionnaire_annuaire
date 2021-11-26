@@ -141,7 +141,7 @@ void aafree(AARRAY* array)
     {
         if (array->content[i] != NULL)
         {
-            lfree(array->content[i]);
+            lfree_record(array->content[i]);
         }
     }
     free(array->content);
