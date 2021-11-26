@@ -16,6 +16,7 @@ AARRAY* aainit(int);
 int hash(char prenom[], char nom[], int aa_size);
 void aapush(AARRAY* array, char prenom[], char nom[], RECORD* elt);
 RECORD* aapop(AARRAY* array, char prenom[], char nom[], char mail[], char telephone[]);
+void aadisplay(AARRAY* array);
 void aafree(AARRAY*);
 
 #endif //SAE_1_2_ASSOCIATIVEARRAY_H

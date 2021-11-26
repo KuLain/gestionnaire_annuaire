@@ -84,16 +84,29 @@ RECORD* aapop(AARRAY* array, char prenom[], char nom[], char mail[], char teleph
 
 }
 
-void aafree(AARRAY* tmp)
+void aadisplay(AARRAY* array)
 {
-    int i;
-    for (i = 0; i < tmp->size; i++)
-    {
-        if (tmp->content[i] != NULL)
-        {
-            lfree(tmp->content[i]);
+    int i, j;
+    for (i = 0; i < array->size; i++) {
+        if (array->content[i] != NULL) {
+            for (j = 0; j < array->content[i]->length; j++) {
+                rdisplay((RECORD*)array->content[i]->content[j]);
+                printf("\n");
+            }
         }
     }
-    free(tmp->content);
-    free(tmp);
+}
+
+void aafree(AARRAY* array)
+{
+    int i;
+    for (i = 0; i < array->size; i++)
+    {
+        if (array->content[i] != NULL)
+        {
+            lfree(array->content[i]);
+        }
+    }
+    free(array->content);
+    free(array);
 }
