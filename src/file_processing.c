@@ -24,12 +24,12 @@ char** tokenize(char line[], char delim)
     {
         if (line[k] == delim || line[k] == '\n') {
             ans[i][j] = '\0';
-            ans[i] = realloc(ans[i], j+1);
+            ans[i] = realloc(ans[i], j + 1);
             if (ans[i] == NULL) {
                 perror("Error while reallocating");
                 exit(EXIT_FAILURE);
             }
-            ans[++i] = malloc(sizeof(char)*50);
+            ans[++i] = malloc(sizeof(char) * 50);
             if (ans[i] == NULL) {
                 perror("Error while allocating");
                 exit(EXIT_FAILURE);
@@ -37,8 +37,11 @@ char** tokenize(char line[], char delim)
             j = 0;
         }
         else {
-            ans[i][j] = line[k];
-            j++;
+            if (!(line[k] == '.' && i == 4))
+            {
+                ans[i][j] = line[k];
+                j++;
+            }
         }
     }
     while (i < 7)
