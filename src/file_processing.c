@@ -9,6 +9,9 @@
 
 char** tokenize(char line[], char delim)
 {
+    int n = strlen(line);
+    if (n <= 6) return NULL;
+
     char **ans = malloc(sizeof(char*)*7);
     if (ans == NULL) {
         perror("Error while allocating");
@@ -20,7 +23,7 @@ char** tokenize(char line[], char delim)
         perror("Error while allocating");
         exit(EXIT_FAILURE);
     }
-    for (k = 0; k < strlen(line); k++)
+    for (k = 0; k < n; k++)
     {
         if (line[k] == delim || line[k] == '\n') {
             ans[i][j] = '\0';
@@ -44,43 +47,45 @@ char** tokenize(char line[], char delim)
             }
         }
     }
-    while (i < 7)
-    {
-        ans[i] = malloc(sizeof(char));
-        ans[i][0] = '\0';
-        i++;
-    }
     return ans;
 }
 
 void parse_csv(AARRAY* array, char path[],char delim)
 {
+    RECORD *tmp;
+    char buffer[150];
+    char **splited;
     FILE *fp = fopen(path, "r");
     if (fp == NULL) {
         perror("Error while opening the file ");
         exit(EXIT_FAILURE);
     }
-    RECORD *tmp;
-    char buffer[150];
 
     do {
         fgets(buffer, 150, fp);
-        tmp = rinit(tokenize(buffer, delim));
-        aapush(array, tmp->data[0], tmp->data[1], tmp);
+        splited = tokenize(buffer, delim);
+        if (splited != NULL) {
+            tmp = rinit(splited);
+            aapush(array, tmp->data[0], tmp->data[1], tmp);
+        }
+        buffer[0] = '\0';
     } while (!feof(fp));
     fclose(fp);
 }
 
-void aaray_csv(AARRAY* array, char path[])
+void aarray_csv(AARRAY* array, char path[], char delim)
 {
     FILE *fp = fopen(path, "w");
     RECORD *tmp;
-    int i, j;
+    int i, j, k;
     for (i = 0; i < array->size; i++) {
         if (array->content[i] != NULL) {
             for (j = 0; j < array->content[i]->length; j++) {
                 tmp = (RECORD*)array->content[i]->content[j];
-                fprintf(fp, "%s,%s,%s,%s,%s,%s,%s\n",tmp->data[0],tmp->data[1],tmp->data[2],tmp->data[3],tmp->data[4],tmp->data[5],tmp->data[6]);
+                for (k = 0; k < 6; k++) {
+                    fprintf(fp,"%s%c",tmp->data[k],delim);
+                }
+                fprintf(fp,"%s\n",tmp->data[6]);
             }
         }
     }

@@ -7,6 +7,6 @@
 #include "struct/AssociativeArray.h"
 char** tokenize(char ligne[], char delim);
 void parse_csv(AARRAY* array, char path[], char delim);
-void aaray_csv(AARRAY* array, char path[]);
+void aarray_csv(AARRAY* array, char path[], char delim);
 
 #endif //SAE_1_2_FILE_PROCESSING_H
