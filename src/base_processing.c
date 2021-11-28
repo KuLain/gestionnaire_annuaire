@@ -13,6 +13,7 @@ void add_record(AARRAY* array, char path[], char delim) {
     char **tmp;
     int i, n;
 
+    printf("Ajout d'un abonnée\n");
     printf("Entrez les informations du client à ajouter\n\n");
 
     for (i = 0; i < 7; i++) {
@@ -53,7 +54,6 @@ void add_record(AARRAY* array, char path[], char delim) {
             exit(EXIT_FAILURE);
         }
     }
-    printf("\n");
 
     client = rinit(tmp);
     aapush(array, client->data[0], client->data[1], client);
@@ -64,6 +64,7 @@ void add_record(AARRAY* array, char path[], char delim) {
     }
     fprintf(fp,"%s\n",client->data[6]);
     fclose(fp);
+    printf("\nAjout effectué\n");
 }
 
 void delete_record(AARRAY* array, char path[], char delim) {
@@ -72,7 +73,8 @@ void delete_record(AARRAY* array, char path[], char delim) {
     char nom[50];
     char filtre[100];
 
-    printf("Entrez les informations du client à supprimer\n\n");
+    printf("Suppression d'un abonnée\n");
+    printf("Entrez les informations de l'abonné à supprimer\n\n");
     printf("Quels inforamtions voulez-vous utiliser ?\n");
     printf("1) Prénom, nom et numéro de téléphone\n");
     printf("2) Prénom, nom et adresse email\n\n");
@@ -101,8 +103,145 @@ void delete_record(AARRAY* array, char path[], char delim) {
             break;
         default:
             perror("Unknown input");
-            break;
+            return;
+    }
+    printf("\nSuppression effectué\n");
+    aarray_csv(array, path, delim);
+}
+
+void change_record(AARRAY* array, char path[], char delim) {
+    char choix[3], infos[3][100];
+    char *valeur = malloc(sizeof(char)*100);
+    int i,n;
+    RECORD* abonne;
+
+    if (valeur == NULL) {
+        perror("Error while allocation ");
+        exit(EXIT_FAILURE);
     }
 
+    printf("Changement des données d'un abonné\n");
+    printf("Comment séléctionner l'abonnée ?\n\n");
+    printf("1) Avec le prénom, nom et adresse email\n");
+    printf("2) Avec le prénom, nom et numéro de téléphone\n");
+    printf("*) Retour\n\n");
+
+    printf("Entrez une valeur : ");
+    fgets(choix, 3, stdin);
+
+    printf("\n");
+
+    printf("Entrez le prénom : ");
+    fgets(infos[0], 100, stdin);
+    infos[0][strlen(infos[0])-1] = '\0';
+    printf("Entrez le nom : ");
+    fgets(infos[1], 100, stdin);
+    infos[1][strlen(infos[1])-1] = '\0';
+
+    switch (choix[0]) {
+        case '1':
+            printf("Entrez l'adresse email : ");
+            fgets(infos[2], 100, stdin);
+            infos[2][strlen(infos[2])-1] = '\0';
+            abonne = aavalue_mail(array, infos[0], infos[1], infos[2]);
+            break;
+        case '2':
+            printf("Entrez le numéro de téléphone : ");
+            fgets(infos[2], 100, stdin);
+            infos[2][strlen(infos[2])-1] = '\0';
+            abonne = aavalue_phone(array, infos[0], infos[1], infos[2]);
+            break;
+        default:
+            return;
+    }
+
+    if (abonne == NULL) {
+        free(valeur);
+        return;
+    }
+
+    printf("\n");
+
+    printf("Quel information de %s %s voulez-vous changer ?\n\n", abonne->data[0], abonne->data[1]);
+    printf("1) Prénom\n");
+    printf("2) Nom\n");
+    printf("3) Ville\n");
+    printf("4) Code postal\n");
+    printf("5) Numéro de téléphone\n");
+    printf("6) Adresse email\n");
+    printf("7) Profession\n");
+    printf("*) Retour au menu principal\n\n");
+
+    printf("Entrez votre choix : ");
+    fgets(choix, 3, stdin);
+    switch (choix[0]) {
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+            i = choix[0] - 49;
+            break;
+        default:
+            free(valeur);
+            return;
+    }
+
+    printf("\nEntrez la nouvelle valeur : ");
+    fgets(valeur, 100, stdin);
+    n = strlen(valeur);
+    valeur[n-1] = '\0';
+    valeur = realloc(valeur, sizeof(char)*(n-1));
+    if (valeur == NULL) {
+        perror("Error while reallocating ");
+        exit(EXIT_FAILURE);
+    }
+    free(abonne->data[i]);
+    abonne->data[i] = valeur;
     aarray_csv(array, path, delim);
+    printf("\nChangement effectué\n\n");
+}
+
+void access_record(AARRAY* array)
+{
+    char choix[3], infos[3][100];
+
+    printf("Accès à un abonné\n");
+    printf("Comment séléctionner l'abonné ?\n\n");
+    printf("1) Avec le prénom, nom et adresse email\n");
+    printf("2) Avec le prénom, nom et numéro de téléphone\n");
+    printf("*) Retour\n\n");
+
+    printf("Entrez une valeur : ");
+    fgets(choix, 3, stdin);
+
+    printf("\nEntrez le prénom : ");
+    fgets(infos[0], 100, stdin);
+    infos[0][strlen(infos[0])-1] = '\0';
+    printf("Entrez le nom : ");
+    fgets(infos[1], 100, stdin);
+    infos[1][strlen(infos[1])-1] = '\0';
+
+    switch (choix[0]) {
+        case '1':
+            printf("Entrez l'adresse email : ");
+            fgets(infos[2], 100, stdin);
+            infos[2][strlen(infos[2])-1] = '\0';
+            rdisplay(aavalue_mail(array, infos[0], infos[1], infos[2]));
+            break;
+        case '2':
+            printf("Entrez le numéro de téléphone : ");
+            fgets(infos[2], 100, stdin);
+            infos[2][strlen(infos[2])-1] = '\0';
+            printf("\n");
+            rdisplay(aavalue_phone(array, infos[0], infos[1], infos[2]));
+            break;
+        default:
+            printf("Erreur\n");
+            perror("No data associated with thoses keys ");
+            break;
+    }
+    printf("\n");
 }
