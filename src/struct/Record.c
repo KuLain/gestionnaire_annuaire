@@ -12,7 +12,7 @@ RECORD* rinit(char **data)
 {
     RECORD* tmp = malloc(sizeof(RECORD));
     tmp->data = malloc(sizeof(char*)*N);
-    int i;
+    int i, n;
     for (i = 0; i < N; i++)
     {
         tmp->data[i] = data[i];
