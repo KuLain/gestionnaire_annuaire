@@ -6,6 +6,28 @@
 #include <stdlib.h>
 #include <string.h>
 
+void sorted_records(AARRAY *array)
+{
+    char choix[3];
+    int filtre;
+    printf("Affichage des abonnés triés par ordre croissant selon un attribut\n");
+    printf("Selon quel attribut voulez-vous les trier ?\n\n");
+
+    printf("1) Prénom\n2) Nom\n3) Ville\n4) Code Postal\n5) Numéro de téléphone\n6) Adresse email\n7) Profession \n\n");
+
+    printf("Entrez votre choix : ");
+    fgets(choix, 3, stdin);
+
+    if (choix[0] >= '1' && choix[0] <= '9') {
+        filtre = choix[0] - 49;
+        quick_sort(array, filtre);
+        return;
+    } else {
+        perror("Unknown input");
+        return;
+    }
+}
+
 void aarray_list(AARRAY* array, LIST* liste, int filter) {
     int i,j;
     for (i = 0; i < array->size; i++) {
@@ -41,10 +63,8 @@ void bubble_sort(AARRAY* array, int filter) {
         fin_non_triee--;
     }
 
-    for (i = 0; i < liste->length; i++) {
-        rdisplay(((RECORD*)liste->content[i]));
-        printf("\n");
-    }
+    display_sorted_records(liste);
+
     free(liste->content);
     free(liste);
 }
@@ -83,15 +103,21 @@ void quick_sort_rec(LIST *liste, int gauche, int droite, int filter) {
 
 void quick_sort(AARRAY *array, int filter) {
     LIST *liste = linit();
-    int i;
 
     aarray_list(array, liste, filter);
     quick_sort_rec(liste, 0, liste->length-1, filter);
 
-    for (i = 0; i < liste->length; i++) {
-        printf("%s", ((RECORD*)liste->content[i])->data[0]);
-        printf("\n");
-    }
+    display_sorted_records(liste);
+
     free(liste->content);
     free(liste);
+}
+
+void display_sorted_records(LIST *liste)
+{
+    int i;
+    for (i = 0; i < liste->length; i++) {
+        rdisplay((RECORD*)liste->content[i]);
+        printf("\n");
+    }
 }
