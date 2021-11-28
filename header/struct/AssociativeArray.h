@@ -13,7 +13,6 @@ typedef struct AssociativeArray {
 } AARRAY;
 
 AARRAY* aainit(int);
-int hash(char prenom[], char nom[], int aa_size);
 void aapush(AARRAY* array, char prenom[], char nom[], RECORD* elt);
 RECORD* aavalue_mail(AARRAY* array, char prenom[], char nom[], char mail[]);
 RECORD* aavalue_phone(AARRAY* array, char prenom[], char nom[], char phone[]);
