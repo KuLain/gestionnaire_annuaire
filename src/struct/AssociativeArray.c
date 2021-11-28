@@ -66,11 +66,12 @@ RECORD* aavalue_mail(AARRAY* array, char prenom[], char nom[], char mail[])
 {
     int index = hash(prenom, nom, array->size);
     LIST* tmp = array->content[index];
+    int i = 0;
+
     if (tmp == NULL) {
         perror("No data associated with thoses keys ");
         return NULL;
     }
-    int i = 0;
     while (i < tmp->length && strcmp(((RECORD*)tmp->content[i])->data[5], mail) != 0) i++;
     if (i == tmp->length) {
         perror("No data associated with thoses keys ");
@@ -112,7 +113,7 @@ RECORD* aapop(AARRAY* array, char prenom[], char nom[], char mail[], char teleph
     }
     if (i == array->content[indice]->length) {
         perror("The record doesn't exist");
-        exit(EXIT_FAILURE);
+        return NULL;
     }
 
     tmp = (RECORD*)array->content[indice]->content[i];
