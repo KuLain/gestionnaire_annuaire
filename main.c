@@ -2,8 +2,9 @@
 #include "header/file_processing.h"
 #include "header/base_processing.h"
 #include "header/sorted_display.h"
+#include "header/filtered_display.h"
 
-#define PATH "files/annuaire5000.csv"
+#define PATH "files/gang.csv"
 #define DELIM ','
 
 int main() {
@@ -48,10 +49,10 @@ int main() {
                 aadisplay(dico);
                 break;
             case '6':
-                quick_sort(dico, 0);
+                sorted_records(dico);
                 break;
             case '7':
-                // TODO
+                filetered_records(dico);
                 break;
             case '8':
                 // TODO
