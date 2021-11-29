@@ -198,8 +198,17 @@ void change_record(AARRAY* array, char path[], char delim) {
         perror("Error while reallocating ");
         exit(EXIT_FAILURE);
     }
-    free(abonne->data[i]);
-    abonne->data[i] = valeur;
+
+    if (i == 0 || i == 1) {
+        aapop_resize(array, abonne->data[0], abonne->data[1], abonne->data[5], NULL);
+        free(abonne->data[i]);
+        abonne->data[i] = valeur;
+        aapush(array, abonne->data[0], abonne->data[1], abonne);
+    } else {
+        free(abonne->data[i]);
+        abonne->data[i] = valeur;
+    }
+
     aarray_csv(array, path, delim);
     printf("\nChangement effectué\n\n");
 }
