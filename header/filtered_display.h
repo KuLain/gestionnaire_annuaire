@@ -5,6 +5,6 @@
 #ifndef SAE_1_2_FILTERED_DISPLAY_H
 #define SAE_1_2_FILTERED_DISPLAY_H
 #include "struct/AssociativeArray.h"
-void filetered_records(AARRAY*);
+void filtered_records(AARRAY*);
 void matching_filter(AARRAY*, int, char[]);
 #endif //SAE_1_2_FILTERED_DISPLAY_H

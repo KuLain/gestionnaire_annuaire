@@ -7,7 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-void filetered_records(AARRAY* array) {
+void filtered_records(AARRAY* array) {
     char choix[3], filter[150];
     int column;
 

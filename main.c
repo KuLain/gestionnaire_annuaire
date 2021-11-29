@@ -52,7 +52,7 @@ int main() {
                 sorted_records(dico);
                 break;
             case '7':
-                filetered_records(dico);
+                filtered_records(dico);
                 break;
             case '8':
                 // TODO
