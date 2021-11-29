@@ -39,7 +39,7 @@ void lpush(LIST *liste, void* elt)
     liste->length++;
 }
 
-void* lpop(LIST *liste)
+void lpop(LIST *liste)
 {
     if (liste->length == 0)
     {
@@ -54,10 +54,10 @@ void* lpop(LIST *liste)
         exit(EXIT_FAILURE);
     }
     liste->length--;
-    return elt;
+    free(elt);
 }
 
-void* lpop_i(LIST *liste, int index)
+void lpop_i(LIST *liste, int index)
 {
     assert(index >= 0 && index < liste->length);
     void* result = liste->content[index];
@@ -70,7 +70,37 @@ void* lpop_i(LIST *liste, int index)
         exit(EXIT_FAILURE);
     }
     liste->length--;
-    return result;
+    free(result);
+}
+
+void lpop_i_record(LIST* liste, int index) {
+    assert(index >= 0 && index < liste->length);
+    void* result = liste->content[index];
+    int i;
+    for (i = index; i < liste->length-1; i++) liste->content[i] = liste->content[i+1];
+    liste->content = realloc(liste->content, sizeof(void*)*liste->length-1);
+    if (liste->content == NULL)
+    {
+        perror("Erreur lors de la reallocation de la memoire");
+        exit(EXIT_FAILURE);
+    }
+    liste->length--;
+    rfree(result);
+}
+
+void l_pop_i_resize(LIST* liste, int index)
+{
+    assert(index >= 0 && index < liste->length);
+    void* result = liste->content[index];
+    int i;
+    for (i = index; i < liste->length-1; i++) liste->content[i] = liste->content[i+1];
+    liste->content = realloc(liste->content, sizeof(void*)*liste->length-1);
+    if (liste->content == NULL)
+    {
+        perror("Erreur lors de la reallocation de la memoire");
+        exit(EXIT_FAILURE);
+    }
+    liste->length--;
 }
 
 void lfree(LIST *liste)
