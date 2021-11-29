@@ -16,7 +16,8 @@ AARRAY* aainit(int);
 void aapush(AARRAY* array, char prenom[], char nom[], RECORD* elt);
 RECORD* aavalue_mail(AARRAY* array, char prenom[], char nom[], char mail[]);
 RECORD* aavalue_phone(AARRAY* array, char prenom[], char nom[], char phone[]);
-RECORD* aapop(AARRAY* array, char prenom[], char nom[], char mail[], char telephone[]);
+void aapop(AARRAY* array, char prenom[], char nom[], char mail[], char telephone[]);
+void aapop_resize(AARRAY* array, char prenom[], char nom[], char mail[], char telephone[]);
 void aadisplay(AARRAY* array);
 void aafree(AARRAY*);
 

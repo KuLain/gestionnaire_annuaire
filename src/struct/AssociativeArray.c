@@ -34,7 +34,7 @@ int hash(char prenom[], char nom[], int aa_size)
         }
         else
         {
-            somme += prenom[i]*poids;
+            somme += prenom[i]*pow(2,poids);
             poids--;
         }
     }
@@ -47,7 +47,7 @@ int hash(char prenom[], char nom[], int aa_size)
         }
         else
         {
-            somme += nom[i]*poids;
+            somme += nom[i]*pow(2,poids);
             poids--;
         }
     }
@@ -99,7 +99,7 @@ RECORD* aavalue_phone(AARRAY* array, char prenom[], char nom[], char phone[])
     }
 }
 
-RECORD* aapop(AARRAY* array, char prenom[], char nom[], char mail[], char telephone[])
+void aapop(AARRAY* array, char prenom[], char nom[], char mail[], char telephone[])
 {
     assert(array->length > 0 && (mail == NULL || telephone == NULL));
     int indice = hash(prenom, nom, array->size);
@@ -113,13 +113,32 @@ RECORD* aapop(AARRAY* array, char prenom[], char nom[], char mail[], char teleph
     }
     if (i == array->content[indice]->length) {
         perror("The record doesn't exist");
-        return NULL;
+        return ;
     }
 
     tmp = (RECORD*)array->content[indice]->content[i];
-    lpop_i(array->content[indice], i);
-    return tmp;
+    lpop_i_record(array->content[indice], i);
+}
 
+void aapop_resize(AARRAY* array, char prenom[], char nom[], char mail[], char telephone[])
+{
+    assert(array->length > 0 && (mail == NULL || telephone == NULL));
+    int indice = hash(prenom, nom, array->size);
+    int i;
+    RECORD* tmp;
+
+    if (mail == NULL) {
+        while (i < array->content[indice]->length && !(strcmp(((RECORD*)array->content[indice]->content[i])->data[4], telephone) == 0)) i++;
+    } else {
+        while (i < array->content[indice]->length && !(strcmp(((RECORD*)array->content[indice]->content[i])->data[5], mail) == 0)) i++;
+    }
+    if (i == array->content[indice]->length) {
+        perror("The record doesn't exist");
+        return ;
+    }
+
+    tmp = (RECORD*)array->content[indice]->content[i];
+    l_pop_i_resize(array->content[indice], i);
 }
 
 void aadisplay(AARRAY* array)
