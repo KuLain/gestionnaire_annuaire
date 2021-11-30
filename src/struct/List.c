@@ -1,17 +1,17 @@
 //
-// Created by julie on 13/11/2021.
+// Created by lain on 30/11/2021.
 //
 
 #include "../../header/struct/List.h"
 #include <stdlib.h>
 #include <assert.h>
 /**
- * Initialise variables of LIST
- * @return pointer to LIST with initialised variables
+ * Initialise les variables d'une LIST et alloue de la mémoire pour cette LIST
+ * @return : Pointeur vers la LIST
  */
 LIST* linit()
 {
-    LIST *liste = malloc(sizeof(LIST));
+    LIST *liste = (LIST*)malloc(sizeof(LIST));
     if (liste == NULL)
     {
         perror("Erreur lors de la reallocation de la memoire");
@@ -23,13 +23,13 @@ LIST* linit()
 }
 
 /**
- * Append element to the LIST
- * @param liste Pointer to LIST
- * @param elt Pointer to the element to append
+ * Ajoute le record à la fin de la liste
+ * @param liste : Pointeur vers la LIST
+ * @param elt : Pointeur vers le RECORD à ajouter à la fin
  */
-void lpush(LIST *liste, void* elt)
+void lpush(LIST *liste, RECORD* elt)
 {
-    liste->content = realloc(liste->content, sizeof(void*)*(liste->length+1));
+    liste->content = (RECORD**)realloc(liste->content, sizeof(RECORD*)*(liste->length+1));
     if (liste->content == NULL)
     {
         perror("Erreur lors de la reallocation de la memoire");
@@ -39,6 +39,10 @@ void lpush(LIST *liste, void* elt)
     liste->length++;
 }
 
+/**
+ * Supprime le dernier RECORD de la LIST et libère la mémoire alloué à ce RECORD
+ * @param liste : Pointeur vers la LIST
+ */
 void lpop(LIST *liste)
 {
     if (liste->length == 0)
@@ -46,39 +50,28 @@ void lpop(LIST *liste)
         perror("Liste vide");
         exit(EXIT_FAILURE);
     }
-    void* elt = liste->content[liste->length-1];
-    liste->content = realloc(liste->content, sizeof(void*)*(liste->length-1));
+    RECORD* elt = liste->content[liste->length-1];
+    liste->content = (RECORD**) realloc(liste->content, sizeof(RECORD*)*(liste->length-1));
     if (liste->content == NULL)
     {
         perror("Erreur lors de la reallocation de la memoire");
         exit(EXIT_FAILURE);
     }
     liste->length--;
-    free(elt);
+    rfree(elt);
 }
 
+/**
+ * Supprime le RECORD d'indice index et libère la mémoire alloué à ce RECORD
+ * @param liste : Pointeur vers la LIST
+ */
 void lpop_i(LIST *liste, int index)
 {
     assert(index >= 0 && index < liste->length);
-    void* result = liste->content[index];
+    RECORD* result = liste->content[index];
     int i;
     for (i = index; i < liste->length-1; i++) liste->content[i] = liste->content[i+1];
-    liste->content = realloc(liste->content, sizeof(void*)*liste->length-1);
-    if (liste->content == NULL)
-    {
-        perror("Erreur lors de la reallocation de la memoire");
-        exit(EXIT_FAILURE);
-    }
-    liste->length--;
-    free(result);
-}
-
-void lpop_i_record(LIST* liste, int index) {
-    assert(index >= 0 && index < liste->length);
-    void* result = liste->content[index];
-    int i;
-    for (i = index; i < liste->length-1; i++) liste->content[i] = liste->content[i+1];
-    liste->content = realloc(liste->content, sizeof(void*)*liste->length-1);
+    liste->content = (RECORD**) realloc(liste->content, sizeof(RECORD*)*liste->length-1);
     if (liste->content == NULL)
     {
         perror("Erreur lors de la reallocation de la memoire");
@@ -88,13 +81,17 @@ void lpop_i_record(LIST* liste, int index) {
     rfree(result);
 }
 
-void l_pop_i_resize(LIST* liste, int index)
+/**
+ * Supprime le RECORD d'indice index mais ne libère pas la mémoire du RECORD
+ * @param liste : Pointeur vers la LIST
+ */
+void lpop_i_resize(LIST* liste, int index)
 {
     assert(index >= 0 && index < liste->length);
-    void* result = liste->content[index];
+    RECORD* result = liste->content[index];
     int i;
     for (i = index; i < liste->length-1; i++) liste->content[i] = liste->content[i+1];
-    liste->content = realloc(liste->content, sizeof(void*)*liste->length-1);
+    liste->content = (RECORD**) realloc(liste->content, sizeof(RECORD*)*liste->length-1);
     if (liste->content == NULL)
     {
         perror("Erreur lors de la reallocation de la memoire");
@@ -103,17 +100,15 @@ void l_pop_i_resize(LIST* liste, int index)
     liste->length--;
 }
 
+/**
+ * Libère la mémoire de tous les RECORD de la LIST, ainsi que la mémoire dynamiquement alloué de la LIST
+ * @param liste : Pointeur vers la LIST
+ */
 void lfree(LIST *liste)
 {
     int i;
-    for (i = 0; i < liste->length; i++) free(liste->content[i]);
-}
-
-void lfree_record(LIST* liste)
-{
-    int i;
-    for (i = 0; i < liste->length; i++) {
-        rfree((RECORD*)liste->content[i]);
-    }
+    for (i = 0; i < liste->length; i++) rfree(liste->content[i]);
+    free(liste->content);
     free(liste);
 }
+

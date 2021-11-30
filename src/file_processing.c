@@ -1,24 +1,26 @@
-//
-// Created by julie on 25/11/2021.
-//
-
 #include "../header/file_processing.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * Sépare la ligne en 7 parties selon le délimiteur
+ * @param line : Chaine de caractère à split
+ * @param delim : Caractère séparateur
+ * @return Pointeur vers le tableau de chaine de caractère dynamiquement alloué
+ */
 char** tokenize(char line[], char delim)
 {
     int n = strlen(line);
     if (n <= 6) return NULL;
 
-    char **ans = malloc(sizeof(char*)*7);
+    char **ans = (char**)malloc(sizeof(char*)*7);
     if (ans == NULL) {
         perror("Error while allocating");
         exit(EXIT_FAILURE);
     }
     int i = 0, j = 0, k;
-    ans[0] = malloc(sizeof(char)*50);
+    ans[0] = (char*) malloc(sizeof(char)*50);
     if (ans[0] == NULL) {
         perror("Error while allocating");
         exit(EXIT_FAILURE);
@@ -27,12 +29,12 @@ char** tokenize(char line[], char delim)
     {
         if (line[k] == delim || line[k] == '\n') {
             ans[i][j] = '\0';
-            ans[i] = realloc(ans[i], j + 1);
+            ans[i] = (char*)realloc(ans[i], sizeof(char)*(j+1));
             if (ans[i] == NULL) {
                 perror("Error while reallocating");
                 exit(EXIT_FAILURE);
             }
-            ans[++i] = malloc(sizeof(char) * 50);
+            ans[++i] = (char*)malloc(sizeof(char) * 50);
             if (ans[i] == NULL) {
                 perror("Error while allocating");
                 exit(EXIT_FAILURE);
@@ -50,6 +52,12 @@ char** tokenize(char line[], char delim)
     return ans;
 }
 
+/**
+ * Remplis le AARRAY avec les lignes du fichier csv
+ * @param array : Pointeur vers AARRAY
+ * @param fp : Pointeur vers le FILE en lécture
+ * @param delim : Caractère séparateur
+ */
 void parse_csv(AARRAY* array, char path[],char delim)
 {
     RECORD *tmp;
@@ -69,10 +77,17 @@ void parse_csv(AARRAY* array, char path[],char delim)
             aapush(array, tmp->data[0], tmp->data[1], tmp);
         }
         buffer[0] = '\0';
+        free(splited);
     } while (!feof(fp));
-    fclose(fp);
+
 }
 
+/**
+ * Ecris les RECORD du AARRAY sur le CSV
+ * @param array : Pointeur vers AARRAY
+ * @param fp : Pointeur vers le FILE en écriture
+ * @param delim : Caractère séparateur
+ */
 void aarray_csv(AARRAY* array, char path[], char delim)
 {
     FILE *fp = fopen(path, "w");

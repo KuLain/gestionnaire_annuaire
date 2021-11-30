@@ -1,18 +1,22 @@
 //
-// Created by julie on 13/11/2021.
+// Created by lain on 30/11/2021.
 //
-
 #include "../../header/struct/Record.h"
 #include <stdlib.h>
 #include <string.h>
 
 #define N 7
 
+/**
+ * Initialise les variables et alloue la mémoire du RECORD
+ * @param data : Tableau contenant des pointeurs des vers chaines de caractères allouées dynamiquement
+ * @return : Pointeur vers le RECORD
+ */
 RECORD* rinit(char **data)
 {
     RECORD* tmp = malloc(sizeof(RECORD));
-    tmp->data = malloc(sizeof(char*)*N);
-    int i, n;
+    tmp->data = (char**) malloc(sizeof(char*)*N);
+    int i;
     for (i = 0; i < N; i++)
     {
         tmp->data[i] = data[i];
@@ -20,6 +24,10 @@ RECORD* rinit(char **data)
     return tmp;
 }
 
+/**
+ * Affiche le RECORD
+ * @param r : Pointeur vers le RECORD
+ */
 void rdisplay(RECORD *r)
 {
     if (r != NULL) {
@@ -29,12 +37,14 @@ void rdisplay(RECORD *r)
             printf("\t| %s\n", r->data[i]);
         }
         printf("\t| %s", r->data[6]);
+    } else {
+        printf("");
     }
 }
 
 /**
- * Free all dynamic allocation of the RECORD and inside the RECORD
- * @param r : Pointer to RECORD
+ * Libère toutes les allocations dynamiques du RECORD
+ * @param r : Pointeur vers le RECORD
  */
 void rfree(RECORD *r)
 {
@@ -42,6 +52,11 @@ void rfree(RECORD *r)
     for (i = 0; i < N; i++)
     {
         free(r->data[i]);
+        r->data[i] = NULL;
     }
+    free(r->data);
+    r->data = NULL;
     free(r);
+    r = NULL;
 }
+

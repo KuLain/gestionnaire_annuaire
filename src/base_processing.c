@@ -7,10 +7,16 @@
 #include <string.h>
 #include <stdlib.h>
 
+/**
+ * Affiche les champs pour remplir les données d'un abonné à ajouter et effectue l'ajout
+ * @param array : Pointeur vers AARRAY
+ * @param path : Chemin vers le fichier CSV
+ * @param delim : Caractère délimiteur
+ */
 void add_record(AARRAY* array, char path[], char delim) {
     RECORD* client;
     FILE *fp;
-    char **tmp;
+    char **tmp = (char**)malloc(sizeof(char*)*7);
     int i, n;
 
     printf("Ajout d'un abonnée\n");
@@ -65,8 +71,15 @@ void add_record(AARRAY* array, char path[], char delim) {
     fprintf(fp,"%s\n",client->data[6]);
     fclose(fp);
     printf("\nAjout effectué\n");
+    free(tmp);
 }
 
+/**
+ * Affiche le menu de suppression d'un abonné et effectue la suppression
+ * @param array : Pointeur vers AARRAY
+ * @param path : Chemin vers le fichier CSV
+ * @param delim : Caractère séparateur
+ */
 void delete_record(AARRAY* array, char path[], char delim) {
     char choix[3];
     char prenom[50];
@@ -109,6 +122,12 @@ void delete_record(AARRAY* array, char path[], char delim) {
     aarray_csv(array, path, delim);
 }
 
+/**
+ * Affiche le menu de changement des données d'un abonné et effectue le changement
+ * @param array : Pointeur vers AARRAY
+ * @param path : Chemin vers le fichier CSV
+ * @param delim : Caractère séparateur
+ */
 void change_record(AARRAY* array, char path[], char delim) {
     char choix[3], infos[3][100];
     char *valeur = malloc(sizeof(char)*100);
@@ -213,6 +232,10 @@ void change_record(AARRAY* array, char path[], char delim) {
     printf("\nChangement effectué\n\n");
 }
 
+/**
+ *  Affiche le menu d'accès à un abonné
+ * @param array : Pointeur vers AARRAY
+ */
 void access_record(AARRAY* array)
 {
     char choix[3], infos[3][100];
