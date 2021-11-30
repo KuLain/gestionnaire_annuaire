@@ -1,16 +1,20 @@
 #include <stdio.h>
+
+#include "header/struct/AssociativeArray.h"
 #include "header/file_processing.h"
 #include "header/base_processing.h"
-#include "header/sorted_display.h"
 #include "header/filtered_display.h"
+#include "header/sorted_display.h"
+#include "header/empty_display.h"
 
-#define PATH "files/gang.csv"
+#define PATH "/home/lain/CLionProjects/sae1_2_linux/gang.csv"
 #define DELIM ','
 
 int main() {
     AARRAY* dico = aainit(10);
     char choix[3];
     int active = 1;
+
     parse_csv(dico, PATH, DELIM);
 
     printf("Bienvenue dans le gestionnaire d'annuaire !\n\n");
@@ -25,7 +29,7 @@ int main() {
         printf("5) Afficher tous les abonnés\n");
         printf("6) Afficher tous les abonnés par trié selon un critère\n");
         printf("7) Afficher tous les abonnés par trié selon un filtre\n");
-        printf("8) Afficher les abonnés ayant une valeur inconnue\n");
+        printf("8) Afficher les abonnés avec des attributs manquants\n");
         printf("*) Quitter\n\n");
 
         printf("Entrez votre selection : ");
@@ -55,7 +59,7 @@ int main() {
                 filtered_records(dico);
                 break;
             case '8':
-                // TODO
+                missing_record(dico);
                 break;
             default:
                 active = 0;
