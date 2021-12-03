@@ -135,7 +135,7 @@ void change_record(AARRAY* array, char path[], char delim) {
     RECORD* abonne;
 
     if (valeur == NULL) {
-        perror("Error while allocation ");
+        perror("Error while allocating");
         exit(EXIT_FAILURE);
     }
 
@@ -273,6 +273,7 @@ void access_record(AARRAY* array)
         default:
             printf("Erreur\n");
             perror("No data associated with thoses keys ");
+            printf("\n");
             break;
     }
     printf("\n");
