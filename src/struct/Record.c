@@ -30,16 +30,7 @@ RECORD* rinit(char **data)
  */
 void rdisplay(RECORD *r)
 {
-    if (r != NULL) {
-        int i;
-        printf("%s %s\n", r->data[0], r->data[1]);
-        for (i = 2; i < 6; i++) {
-            printf("\t| %s\n", r->data[i]);
-        }
-        printf("\t| %s", r->data[6]);
-    } else {
-        printf("");
-    }
+    printf("%-25s %-30s %-25s %-15s %-20s %-50s %-20s\n", r->data[0], r->data[1], r->data[2], r->data[3], r->data[4], r->data[5], r->data[6]);
 }
 
 /**
