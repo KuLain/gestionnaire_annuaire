@@ -197,7 +197,7 @@ void aapop_resize(AARRAY* array, char prenom[], char nom[], char mail[], char te
 void aadisplay(AARRAY* array)
 {
     int i, j;
-    printf("%-25s%-30s%-25s%-15s%-20s%-50s%-20s\n", "Prénom", "Nom", "Ville", "Code Postal", "Téléphone", "Email", "Profession");
+    printf("%-25s%-30s%-25s%-15s%-20s%-50s%-20s\n\n", "Prenom", "Nom", "Ville", "Code Postal", "Telephone", "Email", "Profession");
     for (i = 0; i < array->size; i++) {
         if (array->content[i] != NULL) {
             for (j = 0; j < array->content[i]->length; j++) {

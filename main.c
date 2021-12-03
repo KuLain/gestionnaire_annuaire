@@ -7,7 +7,7 @@
 #include "header/sorted_display.h"
 #include "header/empty_display.h"
 
-#define PATH "files/gang.csv"
+#define PATH "files/annuaire5000.csv"
 #define DELIM ','
 
 int main() {
@@ -27,8 +27,8 @@ int main() {
         printf("3) Modifier les données d'un abonné\n");
         printf("4) Afficher un abonné\n");
         printf("5) Afficher tous les abonnés\n");
-        printf("6) Afficher tous les abonnés par trié selon un critère\n");
-        printf("7) Afficher tous les abonnés par trié selon un filtre\n");
+        printf("6) Afficher tous les abonnés trié selon un critère\n");
+        printf("7) Afficher tous les abonnés trié selon un filtre\n");
         printf("8) Afficher les abonnés avec des attributs manquants\n");
         printf("*) Quitter\n\n");
 
