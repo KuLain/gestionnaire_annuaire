@@ -10,6 +10,7 @@ void sorted_records(AARRAY *array)
 {
     char choix[3];
     int filtre;
+    LIST* liste;
     printf("Affichage des abonnés triés par ordre croissant selon un attribut\n");
     printf("Selon quel attribut voulez-vous les trier ?\n\n");
 
@@ -20,7 +21,14 @@ void sorted_records(AARRAY *array)
 
     if (choix[0] >= '1' && choix[0] <= '9') {
         filtre = choix[0] - 49;
-        quick_sort(array, filtre);
+        liste = linit();
+
+        aarray_list(array, liste, filtre);
+        quick_sort(liste, filtre);
+        display_sorted_records(liste);
+
+        free(liste->content);
+        free(liste);
         return;
     } else {
         perror("Unknown input");
@@ -39,14 +47,12 @@ void aarray_list(AARRAY* array, LIST* liste, int filter) {
     }
 }
 
-void bubble_sort(AARRAY* array, int filter) {
-    LIST *liste = linit();
+void bubble_sort(LIST* liste, int filter) {
     RECORD *tmp;
     int fin_non_triee;
     int est_triee = 0;
     int i;
 
-    aarray_list(array, liste, filter);
     fin_non_triee = liste->length - 1;
 
     while (fin_non_triee > 0 && est_triee != 1) {
@@ -62,11 +68,6 @@ void bubble_sort(AARRAY* array, int filter) {
         }
         fin_non_triee--;
     }
-
-    display_sorted_records(liste);
-
-    free(liste->content);
-    free(liste);
 }
 
 int partition(LIST *liste, int gauche, int droite, int filter) {
@@ -101,23 +102,15 @@ void quick_sort_rec(LIST *liste, int gauche, int droite, int filter) {
     }
 }
 
-void quick_sort(AARRAY *array, int filter) {
-    LIST *liste = linit();
-
-    aarray_list(array, liste, filter);
+void quick_sort(LIST *liste, int filter) {
     quick_sort_rec(liste, 0, liste->length-1, filter);
-
-    display_sorted_records(liste);
-
-    free(liste->content);
-    free(liste);
 }
+
 
 void display_sorted_records(LIST *liste)
 {
     int i;
     for (i = 0; i < liste->length; i++) {
         rdisplay((RECORD*)liste->content[i]);
-        printf("\n");
     }
 }
