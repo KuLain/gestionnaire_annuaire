@@ -18,7 +18,7 @@ AARRAY* aainit(int size)
 {
     AARRAY* tmp = (AARRAY*) malloc(sizeof(AARRAY));
     tmp->size = pow(2,size);
-    tmp->content = (LIST**) malloc(sizeof(LIST*)*tmp->size);
+    tmp->content = (LIST**) calloc(tmp->size,sizeof(LIST*));
     tmp->length = 0;
     return tmp;
 }

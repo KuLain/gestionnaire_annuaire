@@ -14,13 +14,13 @@ char** tokenize(char line[], char delim)
     int n = strlen(line);
     if (n <= 6) return NULL;
 
-    char **ans = (char**)malloc(sizeof(char*)*7);
+    char **ans = (char**) calloc(7, sizeof(char*));
     if (ans == NULL) {
         perror("Error while allocating");
         exit(EXIT_FAILURE);
     }
     int i = 0, j = 0, k;
-    ans[0] = (char*) malloc(sizeof(char)*50);
+    ans[0] = (char*) calloc(150, sizeof(char));
     if (ans[0] == NULL) {
         perror("Error while allocating");
         exit(EXIT_FAILURE);
@@ -34,7 +34,8 @@ char** tokenize(char line[], char delim)
                 perror("Error while reallocating");
                 exit(EXIT_FAILURE);
             }
-            ans[++i] = (char*)malloc(sizeof(char) * 50);
+            if (i+1 != 7) i++;
+            ans[i] = (char*) calloc(150, sizeof(char));
             if (ans[i] == NULL) {
                 perror("Error while allocating");
                 exit(EXIT_FAILURE);
@@ -69,7 +70,7 @@ void parse_csv(AARRAY* array, char path[],char delim)
         exit(EXIT_FAILURE);
     }
 
-    do {
+    while (!feof(fp)) {
         fgets(buffer, 150, fp);
         splited = tokenize(buffer, delim);
         if (splited != NULL) {
@@ -78,7 +79,9 @@ void parse_csv(AARRAY* array, char path[],char delim)
         }
         buffer[0] = '\0';
         free(splited);
-    } while (!feof(fp));
+    }
+    aadisplay(array);
+    fclose(fp);
 
 }
 
