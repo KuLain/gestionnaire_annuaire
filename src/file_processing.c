@@ -34,8 +34,8 @@ char** tokenize(char line[], char delim)
                 perror("Error while reallocating");
                 exit(EXIT_FAILURE);
             }
-            if (i+1 != 7) i++;
-            ans[i] = (char*) calloc(150, sizeof(char));
+            if (++i < 7) ans[i] = (char*) calloc(150, sizeof(char));
+
             if (ans[i] == NULL) {
                 perror("Error while allocating");
                 exit(EXIT_FAILURE);

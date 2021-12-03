@@ -261,6 +261,7 @@ void access_record(AARRAY* array)
             printf("Entrez l'adresse email : ");
             fgets(infos[2], 100, stdin);
             infos[2][strlen(infos[2])-1] = '\0';
+            printf("\n");
             rdisplay(aavalue_mail(array, infos[0], infos[1], infos[2]));
             break;
         case '2':
