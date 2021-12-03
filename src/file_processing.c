@@ -80,9 +80,7 @@ void parse_csv(AARRAY* array, char path[],char delim)
         buffer[0] = '\0';
         free(splited);
     }
-    aadisplay(array);
     fclose(fp);
-
 }
 
 /**
