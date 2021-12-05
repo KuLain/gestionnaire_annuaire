@@ -7,6 +7,11 @@
 #include <string.h>
 #include <stdlib.h>
 
+
+/**
+ * Affiche le menu pour choisir comment filtrer les RECORD
+ * @param array : Pointeur vers le AARRAY contenant les RECORD
+ */
 void filtered_records(AARRAY* array) {
     char choix[3], filter[150];
     int column;
@@ -40,6 +45,12 @@ void filtered_records(AARRAY* array) {
     return;
 }
 
+/**
+ * Affiche les RECORD correspondant au filtre
+ * @param array : Pointeur vers le AARRAY
+ * @param column : 0 <= column <= 7 : Indice de la colonne dans laquel on applique le filtre
+ * @param filter : Filtre à appliquer
+ */
 void matching_filter(AARRAY* array, int column, char filter[]) {
     LIST *matching_patterns = linit();
     RECORD *tmp;

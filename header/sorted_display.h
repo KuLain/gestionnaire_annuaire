@@ -7,7 +7,7 @@
 #include "struct/Record.h"
 #include "struct/AssociativeArray.h"
 void sorted_records(AARRAY *array);
-void aarray_list(AARRAY*, LIST*, int);
+void aarray_list(AARRAY*, LIST*);
 void bubble_sort(LIST*, int);
 void quick_sort(LIST*, int);
 void display_sorted_records(LIST*);

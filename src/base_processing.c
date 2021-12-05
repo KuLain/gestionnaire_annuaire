@@ -7,6 +7,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define N 7
+
 /**
  * Affiche les champs pour remplir les données d'un abonné à ajouter et effectue l'ajout
  * @param array : Pointeur vers AARRAY
@@ -16,13 +18,13 @@
 void add_record(AARRAY* array, char path[], char delim) {
     RECORD* client;
     FILE *fp;
-    char **tmp = (char**)malloc(sizeof(char*)*7);
+    char **tmp = (char**)malloc(sizeof(char*)*N);
     int i, n;
 
     printf("Ajout d'un abonnée\n");
     printf("Entrez les informations du client à ajouter\n\n");
 
-    for (i = 0; i < 7; i++) {
+    for (i = 0; i < N; i++) {
         switch (i) {
             case 0:
                 printf("Entrez le prénom : ");

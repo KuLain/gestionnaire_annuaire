@@ -6,6 +6,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+/**
+ * Affiche le menu pour sélectionner la colonne à trier
+ * @param array
+ */
 void sorted_records(AARRAY *array)
 {
     char choix[3];
@@ -23,7 +28,7 @@ void sorted_records(AARRAY *array)
         filtre = choix[0] - 49;
         liste = linit();
 
-        aarray_list(array, liste, filtre);
+        aarray_list(array, liste);
         quick_sort(liste, filtre);
         display_sorted_records(liste);
 
@@ -36,7 +41,12 @@ void sorted_records(AARRAY *array)
     }
 }
 
-void aarray_list(AARRAY* array, LIST* liste, int filter) {
+/**
+ * Ajoute tous les pointeurs vers les RECORD du AARRAY dans la LIST
+ * @param array : Pointeur vers le AARRAY source
+ * @param liste : Pointeur vers la LIST réceptrice
+ */
+void aarray_list(AARRAY* array, LIST* liste) {
     int i,j;
     for (i = 0; i < array->size; i++) {
         if (array->content[i] != NULL) {
@@ -47,6 +57,11 @@ void aarray_list(AARRAY* array, LIST* liste, int filter) {
     }
 }
 
+/**
+ * Effectue le tri bulle selon un filtre
+ * @param liste : Pointeur vers la LIST
+ * @param filter : 0 <= filter <= 7 : Indice de la colonne selon laquelle les RECORD vont être trier
+ */
 void bubble_sort(LIST* liste, int filter) {
     RECORD *tmp;
     int fin_non_triee;
@@ -70,17 +85,27 @@ void bubble_sort(LIST* liste, int filter) {
     }
 }
 
+/**
+ * Déplace les éléments plus grand que le pivot à droite,
+ * déplace les éléments plus petit que le pivot à gauche puis
+ * place le pivot au milieu de la LIST
+ * @param liste : Pointeur vers la LIST contenant les RECORD
+ * @param gauche : Indice du début de la sous LIST
+ * @param droite : Indice de la fin de la sous LIST
+ * @param filter : 0 <= filter <= 7 : Indice de la colonne selon laquelle les RECORD vont être trier
+ * @return Indice du pivot une fois au milieu de la LIST
+ */
 int partition(LIST *liste, int gauche, int droite, int filter) {
     char *clef;
     RECORD *tmp;
     int i, j;
 
-    clef = ((RECORD*)liste->content[droite])->data[filter];
+    clef = liste->content[droite]->data[filter];
     i = gauche-1;
     j = droite;
     while (i <= j) {
-        while ((++i < droite) && (strcmp(((RECORD*)liste->content[i])->data[filter],clef) < 0));
-        while ((--j > (gauche-1)) && (strcmp(((RECORD*)liste->content[j])->data[filter],clef) > 0));
+        while ((++i < droite) && (strcmp(liste->content[i]->data[filter],clef) < 0));
+        while ((--j > (gauche-1)) && (strcmp(liste->content[j]->data[filter],clef) > 0));
         if (i < j) {
             tmp = liste->content[i];
             liste->content[i] = liste->content[j];
@@ -93,6 +118,13 @@ int partition(LIST *liste, int gauche, int droite, int filter) {
     return i;
 }
 
+/**
+ * Effectue le tri rapide
+ * @param liste : Pointeur vers la LIST contenant les RECORD
+ * @param gauche : Indice du début de la sous LIST
+ * @param droite : Indice de la fin de la sous LIST
+ * @param filter : 0 <= filter <= 7 : Indice de la colonne selon laquelle les RECORD vont être trier
+ */
 void quick_sort_rec(LIST *liste, int gauche, int droite, int filter) {
     int pivot;
     if (gauche < droite) {
@@ -102,11 +134,19 @@ void quick_sort_rec(LIST *liste, int gauche, int droite, int filter) {
     }
 }
 
+/**
+ * Appelle la fonction de tri rapide récursif
+ * @param liste : Pointeur vers la LIST contenant les RECORD
+ * @param filter : 0 <= filter <= 7 : Indice de la colonne selon laquelle les RECORD vont être trier
+ */
 void quick_sort(LIST *liste, int filter) {
     quick_sort_rec(liste, 0, liste->length-1, filter);
 }
 
-
+/**
+ * Affiche tous les RECORD de la LIST
+ * @param liste : Pointeur vers la LIST contenant les RECORD
+ */
 void display_sorted_records(LIST *liste)
 {
     int i;

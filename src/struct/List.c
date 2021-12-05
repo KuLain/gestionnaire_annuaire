@@ -5,6 +5,8 @@
 #include "../../header/struct/List.h"
 #include <stdlib.h>
 #include <assert.h>
+
+
 /**
  * Initialise les variables d'une LIST et alloue de la mémoire pour cette LIST
  * @return : Pointeur vers la LIST

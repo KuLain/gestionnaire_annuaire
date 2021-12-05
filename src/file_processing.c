@@ -3,8 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define N 7
+
 /**
- * Sépare la ligne en 7 parties selon le délimiteur
+ * Sépare la ligne en N parties selon le délimiteur
  * @param line : Chaine de caractère à split
  * @param delim : Caractère séparateur
  * @return Pointeur vers le tableau de chaine de caractère dynamiquement alloué
@@ -14,7 +16,7 @@ char** tokenize(char line[], char delim)
     int n = strlen(line);
     if (n <= 6) return NULL;
 
-    char **ans = (char**) calloc(7, sizeof(char*));
+    char **ans = (char**) calloc(N, sizeof(char*));
     if (ans == NULL) {
         perror("Error while allocating");
         exit(EXIT_FAILURE);
@@ -34,7 +36,7 @@ char** tokenize(char line[], char delim)
                 perror("Error while reallocating");
                 exit(EXIT_FAILURE);
             }
-            if (++i < 7) ans[i] = (char*) calloc(150, sizeof(char));
+            if (++i < N) ans[i] = (char*) calloc(150, sizeof(char));
 
             if (ans[i] == NULL) {
                 perror("Error while allocating");
