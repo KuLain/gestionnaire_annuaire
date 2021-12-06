@@ -7,7 +7,7 @@
 #include "header/sorted_display.h"
 #include "header/empty_display.h"
 
-#define PATH "/home/lain/CLionProjects/sae_1_2/annuaire5000.csv"
+#define PATH "files/gang.csv"
 #define DELIM ','
 
 int main() {

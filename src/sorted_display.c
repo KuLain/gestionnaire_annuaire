@@ -29,7 +29,7 @@ void sorted_records(AARRAY *array)
         liste = linit();
 
         aarray_list(array, liste);
-        quick_sort(liste, filtre);
+        merge_sort(liste, filtre);
         display_sorted_records(liste);
 
         free(liste->content);
@@ -54,34 +54,6 @@ void aarray_list(AARRAY* array, LIST* liste) {
                 lpush(liste, (RECORD*)array->content[i]->content[j]);
             }
         }
-    }
-}
-
-/**
- * Effectue le tri bulle selon un filtre
- * @param liste : Pointeur vers la LIST
- * @param filter : 0 <= filter <= 7 : Indice de la colonne selon laquelle les RECORD vont être trier
- */
-void bubble_sort(LIST* liste, int filter) {
-    RECORD *tmp;
-    int fin_non_triee;
-    int est_triee = 0;
-    int i;
-
-    fin_non_triee = liste->length - 1;
-
-    while (fin_non_triee > 0 && est_triee != 1) {
-        est_triee = 1;
-        for (i = 0; i < fin_non_triee; i++) {
-            if (strcmp(((RECORD*)liste->content[i])->data[filter], ((RECORD*)liste->content[i+1])->data[filter]) > 0) {
-                tmp = liste->content[i];
-                liste->content[i] = liste->content[i+1];
-                liste->content[i+1] = tmp;
-
-                est_triee = 0;
-            }
-        }
-        fin_non_triee--;
     }
 }
 
@@ -141,6 +113,71 @@ void quick_sort_rec(LIST *liste, int gauche, int droite, int filter) {
  */
 void quick_sort(LIST *liste, int filter) {
     quick_sort_rec(liste, 0, liste->length-1, filter);
+}
+
+void merge(LIST *liste, int debut, int milieu, int fin, int filter) {
+    int i, j, k;
+    int n1 = milieu - debut + 1;
+    int n2 = fin - milieu;
+
+    RECORD *gauche[n1], *droite[n2];
+
+    for (i = 0; i < n1; i++) gauche[i] = liste->content[debut+i];
+    for (i = 0; i < n2; i++) droite[i] = liste->content[milieu+1+i];
+
+    i = 0;
+    j = 0;
+    k = debut;
+
+    while (i < n1 && j < n2) {
+        if (strcmp(gauche[i]->data[filter], droite[j]->data[filter]) < 0) {
+            liste->content[k] = gauche[i];
+            i++;
+        } else {
+            liste->content[k] = droite[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) {
+        liste->content[k] = gauche[i];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        liste->content[k] = droite[j];
+        j++;
+        k++;
+    }
+}
+
+/**
+ * Effectue le tri fusion
+ * @param liste : Pointeur vers la LIST contenant les RECORD
+ * @param debut : Indice du debut du sous tableau
+ * @param fin : Indice de la fin du sous tableau
+ * @param filter : 0 <= filter <= 7 : Indice de la colonne selon laquelle les RECORD vont être trier
+ */
+void merge_sort_rec(LIST *liste, int debut, int fin, int filter) {
+    if (debut < fin) {
+        int m = (debut+fin) / 2;
+
+        merge_sort_rec(liste, debut, m, filter);
+        merge_sort_rec(liste, m+1, fin, filter);
+
+        merge(liste, debut, m, fin, filter);
+    }
+}
+
+/**
+ * Appelle la fonction de tri fusion récursif
+ * @param liste : Pointeur ver la LIST contenant les RECORD
+ * @param filter : 0 <= filter <= 7 : Indice de la colonne selon laquelle les RECORD vont être trier
+ */
+void merge_sort(LIST *liste, int filter) {
+    merge_sort_rec(liste, 0, liste->length-1, filter);
 }
 
 /**
