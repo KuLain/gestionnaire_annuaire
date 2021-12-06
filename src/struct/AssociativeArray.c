@@ -3,6 +3,7 @@
 //
 
 #include "../../header/struct/AssociativeArray.h"
+#include "../../header/sorted_display.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -75,6 +76,38 @@ void aapush(AARRAY* array, char *prenom, char *nom, RECORD* elt)
 }
 
 /**
+ * Effectue une recherche dichotomique dans la LIST
+ * @param liste : Pointeur vers la LIST
+ * @param mail : Pointeur vers la chaine de caractère correspondant au mail, NULL si ce n'est pas le filtre
+ * @param phone : Pointeur vers la chaine de caractère correspondant au numéro de téléphone, NULL si ce n'est pas le filtre
+ * @return : Indice du RECORD correspondant, -1 si il n'est pas dans la LIST
+ */
+int dichotomic_search(LIST *liste, char mail[], char phone[]) {
+    int debut = 0;
+    int fin = liste->length;
+    int milieu, i_filtre;
+    char filtre[150];
+    if (mail == NULL) {
+        i_filtre = 4;
+        strcpy(filtre, phone);
+    } else {
+        i_filtre = 5;
+        strcpy(filtre, mail);
+    }
+
+    while (debut <= fin) {
+        milieu = (debut+fin)/2;
+        if (strcmp(liste->content[milieu]->data[i_filtre], filtre) == 0) return milieu;
+        if (strcmp(liste->content[milieu]->data[i_filtre], filtre) < 0) {
+            debut = milieu + 1;
+        } else {
+            fin = milieu - 1;
+        }
+    }
+    return -1;
+}
+
+/**
  * Permet d'accéder au RECORD associé à clé (prénom,nom) correspondant au mail
  * @param array : Pointeur vers la AARRAY
  * @param prenom : Chaine de caractère correspondant au prénom
@@ -86,14 +119,16 @@ RECORD* aavalue_mail(AARRAY* array, char prenom[], char nom[], char mail[])
 {
     int index = hash(prenom, nom, array->size);
     LIST* tmp = array->content[index];
-    int i = 0;
-
     if (tmp == NULL) {
         printf("No data associated with thoses keys ");
         return NULL;
     }
-    while (i < tmp->length && strcmp(tmp->content[i]->data[5], mail) != 0) i++;
-    if (i == tmp->length) {
+    merge_sort(tmp, 5);
+    int i;
+
+
+    i = dichotomic_search(tmp, mail, NULL);
+    if (i == -1) {
         printf("No data associated with thoses keys ");
         return NULL;
     } else {
@@ -118,14 +153,16 @@ RECORD* aavalue_phone(AARRAY* array, char prenom[], char nom[], char phone[])
         printf("\n");
         return NULL;
     }
-    int i = 0;
-    while (i < tmp->length && strcmp(((RECORD*)tmp->content[i])->data[4], phone) != 0) i++;
-    if (i == tmp->length) {
+    int i;
+    merge_sort(tmp, 4);
+
+    i = dichotomic_search(tmp, NULL, phone);
+    if (i == -1) {
         printf("No data associated with thoses keys ");
         printf("\n");
         return NULL;
     } else {
-        return (RECORD*)tmp->content[i];
+        return tmp->content[i];
     }
 }
 
