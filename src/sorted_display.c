@@ -117,8 +117,8 @@ void quick_sort(LIST *liste, int filter) {
 
 void merge(LIST *liste, int debut, int milieu, int fin, int filter) {
     int i, j, k;
-    int n1 = milieu - debut + 1;
-    int n2 = fin - milieu;
+    int const n1 = milieu - debut + 1;
+    int const n2 = fin - milieu;
 
     RECORD *gauche[n1], *droite[n2];
 
