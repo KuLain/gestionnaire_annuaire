@@ -18,7 +18,7 @@ char** tokenize(char line[], char delim)
 
     char **ans = (char**) calloc(N, sizeof(char*));
     if (ans == NULL) {
-        perror("Error while allocating");
+        perror("Erreur lors de l'allocation");
         exit(EXIT_FAILURE);
     }
     int i = 0, j = 0, k;
@@ -36,12 +36,14 @@ char** tokenize(char line[], char delim)
                 perror("Error while reallocating");
                 exit(EXIT_FAILURE);
             }
-            if (++i < N) ans[i] = (char*) calloc(150, sizeof(char));
-
-            if (ans[i] == NULL) {
-                perror("Error while allocating");
-                exit(EXIT_FAILURE);
+            if (++i < N) {
+                ans[i] = (char*) calloc(150, sizeof(char));
+                if (ans[i] == NULL) {
+                    perror("Erreur lors de l'allocation ");
+                    exit(EXIT_FAILURE);
+                }
             }
+
             j = 0;
         }
         else {

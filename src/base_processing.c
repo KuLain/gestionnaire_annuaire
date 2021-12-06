@@ -50,7 +50,7 @@ void add_record(AARRAY* array, char path[], char delim) {
         }
         tmp[i] = malloc(sizeof(char)*150);
         if (tmp[i] == NULL) {
-            perror("Error while allocating ");
+            perror("Erreur lors de l'allocation ");
             exit(EXIT_FAILURE);
         }
         fgets(tmp[i], 150, stdin);
@@ -58,7 +58,7 @@ void add_record(AARRAY* array, char path[], char delim) {
         tmp[i][n-1] = '\0';
         tmp[i] = realloc(tmp[i], sizeof(char)*(n-1));
         if (tmp[i] == NULL) {
-            perror("Error while reallocating ");
+            perror("Erreur lors de l'allocation ");
             exit(EXIT_FAILURE);
         }
     }
@@ -137,7 +137,7 @@ void change_record(AARRAY* array, char path[], char delim) {
     RECORD* abonne;
 
     if (valeur == NULL) {
-        perror("Error while allocating");
+        perror("Erreur lors de l'allocation");
         exit(EXIT_FAILURE);
     }
 
