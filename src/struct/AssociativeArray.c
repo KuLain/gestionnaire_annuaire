@@ -25,7 +25,7 @@ AARRAY* aainit(int size)
 }
 
 /**
- * Fonction de hachage
+ * Fonction de hachage, application de la méthode de P.J. Weinberger
  * @param prenom : Pointeur vers la chaine correspondant au prénom du RECORD
  * @param nom : Pointeur vers la chaine correspondant au nom du RECORD
  * @param aa_size : Taille du tableau du AARRAY
@@ -34,27 +34,27 @@ AARRAY* aainit(int size)
 int hash(char prenom[], char nom[], int aa_size)
 {
     int i;
-    int poids = 8;
-    int somme = 0;
-    int n1 = strlen(prenom);
-    int n2 = strlen(nom);
+    long tmp;
+    long somme = 0;
+    int const p1 = pow(2,28);
+    int const p2 = pow(2,24);
 
-    for (i = 0; i < n1; i++)
+    for (i = 0; i < strlen(prenom); i++)
     {
-        if (poids == 0) {
-            somme += prenom[i];
-            poids = 8;
-        } else {
-            somme += prenom[i]*pow(2,poids--);
+        somme = (somme*16) + prenom[i];
+        if (somme > p1) {
+            tmp = (somme / p1) * p1;
+            somme += tmp / p2;
+            somme -= tmp;
         }
     }
-    for (i = 0; i < n2; i++)
+    for (i = 0; i < strlen(nom); i++)
     {
-        if (poids == 0) {
-            somme += nom[i];
-            poids = 8;
-        } else {
-            somme += nom[i]*pow(2,poids--);
+        somme = (somme*16) + nom[i];
+        if (somme > p1) {
+            tmp = (somme / p1) * p1;
+            somme += tmp / p2;
+            somme -= tmp;
         }
     }
     return somme % aa_size;
