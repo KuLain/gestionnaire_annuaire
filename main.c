@@ -11,6 +11,7 @@
 #define DELIM ','
 
 int main() {
+    /*
     AARRAY* base = aainit(10);
     char choix[3];
     int active = 1;
@@ -70,5 +71,7 @@ int main() {
         printf("\n");
 
     }
+     */
+
     return 0;
 }
