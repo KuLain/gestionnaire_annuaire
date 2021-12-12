@@ -5,11 +5,11 @@
 #ifndef SAE1_2_LINUX_BASE_PROCESSING_H
 #define SAE1_2_LINUX_BASE_PROCESSING_H
 
-#include "../header/struct/AssociativeArray.h"
-void add_record(AARRAY*, char[], char);
-void delete_record(AARRAY*, char[], char);
-void change_record(AARRAY*, char[], char);
-void access_record(AARRAY*);
+#include "../header/struct/ArbreBinaireRecherche.h"
+void add_record(ABR*, char[], char);
+void delete_record(ABR*, char[], char);
+void change_record(ABR*, char[], char);
+void access_record(ABR*);
 
 
 #endif //SAE1_2_LINUX_BASE_PROCESSING_H

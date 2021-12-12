@@ -63,7 +63,7 @@ char** tokenize(char line[], char delim)
  * @param fp : Pointeur vers le FILE en lécture
  * @param delim : Caractère séparateur
  */
-void parse_csv(AARRAY* array, char path[],char delim)
+void parse_csv(ABR* arbre, char path[],char delim)
 {
     RECORD *tmp;
     char buffer[150];
@@ -79,7 +79,7 @@ void parse_csv(AARRAY* array, char path[],char delim)
         splited = tokenize(buffer, delim);
         if (splited != NULL) {
             tmp = rinit(splited);
-            aapush(array, tmp->data[0], tmp->data[1], tmp);
+            abr_inserer(arbre, tmp->data[0], tmp->data[1], tmp);
         }
         buffer[0] = '\0';
         free(splited);
@@ -87,27 +87,24 @@ void parse_csv(AARRAY* array, char path[],char delim)
     fclose(fp);
 }
 
+void abr_csv_rec(ABR* arbre, char path[], char delim, FILE* fp) {
+    for (int k = 0; k < 6; k++) {
+        fprintf(fp,"%s%c",arbre->abonne->data[k],delim);
+    }
+    fprintf(fp,"%s\n",arbre->abonne->data[6]);
+    if (!abr_est_vide(arbre->fils_gauche)) abr_csv_rec(arbre->fils_gauche, path, delim, fp);
+    if (!abr_est_vide(arbre->fils_droit)) abr_csv_rec(arbre->fils_droit, path, delim, fp);
+}
+
 /**
- * Ecris les RECORD du AARRAY sur le CSV
- * @param array : Pointeur vers AARRAY
+ * Ecris les RECORD du ABR sur le CSV
+ * @param array : Pointeur vers ABR
  * @param fp : Pointeur vers le FILE en écriture
  * @param delim : Caractère séparateur
  */
-void aarray_csv(AARRAY* array, char path[], char delim)
+void abr_csv(ABR* arbre, char path[], char delim)
 {
     FILE *fp = fopen(path, "w");
-    RECORD *tmp;
-    int i, j, k;
-    for (i = 0; i < array->size; i++) {
-        if (array->content[i] != NULL) {
-            for (j = 0; j < array->content[i]->length; j++) {
-                tmp = (RECORD*)array->content[i]->content[j];
-                for (k = 0; k < 6; k++) {
-                    fprintf(fp,"%s%c",tmp->data[k],delim);
-                }
-                fprintf(fp,"%s\n",tmp->data[6]);
-            }
-        }
-    }
+    abr_csv_rec(arbre, path, delim, fp);
     fclose(fp);
 }

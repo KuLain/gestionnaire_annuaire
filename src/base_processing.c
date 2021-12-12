@@ -4,6 +4,7 @@
 
 #include "../header/base_processing.h"
 #include "../header/file_processing.h"
+#include "../header/struct/ArbreBinaireRecherche.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -11,11 +12,11 @@
 
 /**
  * Affiche les champs pour remplir les données d'un abonné à ajouter et effectue l'ajout
- * @param array : Pointeur vers AARRAY
+ * @param array : Pointeur vers ABR
  * @param path : Chemin vers le fichier CSV
  * @param delim : Caractère délimiteur
  */
-void add_record(AARRAY* array, char path[], char delim) {
+void add_record(ABR* arbre, char path[], char delim) {
     RECORD* client;
     FILE *fp;
     char **tmp = (char**)malloc(sizeof(char*)*N);
@@ -64,7 +65,7 @@ void add_record(AARRAY* array, char path[], char delim) {
     }
 
     client = rinit(tmp);
-    aapush(array, client->data[0], client->data[1], client);
+    abr_inserer(arbre, client->data[0], client->data[1], client);
 
     fp = fopen(path, "a");
     for (i = 0; i < 6; i++) {
@@ -78,11 +79,11 @@ void add_record(AARRAY* array, char path[], char delim) {
 
 /**
  * Affiche le menu de suppression d'un abonné et effectue la suppression
- * @param array : Pointeur vers AARRAY
+ * @param array : Pointeur vers ABR
  * @param path : Chemin vers le fichier CSV
  * @param delim : Caractère séparateur
  */
-void delete_record(AARRAY* array, char path[], char delim) {
+void delete_record(ABR* arbre, char path[], char delim) {
     char choix[3];
     char prenom[50];
     char nom[50];
@@ -108,29 +109,29 @@ void delete_record(AARRAY* array, char path[], char delim) {
             printf("Entrez le numéro de téléphone : ");
             fgets(filtre, 100, stdin);
             filtre[strlen(filtre)-1] = '\0';
-            aapop(array, prenom, nom, NULL, filtre);
+            abr_supprimer(arbre, prenom, nom, "", filtre);
             break;
         case '2':
             printf("Entrez l'adresse email : ");
             fgets(filtre, 100, stdin);
             filtre[strlen(filtre)-1] = '\0';
-            aapop(array, prenom, nom, filtre, NULL);
+            abr_supprimer(arbre, prenom, nom, filtre, "");
             break;
         default:
             perror("Unknown input");
             return;
     }
     printf("\nSuppression effectué\n");
-    aarray_csv(array, path, delim);
+    aarray_csv(arbre, path, delim);
 }
 
 /**
  * Affiche le menu de changement des données d'un abonné et effectue le changement
- * @param array : Pointeur vers AARRAY
+ * @param array : Pointeur vers ABR
  * @param path : Chemin vers le fichier CSV
  * @param delim : Caractère séparateur
  */
-void change_record(AARRAY* array, char path[], char delim) {
+void change_record(ABR* arbre, char path[], char delim) {
     char choix[3], infos[3][100];
     char *valeur = malloc(sizeof(char)*100);
     int i,n;
@@ -164,13 +165,13 @@ void change_record(AARRAY* array, char path[], char delim) {
             printf("Entrez l'adresse email : ");
             fgets(infos[2], 100, stdin);
             infos[2][strlen(infos[2])-1] = '\0';
-            abonne = aavalue_mail(array, infos[0], infos[1], infos[2]);
+            abonne = abr_valeur(arbre, infos[0], infos[1], "", infos[2]);
             break;
         case '2':
             printf("Entrez le numéro de téléphone : ");
             fgets(infos[2], 100, stdin);
             infos[2][strlen(infos[2])-1] = '\0';
-            abonne = aavalue_phone(array, infos[0], infos[1], infos[2]);
+            abonne = abr_valeur(arbre, infos[0], infos[1], infos[2],"");
             break;
         default:
             return;
@@ -220,17 +221,10 @@ void change_record(AARRAY* array, char path[], char delim) {
         exit(EXIT_FAILURE);
     }
 
-    if (i == 0 || i == 1) {
-        aapop_resize(array, abonne->data[0], abonne->data[1], abonne->data[5], NULL);
-        free(abonne->data[i]);
-        abonne->data[i] = valeur;
-        aapush(array, abonne->data[0], abonne->data[1], abonne);
-    } else {
-        free(abonne->data[i]);
-        abonne->data[i] = valeur;
-    }
+    free(abonne->data[i]);
+    abonne->data[i] = valeur;
 
-    aarray_csv(array, path, delim);
+    aarray_csv(arbre, path, delim);
     printf("\nChangement effectué\n\n");
 }
 
@@ -238,7 +232,7 @@ void change_record(AARRAY* array, char path[], char delim) {
  *  Affiche le menu d'accès à un abonné
  * @param array : Pointeur vers AARRAY
  */
-void access_record(AARRAY* array)
+void access_record(ABR* array)
 {
     char choix[3], infos[3][100];
 
@@ -264,14 +258,14 @@ void access_record(AARRAY* array)
             fgets(infos[2], 100, stdin);
             infos[2][strlen(infos[2])-1] = '\0';
             printf("\n");
-            rdisplay(aavalue_mail(array, infos[0], infos[1], infos[2]));
+            rdisplay(abr_valeur(array, infos[0], infos[1], "",infos[2]));
             break;
         case '2':
             printf("Entrez le numéro de téléphone : ");
             fgets(infos[2], 100, stdin);
             infos[2][strlen(infos[2])-1] = '\0';
             printf("\n");
-            rdisplay(aavalue_phone(array, infos[0], infos[1], infos[2]));
+            rdisplay(abr_valeur(array, infos[0], infos[1], infos[2], ""));
             break;
         default:
             printf("Erreur\n");
