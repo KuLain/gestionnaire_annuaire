@@ -1,7 +1,7 @@
 //
 // Created by julie on 29/11/2021.
 //
-
+#include "../header/struct/ArbreBinaireRecherche.h"
 #include "../header/filtered_display.h"
 #include "../header/sorted_display.h"
 #include <string.h>
@@ -10,9 +10,9 @@
 
 /**
  * Affiche le menu pour choisir comment filtrer les RECORD
- * @param array : Pointeur vers le AARRAY contenant les RECORD
+ * @param arbre : Pointeur vers le ABR contenant les RECORD
  */
-void filtered_records(AARRAY* array) {
+void filtered_records(ABR* arbre) {
     char choix[3], filter[150];
     int column;
 
@@ -41,33 +41,34 @@ void filtered_records(AARRAY* array) {
     fgets(filter, 150, stdin);
     filter[strlen(filter)-1] = '\0';
 
-    matching_filter(array, column, filter);
+    matching_filter(arbre, column, filter);
     return;
+}
+
+void matching_filter_rec(ABR* arbre,int column,char filtre[], int taille_filtre, RECORD* tab[], int* i) {
+    if (!abr_est_vide(arbre)) {
+        int k = 0;
+        while (k < strlen(arbre->abonne->data[column]) && arbre->abonne->data[column][k] == filtre[k]) k++;
+        if (k == taille_filtre) tab[(*i)++] = arbre->abonne;
+        matching_filter_rec(arbre->fils_gauche, column, filtre, taille_filtre, tab, i);
+        matching_filter_rec(arbre->fils_droit, column, filtre, taille_filtre, tab, i);
+    }
 }
 
 /**
  * Affiche les RECORD correspondant au filtre
- * @param array : Pointeur vers le AARRAY
+ * @param arbre : Pointeur vers le ABR
  * @param column : 0 <= column <= 7 : Indice de la colonne dans laquel on applique le filtre
  * @param filter : Filtre à appliquer
  */
-void matching_filter(AARRAY* array, int column, char filter[]) {
-    LIST *matching_patterns = linit();
-    RECORD *tmp;
-    int i, j, k;
+void matching_filter(ABR* arbre, int column, char filter[]) {
+    const int taille = abr_taille(arbre);
     const int n = strlen(filter);
+    int i = 0, j;
+    RECORD* matching_patterns[taille];
 
-    for (i = 0; i < array->size; i++) {
-        if (array->content[i] != NULL) {
-            for (j = 0; j < array->content[i]->length; j++) {
-                tmp = (RECORD*)array->content[i]->content[j];
-                k = 0;
-                while (k < n && tmp->data[column][k] == filter[k]) k++;
-                if (k == n) lpush(matching_patterns, tmp);
-            }
-        }
-    }
-    display_sorted_records(matching_patterns);
-    free(matching_patterns->content);
-    free(matching_patterns);
+    matching_filter_rec(arbre, column, filter, n, matching_patterns, &i);
+
+    for (j = 0; j < i; j++) matching_patterns[j];
 }
+

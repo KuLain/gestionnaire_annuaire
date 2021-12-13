@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-#include "header/struct/AssociativeArray.h"
 #include "header/file_processing.h"
 #include "header/base_processing.h"
 #include "header/filtered_display.h"
@@ -11,8 +10,7 @@
 #define DELIM ','
 
 int main() {
-    /*
-    AARRAY* base = aainit(10);
+    ABR* base = abr_init();
     char choix[3];
     int active = 1;
 
@@ -51,7 +49,7 @@ int main() {
                 access_record(base);
                 break;
             case '5':
-                aadisplay(base);
+                abr_display(base);
                 break;
             case '6':
                 sorted_records(base);
@@ -64,14 +62,13 @@ int main() {
                 break;
             default:
                 active = 0;
-                aafree(base);
+                abr_free(base);
                 break;
         }
 
         printf("\n");
 
     }
-     */
 
     return 0;
 }

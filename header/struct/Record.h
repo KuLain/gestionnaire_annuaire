@@ -3,6 +3,14 @@
 
 #include <stdio.h>
 
+#define PRENOM 0
+#define NOM 1
+#define VILLE 2
+#define CP 3
+#define TELEPHONE 4
+#define MAIL 5
+#define PROFESSION 6
+
 typedef struct Record {
     char **data;
 } RECORD;

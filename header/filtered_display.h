@@ -4,7 +4,7 @@
 
 #ifndef SAE_1_2_FILTERED_DISPLAY_H
 #define SAE_1_2_FILTERED_DISPLAY_H
-#include "struct/AssociativeArray.h"
-void filtered_records(AARRAY*);
-void matching_filter(AARRAY*, int, char[]);
+#include "struct/ArbreBinaireRecherche.h"
+void filtered_records(ABR*);
+void matching_filter(ABR*, int, char[]);
 #endif //SAE_1_2_FILTERED_DISPLAY_H
