@@ -12,12 +12,11 @@ int missing_record_rec(ABR* arbre) {
         return 0;
     } else {
         int somme = 0;
-        int k;
+        int k = 0;
 
         while (k < N && strcmp(arbre->abonne->data[k], "") != 0) k++;
         if (k < N) {
             rdisplay(arbre->abonne);
-            printf("\n");
             somme++;
         }
 

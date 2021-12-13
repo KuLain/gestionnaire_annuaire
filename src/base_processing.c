@@ -235,7 +235,7 @@ void change_record(ABR* arbre, char path[], char delim) {
 void access_record(ABR* arbre)
 {
     char choix[3], infos[3][100];
-
+    RECORD* ans;
     printf("Accès à un abonné\n");
     printf("Comment séléctionner l'abonné ?\n\n");
     printf("1) Avec le prénom, nom et adresse email\n");
@@ -258,14 +258,24 @@ void access_record(ABR* arbre)
             fgets(infos[2], 100, stdin);
             infos[2][strlen(infos[2])-1] = '\0';
             printf("\n");
-            rdisplay(abr_valeur(arbre, infos[0], infos[1], "",infos[2]));
+            ans = abr_valeur(arbre, infos[0], infos[1], "",infos[2]);
+            if (ans == NULL) {
+                printf("Aucun abonné n'est associé à ces informations");
+            } else {
+                rdisplay(ans);
+            }
             break;
         case '2':
             printf("Entrez le numéro de téléphone : ");
             fgets(infos[2], 100, stdin);
             infos[2][strlen(infos[2])-1] = '\0';
             printf("\n");
-            rdisplay(abr_valeur(arbre, infos[0], infos[1], infos[2], ""));
+            ans = abr_valeur(arbre, infos[0], infos[1], infos[2], "");
+            if (ans == NULL) {
+                printf("Aucun abonné n'est associé à ces informations");
+            } else {
+                rdisplay(ans);
+            }
             break;
         default:
             printf("Erreur\n");

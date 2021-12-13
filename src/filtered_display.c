@@ -69,6 +69,6 @@ void matching_filter(ABR* arbre, int column, char filter[]) {
 
     matching_filter_rec(arbre, column, filter, n, matching_patterns, &i);
 
-    for (j = 0; j < i; j++) matching_patterns[j];
+    for (j = 0; j < i; j++) rdisplay(matching_patterns[j]);
 }
 
