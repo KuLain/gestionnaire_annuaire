@@ -3,7 +3,6 @@
 //
 
 #include "../header/sorted_display.h"
-#include <stdlib.h>
 #include <string.h>
 
 
@@ -29,10 +28,13 @@ void sorted_records(ABR *arbre)
     if (choix[0] >= '1' && choix[0] <= '9') {
         filtre = choix[0] - 49;
 
-        ABR_list(arbre, tab, &i);
-        merge_sort(tab, n, filtre);
-        display_sorted_records(tab, n);
-
+        if (filtre == 0) {
+            abr_display(arbre);
+        } else {
+            ABR_list(arbre, tab, &i);
+            merge_sort(tab, n, filtre);
+            display_sorted_records(tab, n);
+        }
         return;
     } else {
         perror("Unknown input");
@@ -47,8 +49,8 @@ void sorted_records(ABR *arbre)
  */
 void ABR_list(ABR* arbre, RECORD* tab[], int* i) {
     if (!abr_est_vide(arbre)) {
-        tab[(*i)++] = arbre->abonne;
         ABR_list(arbre->fils_gauche, tab, i);
+        tab[(*i)++] = arbre->abonne;
         ABR_list(arbre->fils_droit, tab, i);
     }
 }

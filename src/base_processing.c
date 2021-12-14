@@ -16,10 +16,10 @@
  * @param path : Chemin vers le fichier CSV
  * @param delim : Caractère délimiteur
  */
-void add_record(ABR* arbre, char path[], char delim) {
-    RECORD* client;
+void add_record(ABR *arbre, char path[], char delim) {
+    RECORD *client;
     FILE *fp;
-    char **tmp = (char**)malloc(sizeof(char*)*N);
+    char **tmp = (char **) malloc(sizeof(char *) * N);
     int i, n;
 
     printf("Ajout d'un abonnée\n");
@@ -49,15 +49,15 @@ void add_record(ABR* arbre, char path[], char delim) {
                 printf("Entrez la profession : ");
                 break;
         }
-        tmp[i] = malloc(sizeof(char)*150);
+        tmp[i] = malloc(sizeof(char) * 150);
         if (tmp[i] == NULL) {
             perror("Erreur lors de l'allocation ");
             exit(EXIT_FAILURE);
         }
         fgets(tmp[i], 150, stdin);
         n = strlen(tmp[i]);
-        tmp[i][n-1] = '\0';
-        tmp[i] = realloc(tmp[i], sizeof(char)*(n-1));
+        tmp[i][n - 1] = '\0';
+        tmp[i] = realloc(tmp[i], sizeof(char) * (n - 1));
         if (tmp[i] == NULL) {
             perror("Erreur lors de l'allocation ");
             exit(EXIT_FAILURE);
@@ -69,9 +69,9 @@ void add_record(ABR* arbre, char path[], char delim) {
 
     fp = fopen(path, "a");
     for (i = 0; i < 6; i++) {
-        fprintf(fp,"%s%c",client->data[i],delim);
+        fprintf(fp, "%s%c", client->data[i], delim);
     }
-    fprintf(fp,"%s\n",client->data[6]);
+    fprintf(fp, "%s\n", client->data[6]);
     fclose(fp);
     printf("\nAjout effectué\n");
     free(tmp);
@@ -83,7 +83,7 @@ void add_record(ABR* arbre, char path[], char delim) {
  * @param path : Chemin vers le fichier CSV
  * @param delim : Caractère séparateur
  */
-void delete_record(ABR* arbre, char path[], char delim) {
+void delete_record(ABR *arbre, char path[], char delim) {
     char choix[3];
     char prenom[50];
     char nom[50];
@@ -99,23 +99,23 @@ void delete_record(ABR* arbre, char path[], char delim) {
 
     printf("Entrez le prénom : ");
     fgets(prenom, 50, stdin);
-    prenom[strlen(prenom)-1] = '\0';
+    prenom[strlen(prenom) - 1] = '\0';
     printf("Entrez le nom : ");
     fgets(nom, 50, stdin);
-    nom[strlen(nom)-1] = '\0';
+    nom[strlen(nom) - 1] = '\0';
 
     switch (choix[0]) {
         case '1':
             printf("Entrez le numéro de téléphone : ");
             fgets(filtre, 100, stdin);
-            filtre[strlen(filtre)-1] = '\0';
-            abr_supprimer(arbre, prenom, nom, "", filtre);
+            filtre[strlen(filtre) - 1] = '\0';
+            abr_supprimer(arbre, prenom, nom, TELEPHONE, filtre);
             break;
         case '2':
             printf("Entrez l'adresse email : ");
             fgets(filtre, 100, stdin);
-            filtre[strlen(filtre)-1] = '\0';
-            abr_supprimer(arbre, prenom, nom, filtre, "");
+            filtre[strlen(filtre) - 1] = '\0';
+            abr_supprimer(arbre, prenom, nom, MAIL, filtre);
             break;
         default:
             perror("Unknown input");
@@ -131,11 +131,11 @@ void delete_record(ABR* arbre, char path[], char delim) {
  * @param path : Chemin vers le fichier CSV
  * @param delim : Caractère séparateur
  */
-void change_record(ABR* arbre, char path[], char delim) {
+void change_record(ABR *arbre, char path[], char delim) {
     char choix[3], infos[3][100];
-    char *valeur = malloc(sizeof(char)*100);
-    int i,n;
-    RECORD* abonne;
+    char *valeur = malloc(sizeof(char) * 100);
+    int i, n;
+    RECORD *abonne;
 
     if (valeur == NULL) {
         perror("Erreur lors de l'allocation");
@@ -155,23 +155,23 @@ void change_record(ABR* arbre, char path[], char delim) {
 
     printf("Entrez le prénom : ");
     fgets(infos[0], 100, stdin);
-    infos[0][strlen(infos[0])-1] = '\0';
+    infos[0][strlen(infos[0]) - 1] = '\0';
     printf("Entrez le nom : ");
     fgets(infos[1], 100, stdin);
-    infos[1][strlen(infos[1])-1] = '\0';
+    infos[1][strlen(infos[1]) - 1] = '\0';
 
     switch (choix[0]) {
         case '1':
             printf("Entrez l'adresse email : ");
             fgets(infos[2], 100, stdin);
-            infos[2][strlen(infos[2])-1] = '\0';
-            abonne = abr_valeur(arbre, infos[0], infos[1], "", infos[2]);
+            infos[2][strlen(infos[2]) - 1] = '\0';
+            abonne = abr_valeur(arbre, infos[0], infos[1], MAIL, infos[2]);
             break;
         case '2':
             printf("Entrez le numéro de téléphone : ");
             fgets(infos[2], 100, stdin);
-            infos[2][strlen(infos[2])-1] = '\0';
-            abonne = abr_valeur(arbre, infos[0], infos[1], infos[2],"");
+            infos[2][strlen(infos[2]) - 1] = '\0';
+            abonne = abr_valeur(arbre, infos[0], infos[1], TELEPHONE, infos[2]);
             break;
         default:
             return;
@@ -214,8 +214,8 @@ void change_record(ABR* arbre, char path[], char delim) {
     printf("\nEntrez la nouvelle valeur : ");
     fgets(valeur, 100, stdin);
     n = strlen(valeur);
-    valeur[n-1] = '\0';
-    valeur = realloc(valeur, sizeof(char)*(n-1));
+    valeur[n - 1] = '\0';
+    valeur = realloc(valeur, sizeof(char) * (n - 1));
     if (valeur == NULL) {
         perror("Error while reallocating ");
         exit(EXIT_FAILURE);
@@ -232,33 +232,37 @@ void change_record(ABR* arbre, char path[], char delim) {
  *  Affiche le menu d'accès à un abonné
  * @param arbre : Pointeur vers ABR
  */
-void access_record(ABR* arbre)
-{
+void access_record(ABR *arbre) {
     char choix[3], infos[3][100];
-    RECORD* ans;
+    RECORD *ans;
     printf("Accès à un abonné\n");
     printf("Comment séléctionner l'abonné ?\n\n");
     printf("1) Avec le prénom, nom et adresse email\n");
     printf("2) Avec le prénom, nom et numéro de téléphone\n");
     printf("*) Retour\n\n");
 
+
     printf("Entrez une valeur : ");
     fgets(choix, 3, stdin);
 
+    if (choix[0] != '1' && choix[0] != '2' && choix[0] != '3') {
+        return;
+    }
+
     printf("\nEntrez le prénom : ");
     fgets(infos[0], 100, stdin);
-    infos[0][strlen(infos[0])-1] = '\0';
+    infos[0][strlen(infos[0]) - 1] = '\0';
     printf("Entrez le nom : ");
     fgets(infos[1], 100, stdin);
-    infos[1][strlen(infos[1])-1] = '\0';
+    infos[1][strlen(infos[1]) - 1] = '\0';
 
     switch (choix[0]) {
         case '1':
             printf("Entrez l'adresse email : ");
             fgets(infos[2], 100, stdin);
-            infos[2][strlen(infos[2])-1] = '\0';
+            infos[2][strlen(infos[2]) - 1] = '\0';
             printf("\n");
-            ans = abr_valeur(arbre, infos[0], infos[1], "",infos[2]);
+            ans = abr_valeur(arbre, infos[0], infos[1], MAIL, infos[2]);
             if (ans == NULL) {
                 printf("Aucun abonné n'est associé à ces informations");
             } else {
@@ -268,9 +272,9 @@ void access_record(ABR* arbre)
         case '2':
             printf("Entrez le numéro de téléphone : ");
             fgets(infos[2], 100, stdin);
-            infos[2][strlen(infos[2])-1] = '\0';
+            infos[2][strlen(infos[2]) - 1] = '\0';
             printf("\n");
-            ans = abr_valeur(arbre, infos[0], infos[1], infos[2], "");
+            ans = abr_valeur(arbre, infos[0], infos[1], TELEPHONE, infos[2]);
             if (ans == NULL) {
                 printf("Aucun abonné n'est associé à ces informations");
             } else {
