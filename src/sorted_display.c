@@ -4,7 +4,8 @@
 
 #include "../header/sorted_display.h"
 #include <string.h>
-
+#include <time.h>
+#include <stdlib.h>
 
 /**
  * Affiche le menu pour sélectionner la colonne à trier
@@ -43,7 +44,7 @@ void sorted_records(ABR *arbre)
 }
 
 /**
- * Ajoute tous les pointeurs vers les RECORD du ABR dans la LIST
+ * Ajoute tous les pointeurs vers les RECORD du ABR dans le tableau
  * @param arbre : Pointeur vers le ABR source
  * @param liste : Pointeur vers le tableau de pointeur de RECORD récepteur
  */
@@ -58,19 +59,20 @@ void ABR_list(ABR* arbre, RECORD* tab[], int* i) {
 /**
  * Déplace les éléments plus grand que le pivot à droite,
  * déplace les éléments plus petit que le pivot à gauche puis
- * place le pivot au milieu de la LIST
+ * place le pivot au milieu de le tableau
  * @param tab : Pointeur vers le tableau contenant les RECORD
- * @param gauche : Indice du début de la sous LIST
- * @param droite : Indice de la fin de la sous LIST
+ * @param gauche : Indice du début du sous tableau
+ * @param droite : Indice de la fin du sous tableau
  * @param filter : 0 <= filter <= 7 : Indice de la colonne selon laquelle les RECORD vont être trier
- * @return Indice du pivot une fois au milieu de la LIST
+ * @return Indice du pivot une fois au milieu de le tableau
  */
 int partition(RECORD* tab[], int gauche, int droite, int filter) {
+    srand(time(NULL));
     char *clef;
     RECORD *tmp;
     int i, j;
 
-    clef = tab[droite]->data[filter];
+    clef = tab[rand()%(droite-gauche)+gauche]->data[filter];
     i = gauche-1;
     j = droite;
     while (i <= j) {
@@ -91,8 +93,8 @@ int partition(RECORD* tab[], int gauche, int droite, int filter) {
 /**
  * Effectue le tri rapide
  * @param tab : Pointeur vers le tableau contenant les RECORD
- * @param gauche : Indice du début de la sous LIST
- * @param droite : Indice de la fin de la sous LIST
+ * @param gauche : Indice du début du sous tableau
+ * @param droite : Indice de la fin du sous tableau
  * @param filter : 0 <= filter <= 7 : Indice de la colonne selon laquelle les RECORD vont être trier
  */
 void quick_sort_rec(RECORD* tab[], int gauche, int droite, int filter) {
@@ -181,7 +183,7 @@ void merge_sort(RECORD* tab[], const int taille, int filter) {
 }
 
 /**
- * Affiche tous les RECORD de la LIST
+ * Affiche tous les RECORD de le tableau
  * @param tab : Pointeur vers le tableau contenant les RECORD
  */
 void display_sorted_records(RECORD* tab[], const int taille)

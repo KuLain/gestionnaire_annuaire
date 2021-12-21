@@ -8,6 +8,11 @@
 
 #define N 7
 
+/**
+ * Recherche les RECORD ayant un attribut maintenant
+ * @param arbre : Pointeur vers l'arbre
+ * @return Nombre de RECORD ayant des informations manquantes
+ */
 int missing_record_rec(ABR *arbre) {
     if (abr_est_vide(arbre)) {
         return 0;

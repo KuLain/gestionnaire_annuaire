@@ -6,11 +6,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * @param a
+ * @param b
+ * @return Renvoie le plus grand entier entre a et b
+ */
 int max(int a, int b) {
     if (a > b) return a;
     return b;
 }
 
+/**
+ * Alloue de la mémoire à un ABR
+ * @return Pointeur vers l'ABR avec la mémoire alloué
+ */
 ABR *abr_init() {
     ABR *tmp = (ABR *) malloc(sizeof(ABR));
     tmp->abonnes = NULL;
@@ -21,14 +30,25 @@ ABR *abr_init() {
     return tmp;
 }
 
+/**
+ * @param arbre : Pointeur vers l'arbre
+ * @return Renvoie 1 si l'arbre est vide, 0 sinon
+ */
 int abr_est_vide(ABR *arbre) {
     return arbre->abonnes == NULL;
 }
 
+/**
+ * @param arbre : Pointeur vers l'arbre
+ * @return Renvoie 1 si l'arbre est une feuille, 0 sinon
+ */
 int abr_est_feuille(ABR *arbre) {
     return arbre->fils_droit == NULL && arbre->fils_gauche == NULL;
 }
-
+/**
+ * @param arbre : Pointeur vers l'arbre
+ * @return Le nombre de noeud non vide dans l'arbre
+ */
 int abr_taille(ABR *arbre) {
     if (abr_est_vide(arbre)) {
         return 0;
@@ -39,6 +59,13 @@ int abr_taille(ABR *arbre) {
     }
 }
 
+/**
+ * Choisis la branche dans laquelle se diriger
+ * @param arbre : Pointeur vers l'arbre
+ * @param prenom : Pointeur vers la chaine de caractère du prénom
+ * @param nom : Pointeur vers la chaine de caractère du prénom
+ * @return 1 si la branche choisie est la branche droite, 0 si c'est la branche gauche
+ */
 int choix_branche(ABR *arbre, char prenom[], char nom[]) {
     if (strcmp(prenom, arbre->abonnes[0]->data[PRENOM]) == 0) {
         if (strcmp(nom, arbre->abonnes[0]->data[NOM]) > 0) {
@@ -55,10 +82,22 @@ int choix_branche(ABR *arbre, char prenom[], char nom[]) {
     }
 }
 
+/**
+ * @param chaine1 : Pointeur vers la première chaine
+ * @param chaine2 : Pointeur vers la deuxième chaine
+ * @return 1 si les chaines sont égales, 0 sinon
+ */
 int sont_egales(char *chaine1, char *chaine2) {
     return strcmp(chaine1, chaine2) == 0;
 }
 
+/**
+ * Recherche un abonné dans un sous tableau du noeud de l'arbre
+ * @param arbre : Pointeur vers l'arbre
+ * @param filtre : Pointeur vers la chaine de caractère contenant le filtre
+ * @param colonne - 0 <= colonne < 7 : Indice de la colonne correspondant au critère choisi
+ * @return
+ */
 int recherche_seq(ABR *arbre, char *filtre, int colonne) {
     for (int i = 0; i < arbre->nb_abonnes; i++) {
         if (sont_egales(arbre->abonnes[i]->data[colonne], filtre)) {
@@ -68,64 +107,91 @@ int recherche_seq(ABR *arbre, char *filtre, int colonne) {
     return -1;
 }
 
+/**
+ * Supprime l'élément d'indice indice, libère sa mémoire associée et modifie la taille du tableau
+ * @param arbre : Pointeur vers l'arbre
+ * @param indice : Indice de l'élément à supprimer
+ */
 void suppression_indice(ABR *arbre, int indice) {
     rfree(arbre->abonnes[indice]);
     for (int i = indice; i < arbre->nb_abonnes - 1; i++) arbre->abonnes[i] = arbre->abonnes[i + 1];
     arbre->abonnes = realloc(arbre->abonnes, sizeof(RECORD *) * (--arbre->nb_abonnes));
 }
 
-
+/**
+ * Rotation Gauche - Gauche de l'AVL
+ * @param noeud : Pointeur vers l'arbre
+ */
 void ll_rotation(ABR **noeud) {
-    ABR *main = (*noeud)->fils_gauche;
+    ABR *root = (*noeud)->fils_gauche;
     ABR *fd = *noeud;
 
-    fd->fils_gauche = main->fils_droit;
-    main->fils_droit = fd;
+    fd->fils_gauche = root->fils_droit;
+    root->fils_droit = fd;
 
-    *noeud = main;
+    *noeud = root;
 }
 
+/**
+ * Rotation Droite - Droite de l'AVL
+ * @param noeud : Pointeur vers l'arbre
+ */
 void rr_rotation(ABR **noeud) {
     ABR *fg = *noeud;
-    ABR *main = (*noeud)->fils_droit;
+    ABR *root = (*noeud)->fils_droit;
 
-    fg->fils_droit = main->fils_gauche;
-    main->fils_gauche = fg;
+    fg->fils_droit = root->fils_gauche;
+    root->fils_gauche = fg;
 
-    *noeud = main;
+    *noeud = root;
 }
 
+/**
+ * Rotation Droite - Gauche de l'AVL
+ * @param noeud : Pointeur vers l'arbre
+ */
 void rl_rotation(ABR **noeud) {
     ABR *fg = *noeud;
-    ABR *main = (*noeud)->fils_droit->fils_gauche;
+    ABR *root = (*noeud)->fils_droit->fils_gauche;
     ABR *fd = (*noeud)->fils_droit;
 
     fd->fils_droit = fg->fils_droit->fils_droit;
-    fg->fils_droit = main->fils_gauche;
-    fd->fils_gauche = main->fils_droit;
+    fg->fils_droit = root->fils_gauche;
+    fd->fils_gauche = root->fils_droit;
 
-    main->fils_droit = fd;
-    main->fils_gauche = fg;
+    root->fils_droit = fd;
+    root->fils_gauche = fg;
 
-    *noeud = main;
+    *noeud = root;
 }
 
+/**
+ * Rotation Gauche - Droite de l'AVL
+ * @param noeud : Pointeur vers l'arbre
+ */
 void lr_rotation(ABR **noeud) {
     ABR *fg = *noeud;
-    ABR *main = (*noeud)->fils_gauche->fils_droit;
+    ABR *root = (*noeud)->fils_gauche->fils_droit;
     ABR *fd = (*noeud)->fils_gauche;
 
     fg->fils_gauche = fd->fils_gauche;
     fd->fils_droit = fg->fils_droit;
-    fg->fils_droit = main->fils_gauche;
-    fd->fils_gauche = main->fils_droit;
+    fg->fils_droit = root->fils_gauche;
+    fd->fils_gauche = root->fils_droit;
 
-    main->fils_gauche = fg;
-    main->fils_droit = fd;
+    root->fils_gauche = fg;
+    root->fils_droit = fd;
 
-    *noeud = main;
+    *noeud = root;
 }
 
+/**
+ * Insère le RECORD dans l'arbre
+ * @param arbre : Pointeur vers l'arbre
+ * @param prenom :  Pointeur vers la chaîne contenant le prénom
+ * @param nom : Pointeur vers la chapine contenant le nom
+ * @param valeur : Pointeur vers le RECORD à insérer
+ */
 void abr_inserer(ABR **arbre, char *prenom, char *nom, RECORD *valeur) {
     if (abr_est_vide(*arbre)) {
         (*arbre)->abonnes = (RECORD **) malloc(sizeof(RECORD *));
@@ -164,6 +230,10 @@ void abr_inserer(ABR **arbre, char *prenom, char *nom, RECORD *valeur) {
     }
 }
 
+/**
+ * Supprime le noeud actuel
+ * @param arbre : Pointeur vers l'arbre
+ */
 void suppression(ABR **arbre) {
     if (abr_est_feuille(*arbre)) {
         abr_free(*arbre);
@@ -195,6 +265,14 @@ void suppression(ABR **arbre) {
     }
 }
 
+/**
+ * Supprime un RECORD de l'arbre et libère la mémoire associée
+ * @param arbre : Pointeur vers l'arbre
+ * @param prenom : Pointeur vers la chaine de caractère contenant le prénom
+ * @param nom : Pointeur vers la chaine de caractère contenant le nom
+ * @param colomne - 0 <= colomne < 7 : Indice de la colonne correspondant au critère choisi
+ * @param filtre : Pointeur vers la chaine de caractère contenant le filtre
+ */
 void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char filtre[]) {
     if (abr_est_vide(*arbre)) {
         printf("Aucun abonné n'est associé à ces informations\n");
@@ -218,6 +296,15 @@ void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char fil
     }
 }
 
+/**
+ * Recherche un abonné dans l'arbre
+ * @param arbre : Pointeur vers l'arbre
+ * @param prenom : Pointeur vers la chaine de caractère contenant le prénom
+ * @param nom : Pointeur vers la chaine de caractère contenant le nom
+ * @param colomne - 0 <= colomne < 7 : Indice de la colonne correspondant au critère choisi
+ * @param filtre : Pointeur vers la chaine de caractère contenant le filtre
+ * @return Adresse du RECORD associé au nom, prenom et critère donné
+ */
 RECORD* abr_valeur(ABR *arbre, char prenom[], char nom[], int colomne, char filtre[]) {
     if (abr_est_vide(arbre)) {
         printf("Aucun abonné n'est associé à ces informations\n");
@@ -238,14 +325,22 @@ RECORD* abr_valeur(ABR *arbre, char prenom[], char nom[], int colomne, char filt
     }
 }
 
+/**
+ * Affiche tous les abonnés de l'arbre avec un parcours préfixe
+ * @param arbre : Pointeur vers l'arbre
+ */
 void abr_display(ABR *arbre) {
     if (!abr_est_vide(arbre)) {
-        abr_display(arbre->fils_gauche);
         for (int i = 0; i < arbre->nb_abonnes; i++) rdisplay(arbre->abonnes[i]);
+        abr_display(arbre->fils_gauche);
         abr_display(arbre->fils_droit);
     }
 }
 
+/**
+ * Libère la mémoire associé à chaque noeud, chaque sous tableau et chaque RECORD de l'arbre
+ * @param arbre : Pointeur vers l'arbre
+ */
 void abr_free(ABR *arbre) {
     if (arbre != NULL && !abr_est_vide(arbre)) {
         abr_free(arbre->fils_gauche);
