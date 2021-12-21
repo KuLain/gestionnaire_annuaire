@@ -16,7 +16,7 @@
  * @param path : Chemin vers le fichier CSV
  * @param delim : Caractère délimiteur
  */
-void add_record(ABR *arbre, char path[], char delim) {
+void add_record(ABR **arbre, char path[], char delim) {
     RECORD *client;
     FILE *fp;
     char **tmp = (char **) malloc(sizeof(char *) * N);
@@ -83,7 +83,7 @@ void add_record(ABR *arbre, char path[], char delim) {
  * @param path : Chemin vers le fichier CSV
  * @param delim : Caractère séparateur
  */
-void delete_record(ABR *arbre, char path[], char delim) {
+void delete_record(ABR **arbre, char path[], char delim) {
     char choix[3];
     char prenom[50];
     char nom[50];
@@ -122,7 +122,7 @@ void delete_record(ABR *arbre, char path[], char delim) {
             return;
     }
     printf("\nSuppression effectué\n");
-    abr_csv(arbre, path, delim);
+    abr_csv(*arbre, path, delim);
 }
 
 /**

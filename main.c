@@ -6,7 +6,7 @@
 #include "header/sorted_display.h"
 #include "header/empty_display.h"
 
-#define PATH "files/annuaire5000.csv"
+#define PATH "../files/gang.csv"
 #define DELIM ','
 
 int main() {
@@ -14,7 +14,7 @@ int main() {
     char choix[3];
     int active = 1;
 
-    parse_csv(base, PATH, DELIM);
+    parse_csv(&base, PATH, DELIM);
 
     printf("Bienvenue dans le gestionnaire d'annuaire !\n\n");
 
@@ -37,10 +37,10 @@ int main() {
 
         switch (choix[0]) {
             case '1':
-                add_record(base, PATH, DELIM);
+                add_record(&base, PATH, DELIM);
                 break;
             case '2':
-                delete_record(base, PATH, DELIM);
+                delete_record(&base, PATH, DELIM);
                 break;
             case '3':
                 change_record(base, PATH, DELIM);

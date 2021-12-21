@@ -63,7 +63,7 @@ char** tokenize(char line[], char delim)
  * @param fp : Pointeur vers le FILE en lécture
  * @param delim : Caractère séparateur
  */
-void parse_csv(ABR* arbre, char path[],char delim)
+void parse_csv(ABR** arbre, char path[],char delim)
 {
     RECORD *tmp;
     char buffer[150];
@@ -88,10 +88,12 @@ void parse_csv(ABR* arbre, char path[],char delim)
 }
 
 void abr_csv_rec(ABR* arbre, char path[], char delim, FILE* fp) {
-    for (int k = 0; k < 6; k++) {
-        fprintf(fp,"%s%c",arbre->abonne->data[k],delim);
+    for (int i = 0; i < arbre->nb_abonnes; i++) {
+        for (int k = 0; k < 6; k++) {
+            fprintf(fp,"%s%c",arbre->abonnes[i]->data[k],delim);
+        }
+        fprintf(fp,"%s\n",arbre->abonnes[i]->data[6]);
     }
-    fprintf(fp,"%s\n",arbre->abonne->data[6]);
     if (!abr_est_vide(arbre->fils_gauche)) abr_csv_rec(arbre->fils_gauche, path, delim, fp);
     if (!abr_est_vide(arbre->fils_droit)) abr_csv_rec(arbre->fils_droit, path, delim, fp);
 }

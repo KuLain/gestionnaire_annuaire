@@ -32,7 +32,7 @@ void sorted_records(ABR *arbre)
             abr_display(arbre);
         } else {
             ABR_list(arbre, tab, &i);
-            merge_sort(tab, n, filtre);
+            quick_sort(tab, n, filtre);
             display_sorted_records(tab, n);
         }
         return;
@@ -50,7 +50,7 @@ void sorted_records(ABR *arbre)
 void ABR_list(ABR* arbre, RECORD* tab[], int* i) {
     if (!abr_est_vide(arbre)) {
         ABR_list(arbre->fils_gauche, tab, i);
-        tab[(*i)++] = arbre->abonne;
+        for (int j = 0; j < arbre->nb_abonnes; j++) tab[(*i)++] = arbre->abonnes[j];
         ABR_list(arbre->fils_droit, tab, i);
     }
 }
