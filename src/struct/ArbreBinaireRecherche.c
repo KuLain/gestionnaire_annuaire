@@ -315,13 +315,14 @@ RECORD* abr_valeur(ABR *arbre, char prenom[], char nom[], int colomne, char filt
         } else {
             switch (choix_branche(arbre, prenom, nom)) {
                 case 1:
-                    abr_valeur(arbre->fils_droit, prenom, nom, colomne, filtre);
+                    return abr_valeur(arbre->fils_droit, prenom, nom, colomne, filtre);
                     break;
                 case 0:
-                    abr_valeur(arbre->fils_gauche, prenom, nom, colomne, filtre);
+                    return abr_valeur(arbre->fils_gauche, prenom, nom, colomne, filtre);
                     break;
             }
         }
+        return NULL;
     }
 }
 
