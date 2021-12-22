@@ -47,8 +47,9 @@ void filtered_records(ABR* arbre) {
 
 void matching_filter_rec(ABR* arbre,int column,char filtre[], int taille_filtre, RECORD* tab[], int* i) {
     if (!abr_est_vide(arbre)) {
-        int k = 0;
+        int k;
         for (int j = 0; j < arbre->nb_abonnes; j++) {
+            k = 0;
             while (k < strlen(arbre->abonnes[j]->data[column]) && arbre->abonnes[j]->data[column][k] == filtre[k]) k++;
             if (k == taille_filtre) tab[(*i)++] = arbre->abonnes[j];
         }
