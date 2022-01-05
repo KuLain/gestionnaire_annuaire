@@ -332,8 +332,8 @@ RECORD* abr_valeur(ABR *arbre, char prenom[], char nom[], int colomne, char filt
  */
 void abr_display(ABR *arbre) {
     if (!abr_est_vide(arbre)) {
-        for (int i = 0; i < arbre->nb_abonnes; i++) rdisplay(arbre->abonnes[i]);
         abr_display(arbre->fils_gauche);
+        for (int i = 0; i < arbre->nb_abonnes; i++) rdisplay(arbre->abonnes[i]);
         abr_display(arbre->fils_droit);
     }
 }

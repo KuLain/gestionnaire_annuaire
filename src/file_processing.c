@@ -88,13 +88,13 @@ void parse_csv(ABR** arbre, char path[],char delim)
 }
 
 void abr_csv_rec(ABR* arbre, char path[], char delim, FILE* fp) {
+    if (!abr_est_vide(arbre->fils_gauche)) abr_csv_rec(arbre->fils_gauche, path, delim, fp);
     for (int i = 0; i < arbre->nb_abonnes; i++) {
         for (int k = 0; k < 6; k++) {
             fprintf(fp,"%s%c",arbre->abonnes[i]->data[k],delim);
         }
         fprintf(fp,"%s\n",arbre->abonnes[i]->data[6]);
     }
-    if (!abr_est_vide(arbre->fils_gauche)) abr_csv_rec(arbre->fils_gauche, path, delim, fp);
     if (!abr_est_vide(arbre->fils_droit)) abr_csv_rec(arbre->fils_droit, path, delim, fp);
 }
 

@@ -33,7 +33,7 @@ void sorted_records(ABR *arbre)
             abr_display(arbre);
         } else {
             ABR_list(arbre, tab, &i);
-            quick_sort(tab, n, filtre);
+            merge_sort(tab, n, filtre);
             display_sorted_records(tab, n);
         }
         return;
