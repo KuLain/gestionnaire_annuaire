@@ -1,74 +1,61 @@
 #include <stdio.h>
+#include <gtk-3.0/gtk/gtk.h>
 
-#include "header/file_processing.h"
-#include "header/base_processing.h"
-#include "header/filtered_display.h"
-#include "header/sorted_display.h"
-#include "header/empty_display.h"
-
-#define PATH "files/gang.csv"
+#define PATH "../files/gang.csv"
 #define DELIM ','
 
-int main() {
-    ABR* base = abr_init();
-    char choix[3];
-    int active = 1;
+void OnDestroy(GtkWidget *pWidget, gpointer pData)
+{
+    /* Arret de la boucle évènementielle */
+    gtk_main_quit();
+}
 
-    parse_csv(&base, PATH, DELIM);
+int main(int argc, char* argv[]){
+    GtkWidget *pWindow;
+    GtkWidget *pTitle;
+    GtkWidget *pVBox;
+    GtkWidget *pHBox, *pHBox2;
+    GtkWidget *pButton[6];
 
-    printf("Bienvenue dans le gestionnaire d'annuaire !\n\n");
+    gtk_init(&argc,&argv);
 
-    while (active == 1) {
+    pWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title(GTK_WINDOW(pWindow), "Gestionnaire d'annuaire");
+    gtk_window_set_default_size(GTK_WINDOW(pWindow), 320, 200);
+    g_signal_connect(G_OBJECT(pWindow), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
-        printf("Que voulez-vous faire ?\n\n");
-        printf("1) Ajouter un abonné\n");
-        printf("2) Supprimer un abonné\n");
-        printf("3) Modifier les données d'un abonné\n");
-        printf("4) Afficher un abonné\n");
-        printf("5) Afficher tous les abonnés\n");
-        printf("6) Afficher tous les abonnés trié selon un critère\n");
-        printf("7) Afficher tous les abonnés trié selon un filtre\n");
-        printf("8) Afficher les abonnés avec des attributs manquants\n");
-        printf("*) Quitter\n\n");
+    /* Création de la GtkBox verticale */
+    pVBox = gtk_vbox_new(TRUE, 0);
+    pHBox = gtk_hbox_new(TRUE, 0);
+    pHBox2 = gtk_hbox_new(TRUE, 0);
 
-        printf("Entrez votre selection : ");
-        fgets(choix, 3, stdin);
-        printf("\n");
+    /* Ajout de la GtkVBox dans la fenêtre */
+    gtk_container_add(GTK_CONTAINER(pWindow), pVBox);
 
-        switch (choix[0]) {
-            case '1':
-                add_record(&base, PATH, DELIM);
-                break;
-            case '2':
-                delete_record(&base, PATH, DELIM);
-                break;
-            case '3':
-                change_record(base, PATH, DELIM);
-                break;
-            case '4':
-                access_record(base);
-                break;
-            case '5':
-                abr_display(base);
-                break;
-            case '6':
-                sorted_records(base);
-                break;
-            case '7':
-                filtered_records(base);
-                break;
-            case '8':
-                missing_record(base);
-                break;
-            default:
-                active = 0;
-                abr_free(base);
-                break;
-        }
+    pTitle = gtk_label_new("Gestionnaire d'annuaire");
+    gtk_box_pack_start(GTK_BOX(pVBox), pTitle, TRUE, TRUE, 10);
 
-        printf("\n");
+    /* Creation des boutons */
+    pButton[0] = gtk_button_new_with_label("Ajouter");
+    pButton[1] = gtk_button_new_with_label("Supprimer");
+    pButton[2] = gtk_button_new_with_label("Modifier");
+    pButton[3] = gtk_button_new_with_label("Afficher");
+    pButton[4] = gtk_button_new_with_label("Trier");
+    pButton[5] = gtk_button_new_with_label("Filtrer");
 
-    }
+    gtk_box_pack_start(GTK_BOX(pVBox), pHBox, TRUE, TRUE, 10);
+    gtk_box_pack_start(GTK_BOX(pVBox), pHBox2, TRUE, TRUE, 10);
 
+    gtk_box_pack_start(GTK_BOX(pHBox), pButton[0], TRUE, TRUE, 10);
+    gtk_box_pack_start(GTK_BOX(pHBox), pButton[1], TRUE, TRUE, 10);
+    gtk_box_pack_start(GTK_BOX(pHBox), pButton[2], TRUE, TRUE, 10);
+
+    gtk_box_pack_start(GTK_BOX(pHBox2), pButton[3], TRUE, TRUE, 10);
+    gtk_box_pack_start(GTK_BOX(pHBox2), pButton[4], TRUE, TRUE, 10);
+    gtk_box_pack_start(GTK_BOX(pHBox2), pButton[5], TRUE, TRUE, 10);
+
+    gtk_widget_show_all(pWindow);
+
+    gtk_main();
     return 0;
 }
