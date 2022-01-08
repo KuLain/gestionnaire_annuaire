@@ -18,7 +18,7 @@ int main() {
 
     printf("Bienvenue dans le gestionnaire d'annuaire !\n\n");
 
-    while (active == 1) {
+    while (active) {
 
         printf("Que voulez-vous faire ?\n\n");
         printf("1) Ajouter un abonné\n");
