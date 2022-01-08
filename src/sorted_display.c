@@ -4,7 +4,8 @@
 
 #include "../header/sorted_display.h"
 #include <string.h>
-#include <time.h>
+#include <sys/time.h>
+#include <math.h>
 #include <stdlib.h>
 
 /**
@@ -13,6 +14,7 @@
  */
 void sorted_records(ABR *arbre)
 {
+    struct timespec debut, fin;
     char choix[3];
     int filtre;
     int i = 0;
@@ -33,8 +35,12 @@ void sorted_records(ABR *arbre)
             abr_display(arbre);
         } else {
             ABR_list(arbre, tab, &i);
+            clock_gettime(CLOCK_REALTIME, &debut);
             merge_sort(tab, n, filtre);
+            // quick_sort(tab, n, filtre);
+            clock_gettime(CLOCK_REALTIME, &fin);
             display_sorted_records(tab, n);
+            printf("Le temps d'execution du tri est de : %f millisecondes\n", (fin.tv_nsec - debut.tv_nsec)*0.000001);
         }
         return;
     } else {

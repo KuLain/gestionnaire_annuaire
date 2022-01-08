@@ -307,7 +307,6 @@ void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char fil
  */
 RECORD* abr_valeur(ABR *arbre, char prenom[], char nom[], int colomne, char filtre[]) {
     if (abr_est_vide(arbre)) {
-        printf("Aucun abonné n'est associé à ces informations\n");
         return NULL;
     } else {
         if (sont_egales(prenom, arbre->abonnes[0]->data[PRENOM]) && sont_egales(nom, arbre->abonnes[0]->data[NOM])) {

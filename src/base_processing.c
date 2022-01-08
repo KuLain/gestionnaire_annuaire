@@ -7,6 +7,7 @@
 #include "../header/struct/ArbreBinaireRecherche.h"
 #include <string.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
 #define N 7
 
@@ -233,6 +234,7 @@ void change_record(ABR *arbre, char path[], char delim) {
  * @param arbre : Pointeur vers ABR
  */
 void access_record(ABR *arbre) {
+    struct timespec debut, fin;
     char choix[3], infos[3][100];
     RECORD *ans;
     printf("Accès à un abonné\n");
@@ -262,7 +264,9 @@ void access_record(ABR *arbre) {
             fgets(infos[2], 100, stdin);
             infos[2][strlen(infos[2]) - 1] = '\0';
             printf("\n");
+            clock_gettime(CLOCK_REALTIME, &debut);
             ans = abr_valeur(arbre, infos[0], infos[1], MAIL, infos[2]);
+            clock_gettime(CLOCK_REALTIME, &fin);
             if (ans == NULL) {
                 printf("Aucun abonné n'est associé à ces informations");
             } else {
@@ -274,9 +278,11 @@ void access_record(ABR *arbre) {
             fgets(infos[2], 100, stdin);
             infos[2][strlen(infos[2]) - 1] = '\0';
             printf("\n");
+            clock_gettime(CLOCK_REALTIME, &debut);
             ans = abr_valeur(arbre, infos[0], infos[1], TELEPHONE, infos[2]);
+            clock_gettime(CLOCK_REALTIME, &fin);
             if (ans == NULL) {
-                printf("Aucun abonné n'est associé à ces informations");
+                printf("Aucun abonné n'est associé à ces informations\n");
             } else {
                 rdisplay(ans);
             }
@@ -287,5 +293,6 @@ void access_record(ABR *arbre) {
             printf("\n");
             break;
     }
+    printf("Le temps d'execution de la recherche est de : %f millisecondes\n", (fin.tv_nsec - debut.tv_nsec)*0.000001);
     printf("\n");
 }

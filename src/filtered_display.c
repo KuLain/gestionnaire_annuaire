@@ -3,10 +3,8 @@
 //
 #include "../header/struct/ArbreBinaireRecherche.h"
 #include "../header/filtered_display.h"
-#include "../header/sorted_display.h"
 #include <string.h>
-#include <stdlib.h>
-
+#include <sys/time.h>
 
 /**
  * Affiche le menu pour choisir comment filtrer les RECORD
@@ -15,6 +13,7 @@
 void filtered_records(ABR* arbre) {
     char choix[3], filter[150];
     int column;
+    struct timespec debut, fin;
 
     printf("Séléction des abonnés par filtre\n");
     printf("Selon quel critère voulez-vous filter les abonnés ?\n\n");
@@ -40,9 +39,10 @@ void filtered_records(ABR* arbre) {
     printf("Entrez le fitre souhaité : ");
     fgets(filter, 150, stdin);
     filter[strlen(filter)-1] = '\0';
-
+    clock_gettime(CLOCK_REALTIME, &debut);
     matching_filter(arbre, column, filter);
-    return;
+    clock_gettime(CLOCK_REALTIME, &fin);
+    printf("Le temps d'execution du filtre est de : %f millisecondes\n", (fin.tv_nsec - debut.tv_nsec)*0.000001);
 }
 
 void matching_filter_rec(ABR* arbre,int column,char filtre[], int taille_filtre, RECORD* tab[], int* i) {
