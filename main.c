@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "header/file_processing.h"
 #include "header/base_processing.h"
@@ -6,15 +7,19 @@
 #include "header/sorted_display.h"
 #include "header/empty_display.h"
 
-#define PATH "files/gang.csv"
-#define DELIM ','
-
 int main() {
     ABR* base = abr_init();
-    char choix[3];
+    char choix[3], chemin[150], delim[2];
     int active = 1;
 
-    parse_csv(&base, PATH, DELIM);
+    printf("Entrez le chemin vers le fichier : ");
+    fgets(chemin, 150, stdin);
+    chemin[strlen(chemin)-1] = '\0';
+
+    printf("Entrez le caractere delimiteur du CSV : ");
+    fgets(delim, 2, stdin);
+
+    parse_csv(&base, chemin, delim[0]);
 
     printf("Bienvenue dans le gestionnaire d'annuaire !\n\n");
 
@@ -32,18 +37,21 @@ int main() {
         printf("*) Quitter\n\n");
 
         printf("Entrez votre selection : ");
-        fgets(choix, 3, stdin);
+        do {
+            fgets(choix, 3, stdin);
+        } while (choix[0] == '\n');
+
         printf("\n");
 
         switch (choix[0]) {
             case '1':
-                add_record(&base, PATH, DELIM);
+                add_record(&base, chemin, delim);
                 break;
             case '2':
-                delete_record(&base, PATH, DELIM);
+                delete_record(&base, chemin, delim);
                 break;
             case '3':
-                change_record(base, PATH, DELIM);
+                change_record(base, chemin, delim);
                 break;
             case '4':
                 access_record(base);
