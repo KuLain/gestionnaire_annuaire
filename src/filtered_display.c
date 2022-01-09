@@ -45,13 +45,17 @@ void filtered_records(ABR* arbre) {
     printf("Le temps d'execution du filtre est de : %f millisecondes\n", (fin.tv_nsec - debut.tv_nsec)*0.000001);
 }
 
+int matching_pattern(char *source, char pattern[]) {
+    int k = 0;
+    const int n = strlen(source);
+    while (k < n && source[k] == pattern[k]) k++;
+    return k;
+}
+
 void matching_filter_rec(ABR* arbre,int column,char filtre[], int taille_filtre, RECORD* tab[], int* i) {
     if (!abr_est_vide(arbre)) {
-        int k;
         for (int j = 0; j < arbre->nb_abonnes; j++) {
-            k = 0;
-            while (k < strlen(arbre->abonnes[j]->data[column]) && arbre->abonnes[j]->data[column][k] == filtre[k]) k++;
-            if (k == taille_filtre) tab[(*i)++] = arbre->abonnes[j];
+            if (matching_pattern(arbre->abonnes[j]->data[column], filtre) == taille_filtre) tab[(*i)++] = arbre->abonnes[j];
         }
         matching_filter_rec(arbre->fils_gauche, column, filtre, taille_filtre, tab, i);
         matching_filter_rec(arbre->fils_droit, column, filtre, taille_filtre, tab, i);
