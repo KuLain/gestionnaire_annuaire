@@ -4,7 +4,7 @@
 #include "../header/struct/ArbreBinaireRecherche.h"
 #include "../header/filtered_display.h"
 #include <string.h>
-#include <sys/time.h>
+#include <time.h>
 
 /**
  * Affiche le menu pour choisir comment filtrer les RECORD

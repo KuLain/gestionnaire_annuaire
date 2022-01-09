@@ -7,7 +7,7 @@
 #include "../header/struct/ArbreBinaireRecherche.h"
 #include <string.h>
 #include <stdlib.h>
-#include <sys/time.h>
+#include <time.h>
 
 #define N 7
 
@@ -52,15 +52,20 @@ void add_record(ABR **arbre, char path[], char delim) {
         }
         tmp[i] = malloc(sizeof(char) * 150);
         if (tmp[i] == NULL) {
-            perror("Erreur lors de l'allocation ");
+            perror("Erreur lors de l'allocation 1");
             exit(EXIT_FAILURE);
         }
         fgets(tmp[i], 150, stdin);
         n = strlen(tmp[i]);
         tmp[i][n - 1] = '\0';
-        tmp[i] = realloc(tmp[i], sizeof(char) * (n - 1));
+        if (n == 1) {
+            tmp[i] = realloc(tmp[i],sizeof(char));
+            *tmp[i] = '\0';
+        } else {
+            tmp[i] = realloc(tmp[i], sizeof(char) * (n - 1));
+        }
         if (tmp[i] == NULL) {
-            perror("Erreur lors de l'allocation ");
+            perror("Erreur lors de l'allocation 2");
             exit(EXIT_FAILURE);
         }
     }
