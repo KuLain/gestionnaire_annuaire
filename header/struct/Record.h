@@ -16,6 +16,7 @@ typedef struct Record {
 } RECORD;
 
 RECORD* rinit(char **data);
+RECORD* r_copy(RECORD *r);
 void rdisplay(RECORD *r);
 void rfree(RECORD *r);
 

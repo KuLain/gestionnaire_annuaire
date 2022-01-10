@@ -141,7 +141,7 @@ void change_record(ABR *arbre, char path[], char delim) {
     char choix[3], infos[3][100];
     char *valeur = malloc(sizeof(char) * 100);
     int i, n;
-    RECORD *abonne;
+    RECORD *abonne, *new_abonne;
 
     if (valeur == NULL) {
         perror("Erreur lors de l'allocation");
@@ -227,8 +227,18 @@ void change_record(ABR *arbre, char path[], char delim) {
         exit(EXIT_FAILURE);
     }
 
-    free(abonne->data[i]);
-    abonne->data[i] = valeur;
+
+
+    if (i == 0 || i == 1) {
+        new_abonne = r_copy(abonne);
+        abr_supprimer(&arbre, abonne->data[PRENOM], abonne->data[NOM], MAIL, abonne->data[MAIL]);
+        free(new_abonne->data[i]);
+        new_abonne->data[i] = valeur;
+        abr_inserer(&arbre, new_abonne->data[PRENOM], new_abonne->data[NOM], new_abonne);
+    } else {
+        free(abonne->data[i]);
+        abonne->data[i] = valeur;
+    }
 
     abr_csv(arbre, path, delim);
     printf("\nChangement effectué\n\n");
