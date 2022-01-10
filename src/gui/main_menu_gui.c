@@ -2,8 +2,8 @@
 // Created by lain on 09/01/2022.
 //
 
-#include "main_menu_gui.h"
-#include "../header/struct/ArbreBinaireRecherche.h"
+#include "gui/main_menu_gui.h"
+#include "struct/ArbreBinaireRecherche.h"
 
 #define CONVERT_UTF8(chaine) g_locale_from_utf8(chaine, -1, NULL, NULL, NULL)
 

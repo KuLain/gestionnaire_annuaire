@@ -2,8 +2,8 @@
 // Created by lain on 30/11/2021.
 //
 
-#include "../header/empty_display.h"
-#include "../header/struct/ArbreBinaireRecherche.h"
+#include "affichage/empty_display.h"
+#include "struct/ArbreBinaireRecherche.h"
 #include "string.h"
 
 #define N 7
