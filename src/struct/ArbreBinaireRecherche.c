@@ -287,9 +287,24 @@ void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char fil
             switch (choix_branche((*arbre), prenom, nom)) {
                 case 1:
                     abr_supprimer(&(*arbre)->fils_droit, prenom, nom, colomne, filtre);
+                    (*arbre)->hauteur = max((*arbre)->fils_gauche->hauteur, (*arbre)->fils_droit->hauteur) + 1;
+                    (*arbre)->facteur_eq = (*arbre)->fils_gauche->hauteur - (*arbre)->fils_droit->hauteur;
+                    if ((*arbre)->facteur_eq == -2) {
+                        rr_rotation(arbre);
+                    } else if ((*arbre)->facteur_eq == 2 && (*arbre)->fils_gauche->facteur_eq == -1) {
+                        lr_rotation(arbre);
+                    }
                     break;
                 case 0:
                     abr_supprimer(&(*arbre)->fils_gauche, prenom, nom, colomne, filtre);
+                    (*arbre)->hauteur = max((*arbre)->fils_gauche->hauteur, (*arbre)->fils_droit->hauteur) + 1;
+                    (*arbre)->facteur_eq = (*arbre)->fils_gauche->hauteur - (*arbre)->fils_droit->hauteur;
+                    if ((*arbre)->facteur_eq == 2) {
+                        ll_rotation(arbre);
+                    } else if ((*arbre)->facteur_eq == -2 && (*arbre)->fils_droit->facteur_eq == 1) {
+                        rl_rotation(arbre);
+                    }
+                    (*arbre)->facteur_eq = (*arbre)->fils_gauche->facteur_eq = (*arbre)->fils_droit->facteur_eq = 0;
                     break;
             }
         }
@@ -307,19 +322,18 @@ void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char fil
  */
 RECORD* abr_valeur(ABR *arbre, char prenom[], char nom[], int colomne, char filtre[]) {
     if (abr_est_vide(arbre)) {
-        printf("Aucun abonné n'est associé à ces informations\n");
         return NULL;
     } else {
         if (sont_egales(prenom, arbre->abonnes[0]->data[PRENOM]) && sont_egales(nom, arbre->abonnes[0]->data[NOM])) {
+            int tmp = recherche_seq(arbre, filtre, colomne);
+            if (tmp == -1) return NULL;
             return arbre->abonnes[recherche_seq(arbre, filtre, colomne)];
         } else {
             switch (choix_branche(arbre, prenom, nom)) {
                 case 1:
                     return abr_valeur(arbre->fils_droit, prenom, nom, colomne, filtre);
-                    break;
                 case 0:
                     return abr_valeur(arbre->fils_gauche, prenom, nom, colomne, filtre);
-                    break;
             }
         }
         return NULL;

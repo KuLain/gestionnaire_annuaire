@@ -6,42 +6,20 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
+#include <gtk-3.0/gtk/gtk.h>
 
-/**
- * Affiche le menu pour sélectionner la colonne à trier
- * @param arbre
- */
-void sorted_records(ABR *arbre)
-{
-    char choix[3];
-    int filtre;
-    int i = 0;
-    const int n = abr_taille(arbre);
-    RECORD* tab[n];
-    printf("Affichage des abonnés triés par ordre croissant selon un attribut\n");
-    printf("Selon quel attribut voulez-vous les trier ?\n\n");
+#define CONVERT_UTF8(chaine) g_locale_from_utf8(chaine, -1, NULL, NULL, NULL)
 
-    printf("1) Prénom\n2) Nom\n3) Ville\n4) Code Postal\n5) Numéro de téléphone\n6) Adresse email\n7) Profession \n\n");
+enum {
+    COL_PRENOM = 0,
+    COL_NOM,
+    COL_VILLE,
+    COL_CP,
+    COL_TELEPHONE,
+    COL_MAIL,
+    COL_PROFESSION,
+};
 
-    printf("Entrez votre choix : ");
-    fgets(choix, 3, stdin);
-
-    if (choix[0] >= '1' && choix[0] <= '9') {
-        filtre = choix[0] - 49;
-
-        if (filtre == 0) {
-            abr_display(arbre);
-        } else {
-            ABR_list(arbre, tab, &i);
-            merge_sort(tab, n, filtre);
-            display_sorted_records(tab, n);
-        }
-        return;
-    } else {
-        perror("Unknown input");
-        return;
-    }
-}
 
 /**
  * Ajoute tous les pointeurs vers les RECORD du ABR dans le tableau
@@ -50,8 +28,8 @@ void sorted_records(ABR *arbre)
  */
 void ABR_list(ABR* arbre, RECORD* tab[], int* i) {
     if (!abr_est_vide(arbre)) {
-        ABR_list(arbre->fils_gauche, tab, i);
         for (int j = 0; j < arbre->nb_abonnes; j++) tab[(*i)++] = arbre->abonnes[j];
+        ABR_list(arbre->fils_gauche, tab, i);
         ABR_list(arbre->fils_droit, tab, i);
     }
 }
@@ -112,8 +90,9 @@ void quick_sort_rec(RECORD* tab[], int gauche, int droite, int filter) {
  * @param taille : Taille du tableau contenant tous les RECORD
  * @param filter : 0 <= filter <= 7 : Indice de la colonne selon laquelle les RECORD vont être trier
  */
-void quick_sort(RECORD* tab[],const int taille, int filter) {
+void quick_sort(RECORD* tab[],const int taille, int filter, GtkListStore *store, GtkTreeIter *iter) {
     quick_sort_rec(tab, 0, taille-1, filter);
+    fill_model_tab(tab, taille, store, iter);
 }
 
 void merge(RECORD* tab[], int debut, int milieu, int fin, int filter) {
@@ -190,4 +169,19 @@ void display_sorted_records(RECORD* tab[], const int taille)
 {
     int i;
     for (i = 0; i < taille; i++) rdisplay(tab[i]);
+}
+
+void fill_model_tab(RECORD *tab[], int taille, GtkListStore *store, GtkTreeIter *iter) {
+    for (int i = 0; i < taille; i++) {
+        gtk_list_store_append (store, iter);
+        gtk_list_store_set (store, iter,
+                            COL_PRENOM, CONVERT_UTF8(tab[i]->data[PRENOM]),
+                            COL_NOM, CONVERT_UTF8(tab[i]->data[NOM]),
+                            COL_VILLE, CONVERT_UTF8(tab[i]->data[VILLE]),
+                            COL_CP, CONVERT_UTF8(tab[i]->data[CP]),
+                            COL_TELEPHONE, CONVERT_UTF8(tab[i]->data[TELEPHONE]),
+                            COL_MAIL, CONVERT_UTF8(tab[i]->data[MAIL]),
+                            COL_PROFESSION, CONVERT_UTF8(tab[i]->data[PROFESSION]),
+                            -1);
+    }
 }

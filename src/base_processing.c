@@ -7,6 +7,7 @@
 #include "../header/struct/ArbreBinaireRecherche.h"
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define N 7
 
@@ -51,15 +52,20 @@ void add_record(ABR **arbre, char path[], char delim) {
         }
         tmp[i] = malloc(sizeof(char) * 150);
         if (tmp[i] == NULL) {
-            perror("Erreur lors de l'allocation ");
+            perror("Erreur lors de l'allocation 1");
             exit(EXIT_FAILURE);
         }
         fgets(tmp[i], 150, stdin);
         n = strlen(tmp[i]);
         tmp[i][n - 1] = '\0';
-        tmp[i] = realloc(tmp[i], sizeof(char) * (n - 1));
+        if (n == 1) {
+            tmp[i] = realloc(tmp[i],sizeof(char));
+            *tmp[i] = '\0';
+        } else {
+            tmp[i] = realloc(tmp[i], sizeof(char) * (n - 1));
+        }
         if (tmp[i] == NULL) {
-            perror("Erreur lors de l'allocation ");
+            perror("Erreur lors de l'allocation 2");
             exit(EXIT_FAILURE);
         }
     }
@@ -135,7 +141,7 @@ void change_record(ABR *arbre, char path[], char delim) {
     char choix[3], infos[3][100];
     char *valeur = malloc(sizeof(char) * 100);
     int i, n;
-    RECORD *abonne;
+    RECORD *abonne, *new_abonne;
 
     if (valeur == NULL) {
         perror("Erreur lors de l'allocation");
@@ -221,8 +227,18 @@ void change_record(ABR *arbre, char path[], char delim) {
         exit(EXIT_FAILURE);
     }
 
-    free(abonne->data[i]);
-    abonne->data[i] = valeur;
+
+
+    if (i == 0 || i == 1) {
+        new_abonne = r_copy(abonne);
+        abr_supprimer(&arbre, abonne->data[PRENOM], abonne->data[NOM], MAIL, abonne->data[MAIL]);
+        free(new_abonne->data[i]);
+        new_abonne->data[i] = valeur;
+        abr_inserer(&arbre, new_abonne->data[PRENOM], new_abonne->data[NOM], new_abonne);
+    } else {
+        free(abonne->data[i]);
+        abonne->data[i] = valeur;
+    }
 
     abr_csv(arbre, path, delim);
     printf("\nChangement effectué\n\n");
@@ -233,6 +249,7 @@ void change_record(ABR *arbre, char path[], char delim) {
  * @param arbre : Pointeur vers ABR
  */
 void access_record(ABR *arbre) {
+    struct timespec debut, fin;
     char choix[3], infos[3][100];
     RECORD *ans;
     printf("Accès à un abonné\n");
@@ -262,7 +279,9 @@ void access_record(ABR *arbre) {
             fgets(infos[2], 100, stdin);
             infos[2][strlen(infos[2]) - 1] = '\0';
             printf("\n");
+            clock_gettime(CLOCK_REALTIME, &debut);
             ans = abr_valeur(arbre, infos[0], infos[1], MAIL, infos[2]);
+            clock_gettime(CLOCK_REALTIME, &fin);
             if (ans == NULL) {
                 printf("Aucun abonné n'est associé à ces informations");
             } else {
@@ -274,9 +293,11 @@ void access_record(ABR *arbre) {
             fgets(infos[2], 100, stdin);
             infos[2][strlen(infos[2]) - 1] = '\0';
             printf("\n");
+            clock_gettime(CLOCK_REALTIME, &debut);
             ans = abr_valeur(arbre, infos[0], infos[1], TELEPHONE, infos[2]);
+            clock_gettime(CLOCK_REALTIME, &fin);
             if (ans == NULL) {
-                printf("Aucun abonné n'est associé à ces informations");
+                printf("Aucun abonné n'est associé à ces informations\n");
             } else {
                 rdisplay(ans);
             }
@@ -287,5 +308,6 @@ void access_record(ABR *arbre) {
             printf("\n");
             break;
     }
+    printf("Le temps d'execution de la recherche est de : %f millisecondes\n", (fin.tv_nsec - debut.tv_nsec)*0.000001);
     printf("\n");
 }

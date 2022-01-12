@@ -4,6 +4,10 @@
 
 #include "gui/main_menu_gui.h"
 #include "struct/ArbreBinaireRecherche.h"
+#include "../header/affichage/sorted_display.h"
+#include "../header/affichage/filtered_display.h"
+#include "../header/affichage/empty_display.h"
+#include <time.h>
 
 #define CONVERT_UTF8(chaine) g_locale_from_utf8(chaine, -1, NULL, NULL, NULL)
 
@@ -40,8 +44,7 @@ void fill_model(ABR *arbre, GtkListStore *store, GtkTreeIter *iter) {
     }
 }
 
-static GtkTreeModel *
-create_and_fill_model (ABR *arbre)
+GtkTreeModel *create_and_fill_model (ABR *arbre)
 {
     GtkListStore *store = gtk_list_store_new (7,
                                               G_TYPE_STRING,
@@ -54,11 +57,42 @@ create_and_fill_model (ABR *arbre)
 
     /* Append a row and fill in some data. */
     GtkTreeIter iter;
+    g_print("Ready to print guys");
     fill_model(arbre, store, &iter);
 
     return GTK_TREE_MODEL (store);
 }
 
+GtkTreeModel *create_and_fill_model_tab(ABR *arbre, int colonne, char *filtre, double *temps, int choix, int *nb_elt) {
+    GtkListStore *store = gtk_list_store_new (7,
+                                              G_TYPE_STRING,
+                                              G_TYPE_STRING,
+                                              G_TYPE_STRING,
+                                              G_TYPE_STRING,
+                                              G_TYPE_STRING,
+                                              G_TYPE_STRING,
+                                              G_TYPE_STRING);
+
+    /* Append a row and fill in some data. */
+    GtkTreeIter iter;
+    int const n = abr_taille(arbre);
+    int i = 0;
+    struct timespec debut, fin;
+
+    clock_gettime(CLOCK_REALTIME, &debut);
+    if (choix == 1) {
+        RECORD *tab[n];
+        ABR_list(arbre, tab, &i);
+        quick_sort(tab, n, colonne, store, &iter);
+    } else if (choix == 2){
+        matching_filter(arbre, colonne, filtre, store, &iter);
+    } else {
+        missing_record(arbre, store, &iter, nb_elt);
+    }
+    clock_gettime(CLOCK_REALTIME, &fin);
+    if (temps != NULL) *temps = (fin.tv_nsec-debut.tv_nsec)*0.000001;
+    return GTK_TREE_MODEL (store);
+}
 
 static GtkWidget *
 create_view_and_model (ABR *arbre)
@@ -124,40 +158,3 @@ create_view_and_model (ABR *arbre)
     return view;
 }
 
-void fill_display_widget (GtkWidget *main_window, ABR *arbre) {
-    GtkWidget  *pScrollWindow;
-    GtkWidget *view = create_view_and_model (arbre);
-    pScrollWindow = gtk_scrolled_window_new(NULL, NULL);
-    gtk_container_add(GTK_CONTAINER(pScrollWindow), view);
-    gtk_container_add (GTK_CONTAINER (main_window), pScrollWindow);
-}
-
-void fill_menu_widget(GtkWidget *main_window) {
-    int i;
-    GtkWidget *pVBox, *pHBox, *pHBox2, *pTitle, *pButton[6];
-    char noms_fonctions[6][50] = {"Ajouter", "Modifier","Supprimer", "Afficher", "Trier", "Filtrer"};
-
-    /* Création de la GtkBox verticale */
-    pVBox = gtk_vbox_new(TRUE, 0);
-    pHBox = gtk_hbox_new(TRUE, 0);
-    pHBox2 = gtk_hbox_new(TRUE, 0);
-
-/* Ajout de la GtkVBox dans la fenêtre */
-    gtk_container_add(GTK_CONTAINER(main_window), pVBox);
-
-    pTitle = gtk_label_new("Gestionnaire d'annuaire");
-    gtk_box_pack_start(GTK_BOX(pVBox), pTitle, TRUE, TRUE, 10);
-
-    gtk_box_pack_start(GTK_BOX(pVBox), pHBox, TRUE, TRUE, 10);
-    gtk_box_pack_start(GTK_BOX(pVBox), pHBox2, TRUE, TRUE, 10);
-
-    for (i = 0; i < 3; i++) {
-        pButton[i] = gtk_button_new_with_label(noms_fonctions[i]);
-        gtk_box_pack_start(GTK_BOX(pHBox), pButton[i], TRUE, TRUE, 10);
-    }
-
-    for (i = 3; i < 6; i++) {
-        pButton[i] = gtk_button_new_with_label(noms_fonctions[i]);
-        gtk_box_pack_start(GTK_BOX(pHBox2), pButton[i], TRUE, TRUE, 10);
-    }
-}
