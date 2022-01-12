@@ -3,9 +3,9 @@
 
 #include "header/file_processing.h"
 #include "header/base_processing.h"
-#include "header/filtered_display.h"
-#include "header/sorted_display.h"
-#include "header/empty_display.h"
+#include "affichage/filtered_display.h"
+#include "affichage/sorted_display.h"
+#include "affichage/empty_display.h"
 
 int main() {
     ABR* base = abr_init();
@@ -26,14 +26,14 @@ int main() {
     while (active) {
 
         printf("Que voulez-vous faire ?\n\n");
-        printf("1) Ajouter un abonné\n");
-        printf("2) Supprimer un abonné\n");
-        printf("3) Modifier les données d'un abonné\n");
-        printf("4) Afficher un abonné\n");
-        printf("5) Afficher tous les abonnés\n");
-        printf("6) Afficher tous les abonnés trié selon un critère\n");
-        printf("7) Afficher tous les abonnés trié selon un filtre\n");
-        printf("8) Afficher les abonnés avec des attributs manquants\n");
+        printf("1) Ajouter un abonne\n");
+        printf("2) Supprimer un abonne\n");
+        printf("3) Modifier les donnees d'un abonne\n");
+        printf("4) Afficher un abonne\n");
+        printf("5) Afficher tous les abonnes\n");
+        printf("6) Afficher tous les abonnes trie selon un critere\n");
+        printf("7) Afficher tous les abonnes trie selon un filtre\n");
+        printf("8) Afficher les abonnes avec des attributs manquants\n");
         printf("*) Quitter\n\n");
 
         printf("Entrez votre selection : ");
@@ -45,13 +45,13 @@ int main() {
 
         switch (choix[0]) {
             case '1':
-                add_record(&base, chemin, delim);
+                add_record(&base, chemin, delim[0]);
                 break;
             case '2':
-                delete_record(&base, chemin, delim);
+                delete_record(&base, chemin, delim[0]);
                 break;
             case '3':
-                change_record(base, chemin, delim);
+                change_record(base, chemin, delim[0]);
                 break;
             case '4':
                 access_record(base);
