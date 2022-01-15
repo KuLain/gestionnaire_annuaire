@@ -41,7 +41,6 @@ GtkTreeModel *create_and_fill_model (ABR *arbre)
 
     /* Append a row and fill in some data. */
     GtkTreeIter iter;
-    g_print("Ready to print guys");
     fill_model(arbre, store, &iter);
 
     return GTK_TREE_MODEL (store);
