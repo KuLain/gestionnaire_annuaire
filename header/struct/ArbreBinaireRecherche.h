@@ -25,7 +25,7 @@ int abr_taille(ABR *);
 
 void abr_inserer(ABR **, char *, char *, RECORD *);
 
-void abr_supprimer(ABR **, char[], char[], int, char[], void*);
+int abr_supprimer(ABR **, char[], char[], int, char[], void*);
 
 RECORD *abr_valeur(ABR *, char[], char[], int, char[]);
 

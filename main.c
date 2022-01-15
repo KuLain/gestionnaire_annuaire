@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
     proprietes->path = NULL;
 
     for (int i = 0; i < NB_TREE; i++) proprietes->first_call_display[i] = 0;
-    proprietes->builder = gtk_builder_new_from_file("../sae_window.glade");
+    proprietes->builder = gtk_builder_new_from_file("ressources/sae_window.glade");
     pWindow = GTK_WIDGET(gtk_builder_get_object(proprietes->builder, "main_window"));
     proprietes->main_window = (GtkWindow*) pWindow;
 

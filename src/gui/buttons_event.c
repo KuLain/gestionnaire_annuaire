@@ -96,7 +96,7 @@ void change_button_pressed(GtkButton *button, gpointer *pass) {
  * @param pass : Pointeur vers un GLOBAL_P à caster
  */
 void change_validate_button_pressed(GtkButton *button, gpointer *pass) {
-    int i, changed;
+    int i, changed, success;
     GLOBAL_P *proprietes = (GLOBAL_P *) pass;
     RECORD *swap;
     char *tmp;
@@ -113,9 +113,10 @@ void change_validate_button_pressed(GtkButton *button, gpointer *pass) {
             changed = 1;
             if (i < 2) {
                 swap = r_copy(proprietes->change_current);
-                abr_supprimer(&proprietes->base_data, proprietes->change_current->data[0],
+                success = abr_supprimer(&proprietes->base_data, proprietes->change_current->data[0],
                               proprietes->change_current->data[1], MAIL,
                               proprietes->change_current->data[MAIL], proprietes);
+                if (!success) return;
                 swap->data[i] = realloc(swap->data[i], sizeof(char) * 150);
                 strcpy(swap->data[i], tmp);
                 swap->data[i] = realloc(swap->data[i], sizeof(char) * (strlen(swap->data[i]) + 1));

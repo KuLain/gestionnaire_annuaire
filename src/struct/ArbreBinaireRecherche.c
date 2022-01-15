@@ -272,20 +272,25 @@ void suppression(ABR **arbre) {
  * @param filtre : Pointeur vers la chaine de caractère contenant le filtre
  * @param proprietes : Pointeur vers GLOBAL_P à caster contenant les informations globales du fichier
  */
-void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char filtre[], void *proprietes) {
+int abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char filtre[], void *proprietes) {
     if (abr_est_vide(*arbre)) {
         call_dialog(1, "L'abonné n'existe pas", (GLOBAL_P*) proprietes);
+        return 0;
     } else {
         if (sont_egales(prenom, (*arbre)->abonnes[0]->data[PRENOM]) && sont_egales(nom, (*arbre)->abonnes[0]->data[NOM])){
             if ((*arbre)->nb_abonnes > 1) {
-                suppression_indice((*arbre), recherche_seq((*arbre), filtre, colomne));
+                int tmp = recherche_seq((*arbre), filtre, colomne);
+                if (tmp == -1) return 0;
+                suppression_indice((*arbre), tmp);
             } else {
                 suppression(arbre);
             }
+            return 1;
         } else {
+            int val = -1;
             switch (choix_branche((*arbre), prenom, nom)) {
                 case 1:
-                    abr_supprimer(&(*arbre)->fils_droit, prenom, nom, colomne, filtre, proprietes);
+                    val = abr_supprimer(&(*arbre)->fils_droit, prenom, nom, colomne, filtre, proprietes);
                     (*arbre)->hauteur = max((*arbre)->fils_gauche->hauteur, (*arbre)->fils_droit->hauteur) + 1;
                     (*arbre)->facteur_eq = (*arbre)->fils_gauche->hauteur - (*arbre)->fils_droit->hauteur;
                     if ((*arbre)->facteur_eq == -2) {
@@ -295,7 +300,7 @@ void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char fil
                     }
                     break;
                 case 0:
-                    abr_supprimer(&(*arbre)->fils_gauche, prenom, nom, colomne, filtre, proprietes);
+                    val = abr_supprimer(&(*arbre)->fils_gauche, prenom, nom, colomne, filtre, proprietes);
                     (*arbre)->hauteur = max((*arbre)->fils_gauche->hauteur, (*arbre)->fils_droit->hauteur) + 1;
                     (*arbre)->facteur_eq = (*arbre)->fils_gauche->hauteur - (*arbre)->fils_droit->hauteur;
                     if ((*arbre)->facteur_eq == 2) {
@@ -306,6 +311,7 @@ void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char fil
                     (*arbre)->facteur_eq = (*arbre)->fils_gauche->facteur_eq = (*arbre)->fils_droit->facteur_eq = 0;
                     break;
             }
+            return val;
         }
     }
 }
