@@ -1,7 +1,7 @@
-#include "struct/ArbreBinaireRecherche.h"
-#include "affichage/filtered_display.h"
 #include <string.h>
 #include <time.h>
+#include "struct/ArbreBinaireRecherche.h"
+#include "affichage/filtered_display.h"
 
 /**
  * Julien

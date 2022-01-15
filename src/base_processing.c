@@ -1,9 +1,7 @@
-#include "../header/base_processing.h"
-#include "../header/file_processing.h"
-#include "../header/struct/ArbreBinaireRecherche.h"
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include "../header/base_processing.h"
 
 #define N 7
 
@@ -15,45 +13,45 @@
  * @param delim : Caractère delimiteur
  */
 void add_record(ABR **arbre, char path[], char delim) {
-    char **tab = malloc(sizeof(char*)*7);
+    char **tab = malloc(sizeof(char *) * 7);
     int i;
-    for(i=0; i < 7 ; i++) tab[i]=malloc(sizeof(char)*50);
+    for (i = 0; i < 7; i++) tab[i] = malloc(sizeof(char) * 50);
 
     RECORD *abonne;
 
     printf("entre le prenom :");
-    fgets(tab[0],50,stdin);
-    tab[0][strlen(tab[0])-1]='\0';
+    fgets(tab[0], 50, stdin);
+    tab[0][strlen(tab[0]) - 1] = '\0';
 
     printf("entre le nom : ");
-    fgets(tab[1],50,stdin);
-    tab[1][strlen(tab[1])-1]='\0';
+    fgets(tab[1], 50, stdin);
+    tab[1][strlen(tab[1]) - 1] = '\0';
 
     printf("entre la  ville: ");
-    fgets(tab[2],50,stdin);
-    tab[2][strlen(tab[2])-1]='\0';
+    fgets(tab[2], 50, stdin);
+    tab[2][strlen(tab[2]) - 1] = '\0';
 
-    printf ("entre le code postal: ");
-    fgets(tab[3],50,stdin);
-    tab[3][strlen(tab[3])-1]='\0';
+    printf("entre le code postal: ");
+    fgets(tab[3], 50, stdin);
+    tab[3][strlen(tab[3]) - 1] = '\0';
 
     printf("entre le num tel: ");
-    fgets(tab[4],50,stdin);
-    tab[4][strlen(tab[4])-1]='\0';
+    fgets(tab[4], 50, stdin);
+    tab[4][strlen(tab[4]) - 1] = '\0';
 
     printf("entre adresse mail:  ");
-    fgets(tab[5],50,stdin);
-    tab[5][strlen(tab[5])-1]='\0';
+    fgets(tab[5], 50, stdin);
+    tab[5][strlen(tab[5]) - 1] = '\0';
 
     printf("entre la profesion: ");
-    fgets(tab[6],50,stdin);
-    tab[6][strlen(tab[6])-1]='\0';
+    fgets(tab[6], 50, stdin);
+    tab[6][strlen(tab[6]) - 1] = '\0';
 
     abonne = rinit(tab);
 
-    abr_inserer(arbre,tab[0],tab[1],abonne);
+    abr_inserer(arbre, tab[0], tab[1], abonne);
 
-    for(i=0; i<=6; i++ )
+    for (i = 0; i <= 6; i++)
         free(tab[i]);
     free(tab);
 }
@@ -204,7 +202,6 @@ void change_record(ABR *arbre, char path[], char delim) {
     }
 
 
-
     if (i == 0 || i == 1) {
         new_abonne = r_copy(abonne);
         abr_supprimer(&arbre, abonne->data[PRENOM], abonne->data[NOM], MAIL, abonne->data[MAIL]);
@@ -283,6 +280,7 @@ void access_record(ABR *arbre) {
             printf("\n");
             break;
     }
-    printf("Le temps d'execution de la recherche est de : %lf millisecondes\n",(fin.tv_nsec - debut.tv_nsec)*0.000001);
+    printf("Le temps d'execution de la recherche est de : %lf millisecondes\n",
+           (fin.tv_nsec - debut.tv_nsec) * 0.000001);
     printf("\n");
 }

@@ -1,6 +1,6 @@
-#include "../../header/struct/ArbreBinaireRecherche.h"
 #include <stdlib.h>
 #include <string.h>
+#include "../../header/struct/ArbreBinaireRecherche.h"
 
 /**
  * Julien
@@ -55,6 +55,7 @@ int abr_est_vide(ABR *arbre) {
 int abr_est_feuille(ABR *arbre) {
     return arbre->fils_droit == NULL && arbre->fils_gauche == NULL;
 }
+
 /**
  * Julien
  * @param arbre : Pointeur vers l'arbre
@@ -290,7 +291,8 @@ void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char fil
     if (abr_est_vide(*arbre)) {
         printf("Aucun abonné n'est associé à ces informations\n");
     } else {
-        if (sont_egales(prenom, (*arbre)->abonnes[0]->data[PRENOM]) && sont_egales(nom, (*arbre)->abonnes[0]->data[NOM])){
+        if (sont_egales(prenom, (*arbre)->abonnes[0]->data[PRENOM]) &&
+            sont_egales(nom, (*arbre)->abonnes[0]->data[NOM])) {
             if ((*arbre)->nb_abonnes > 1) {
                 suppression_indice((*arbre), recherche_seq((*arbre), filtre, colomne));
             } else {
@@ -334,7 +336,7 @@ void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char fil
  * @param filtre : Pointeur vers la chaine de caractère contenant le filtre
  * @return Adresse du RECORD associé au nom, prenom et critère donné
  */
-RECORD* abr_valeur(ABR *arbre, char prenom[], char nom[], int colomne, char filtre[]) {
+RECORD *abr_valeur(ABR *arbre, char prenom[], char nom[], int colomne, char filtre[]) {
     if (abr_est_vide(arbre)) {
         return NULL;
     } else {

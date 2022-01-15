@@ -15,11 +15,13 @@ typedef struct Record {
     char **data;
 } RECORD;
 
-RECORD* rinit(char **data);
-RECORD* r_copy(RECORD *r);
-void rdisplay(RECORD *r);
-void rfree(RECORD *r);
+RECORD *rinit(char **data);
 
+RECORD *r_copy(RECORD *r);
+
+void rdisplay(RECORD *r);
+
+void rfree(RECORD *r);
 
 
 #endif //SAE1_2_LINUX_RECORD_H

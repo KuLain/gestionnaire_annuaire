@@ -11,13 +11,13 @@
  * Saimati
  */
 int main() {
-    ABR* base = abr_init();
+    ABR *base = abr_init();
     char choix[3], chemin[150], delim[2];
     int active = 1;
 
     printf("Entrez le chemin vers le fichier : ");
     fgets(chemin, 150, stdin);
-    chemin[strlen(chemin)-1] = '\0';
+    chemin[strlen(chemin) - 1] = '\0';
 
     printf("Entrez le caractere delimiteur du CSV : ");
     fgets(delim, 2, stdin);
@@ -87,5 +87,6 @@ int main() {
 
     }
 
+    slow_exit();
     return 0;
 }

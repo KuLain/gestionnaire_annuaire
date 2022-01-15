@@ -1,9 +1,19 @@
-#include "../header/file_processing.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../header/file_processing.h"
 
 #define N 7
+
+/**
+ * Julien
+ * Empêche la fermeture immédiate du programme
+ */
+void slow_exit() {
+    fflush(stdin);
+    printf("Appuyez sur une touche pour fermer le programme ... ");
+    getchar();
+}
 
 /**
  * Julien
@@ -19,12 +29,14 @@ char **tokenize(char line[], char delim) {
     char **ans = (char **) calloc(N, sizeof(char *));
     if (ans == NULL) {
         perror("Erreur lors de l'allocation");
+        slow_exit();
         exit(EXIT_FAILURE);
     }
     int i = 0, j = 0, k;
     ans[0] = (char *) calloc(150, sizeof(char));
     if (ans[0] == NULL) {
         perror("Error while allocating");
+        slow_exit();
         exit(EXIT_FAILURE);
     }
     for (k = 0; k < n; k++) {
@@ -33,12 +45,14 @@ char **tokenize(char line[], char delim) {
             ans[i] = (char *) realloc(ans[i], sizeof(char) * (j + 1));
             if (ans[i] == NULL) {
                 perror("Error while reallocating");
+                slow_exit();
                 exit(EXIT_FAILURE);
             }
             if (++i < N) {
                 ans[i] = (char *) calloc(150, sizeof(char));
                 if (ans[i] == NULL) {
                     perror("Erreur lors de l'allocation ");
+                    slow_exit();
                     exit(EXIT_FAILURE);
                 }
             }
@@ -68,6 +82,7 @@ void parse_csv(ABR **arbre, char path[], char delim) {
     FILE *fp = fopen(path, "r");
     if (fp == NULL) {
         perror("Error while opening the file ");
+        slow_exit();
         exit(EXIT_FAILURE);
     }
 
@@ -111,6 +126,6 @@ void abr_csv_rec(ABR *arbre, char delim, FILE *fp) {
  */
 void abr_csv(ABR *arbre, char path[], char delim) {
     FILE *fp = fopen(path, "w");
-    abr_csv_rec(arbre,delim, fp);
+    abr_csv_rec(arbre, delim, fp);
     fclose(fp);
 }

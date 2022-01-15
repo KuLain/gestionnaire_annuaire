@@ -1,6 +1,6 @@
-#include "../../header/struct/Record.h"
 #include <stdlib.h>
 #include <string.h>
+#include "../../header/struct/Record.h"
 
 #define N 7
 
@@ -10,15 +10,13 @@
  * @param tab : Tableau contenant des pointeurs des vers chaines de caractères allouées dynamiquement
  * @return : Pointeur vers le RECORD
  */
-RECORD* rinit(char **tab)
-{
-    RECORD* tmp = malloc(sizeof(RECORD));
-    tmp->data = (char**) malloc(sizeof(char*)*N);
+RECORD *rinit(char **tab) {
+    RECORD *tmp = malloc(sizeof(RECORD));
+    tmp->data = (char **) malloc(sizeof(char *) * N);
     int i, j, n;
-    for (i = 0; i < N; i++)
-    {
+    for (i = 0; i < N; i++) {
         n = strlen(tab[i]);
-        tmp->data[i] = malloc(sizeof(char)*(n+1));
+        tmp->data[i] = malloc(sizeof(char) * (n + 1));
         for (j = 0; j <= n; j++) tmp->data[i][j] = tab[i][j];
     }
     return tmp;
@@ -30,15 +28,14 @@ RECORD* rinit(char **tab)
  * @param r : Pointeur du RECORD à copier
  * @return Pointeur vers la copie du RECORD
  */
-RECORD* r_copy(RECORD *r) {
+RECORD *r_copy(RECORD *r) {
     RECORD *tmp = malloc(sizeof(RECORD));
-    tmp->data = (char**) malloc(sizeof(char*)*N);
+    tmp->data = (char **) malloc(sizeof(char *) * N);
 
     int i, j, n;
-    for (i = 0; i < N; i++)
-    {
+    for (i = 0; i < N; i++) {
         n = strlen(r->data[i]);
-        tmp->data[i] = malloc(sizeof(char)*(n+1));
+        tmp->data[i] = malloc(sizeof(char) * (n + 1));
         for (j = 0; j <= n; j++) tmp->data[i][j] = r->data[i][j];
     }
     return tmp;
@@ -49,10 +46,10 @@ RECORD* r_copy(RECORD *r) {
  * Affiche le RECORD
  * @param r : Pointeur vers le RECORD
  */
-void rdisplay(RECORD *r)
-{
+void rdisplay(RECORD *r) {
     if (r != NULL) {
-        printf("%-25s%-30s%-25s%-15s%-20s%-50s%-20s\n", r->data[0], r->data[1], r->data[2], r->data[3], r->data[4], r->data[5], r->data[6]);
+        printf("%-25s%-30s%-25s%-15s%-20s%-50s%-20s\n", r->data[0], r->data[1], r->data[2], r->data[3], r->data[4],
+               r->data[5], r->data[6]);
         // printf("%s %s %s %s %s %s %s\n", r->data[0], r->data[1], r->data[2], r->data[3], r->data[4], r->data[5], r->data[6]);
     }
 }
@@ -62,11 +59,9 @@ void rdisplay(RECORD *r)
  * Libère toutes les allocations dynamiques du RECORD
  * @param r : Pointeur vers le RECORD
  */
-void rfree(RECORD *r)
-{
+void rfree(RECORD *r) {
     int i;
-    for (i = 0; i < N; i++)
-    {
+    for (i = 0; i < N; i++) {
         free(r->data[i]);
         r->data[i] = NULL;
     }
