@@ -1,7 +1,7 @@
 #include "gui/tree_display.h"
-#include "../header/affichage/filtered_display.h"
-#include "../header/affichage/sorted_display.h"
-#include "../header/affichage/empty_display.h"
+#include "../../header/affichage/filtered_display.h"
+#include "../../header/affichage/sorted_display.h"
+#include "../../header/affichage/empty_display.h"
 
 /**
  * Remplis le model avec les informations des abonnés de l'arbre

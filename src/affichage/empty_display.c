@@ -1,7 +1,7 @@
-#include "affichage/empty_display.h"
-#include "struct/ArbreBinaireRecherche.h"
+#include "../../header/affichage/empty_display.h"
+#include "../../header/struct/ArbreBinaireRecherche.h"
 #include "string.h"
-#include "../header/affichage/sorted_display.h"
+#include "../../header/affichage/sorted_display.h"
 
 #define N 7
 

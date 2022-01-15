@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <gtk-3.0/gtk/gtk.h>
-#include "gui/main_menu_gui.h"
+#include "header/gui/main_menu_gui.h"
 #include "header/struct/ArbreBinaireRecherche.h"
 #include "header/file_processing.h"
 #include "header/gui/buttons_event.h"

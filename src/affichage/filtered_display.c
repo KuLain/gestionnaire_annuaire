@@ -1,6 +1,6 @@
-#include "struct/ArbreBinaireRecherche.h"
-#include "affichage/filtered_display.h"
-#include "affichage/sorted_display.h"
+#include "../../header/struct/ArbreBinaireRecherche.h"
+#include "../../header/affichage/filtered_display.h"
+#include "../../header/affichage/sorted_display.h"
 #include <string.h>
 
 

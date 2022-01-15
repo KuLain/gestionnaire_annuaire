@@ -2,7 +2,7 @@
 // Created by julie on 28/11/2021.
 //
 
-#include "affichage/sorted_display.h"
+#include "../../header/affichage/sorted_display.h"
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>

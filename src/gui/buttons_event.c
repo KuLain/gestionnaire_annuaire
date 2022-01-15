@@ -1,11 +1,11 @@
 #include <stdlib.h>
 #include <time.h>
 #include <gtk-3.0/gtk/gtk.h>
-#include "gui/buttons_event.h"
-#include "gui/main_menu_gui.h"
-#include "gui/tree_display.h"
-#include "gui/call_dialogs.h"
-#include "file_processing.h"
+#include "../../header/guibuttons_event.h"
+#include "../../header/guimain_menu_gui.h"
+#include "../../header/guitree_display.h"
+#include "../../header/guicall_dialogs.h"
+#include "../../header/file_processing.h"
 
 /**
  * Fonction appelé lorsque le bouton valider de l'accueil est pressé

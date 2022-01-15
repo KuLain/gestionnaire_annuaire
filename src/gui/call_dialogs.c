@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "gui/call_dialogs.h"
+#include "../../header/gui/call_dialogs.h"
 
 /**
  * Affiche un pop-up d'information ou d'erreur

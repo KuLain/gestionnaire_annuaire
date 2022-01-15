@@ -6,7 +6,7 @@
 #define SAE_1_2_TREE_DISPLAY_H
 
 #include <gtk-3.0/gtk/gtk.h>
-#include "../header/struct/ArbreBinaireRecherche.h"
+#include "../struct/ArbreBinaireRecherche.h"
 #include "main_menu_gui.h"
 
 #define CONVERT_UTF8(chaine) g_locale_from_utf8(chaine, -1, NULL, NULL, NULL)
