@@ -7,6 +7,9 @@
 #include "affichage/sorted_display.h"
 #include "affichage/empty_display.h"
 
+/**
+ * Saimati
+ */
 int main() {
     ABR* base = abr_init();
     char choix[3], chemin[150], delim[2];
@@ -34,7 +37,8 @@ int main() {
         printf("6) Afficher tous les abonnes trie selon un critere\n");
         printf("7) Afficher tous les abonnes trie selon un filtre\n");
         printf("8) Afficher les abonnes avec des attributs manquants\n");
-        printf("*) Quitter\n\n");
+        printf("9) Quitter et sauvegarder\n");
+        printf("*) Quitter sans sauvegarder\n\n");
 
         printf("Entrez votre selection : ");
         do {
@@ -68,9 +72,14 @@ int main() {
             case '8':
                 missing_record(base);
                 break;
-            default:
-                active = 0;
+            case '9':
+                abr_csv(base, chemin, delim[0]);
                 abr_free(base);
+                active = 0;
+                break;
+            default:
+                abr_free(base);
+                active = 0;
                 break;
         }
 

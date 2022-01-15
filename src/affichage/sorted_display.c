@@ -1,7 +1,3 @@
-//
-// Created by julie on 28/11/2021.
-//
-
 #include "affichage/sorted_display.h"
 #include <string.h>
 #include <time.h>
@@ -9,7 +5,8 @@
 #include <stdlib.h>
 
 /**
- * Affiche le menu pour sélectionner la colonne à trier
+ * Julien
+ * Affiche le menu pour selectionner la colonne a trier
  * @param arbre
  */
 void sorted_records(ABR *arbre)
@@ -20,10 +17,10 @@ void sorted_records(ABR *arbre)
     int i = 0;
     const int n = abr_taille(arbre);
     RECORD* tab[n];
-    printf("Affichage des abonnés triés par ordre croissant selon un attribut\n");
+    printf("Affichage des abonnes tries par ordre croissant selon un attribut\n");
     printf("Selon quel attribut voulez-vous les trier ?\n\n");
 
-    printf("1) Prénom\n2) Nom\n3) Ville\n4) Code Postal\n5) Numéro de téléphone\n6) Adresse email\n7) Profession \n\n");
+    printf("1) Prenom\n2) Nom\n3) Ville\n4) Code Postal\n5) Numero de telephone\n6) Adresse email\n7) Profession \n\n");
 
     printf("Entrez votre choix : ");
     fgets(choix, 3, stdin);
@@ -36,8 +33,8 @@ void sorted_records(ABR *arbre)
         } else {
             ABR_list(arbre, tab, &i);
             clock_gettime(CLOCK_REALTIME, &debut);
-            // merge_sort(tab, n, filtre);
-            quick_sort(tab, n, filtre);
+            merge_sort(tab, n, filtre);
+            // quick_sort(tab, n, filtre);
             clock_gettime(CLOCK_REALTIME, &fin);
             display_sorted_records(tab, n);
             printf("Le temps d'execution du tri est de : %f millisecondes\n", (fin.tv_nsec - debut.tv_nsec)*0.000001);
@@ -50,9 +47,10 @@ void sorted_records(ABR *arbre)
 }
 
 /**
+ * Julien
  * Ajoute tous les pointeurs vers les RECORD du ABR dans le tableau
  * @param arbre : Pointeur vers le ABR source
- * @param liste : Pointeur vers le tableau de pointeur de RECORD récepteur
+ * @param liste : Pointeur vers le tableau de pointeur de RECORD recepteur
  */
 void ABR_list(ABR* arbre, RECORD* tab[], int* i) {
     if (!abr_est_vide(arbre)) {
@@ -63,11 +61,12 @@ void ABR_list(ABR* arbre, RECORD* tab[], int* i) {
 }
 
 /**
- * Déplace les éléments plus grand que le pivot à droite,
- * déplace les éléments plus petit que le pivot à gauche puis
+ * Julien
+ * Deplace les elements plus grand que le pivot a droite,
+ * deplace les elements plus petit que le pivot a gauche puis
  * place le pivot au milieu de le tableau
  * @param tab : Pointeur vers le tableau contenant les RECORD
- * @param gauche : Indice du début du sous tableau
+ * @param gauche : Indice du debut du sous tableau
  * @param droite : Indice de la fin du sous tableau
  * @param filter : 0 <= filter <= 7 : Indice de la colonne selon laquelle les RECORD vont être trier
  * @return Indice du pivot une fois au milieu de le tableau
@@ -97,9 +96,10 @@ int partition(RECORD* tab[], int gauche, int droite, int filter) {
 }
 
 /**
+ * Julien
  * Effectue le tri rapide
  * @param tab : Pointeur vers le tableau contenant les RECORD
- * @param gauche : Indice du début du sous tableau
+ * @param gauche : Indice du debut du sous tableau
  * @param droite : Indice de la fin du sous tableau
  * @param filter : 0 <= filter <= 7 : Indice de la colonne selon laquelle les RECORD vont être trier
  */
@@ -113,7 +113,8 @@ void quick_sort_rec(RECORD* tab[], int gauche, int droite, int filter) {
 }
 
 /**
- * Appelle la fonction de tri rapide récursif
+ * Julien
+ * Appelle la fonction de tri rapide recursif
  * @param tab : Pointeur vers le tableau contenant les RECORD
  * @param taille : Taille du tableau contenant tous les RECORD
  * @param filter : 0 <= filter <= 7 : Indice de la colonne selon laquelle les RECORD vont être trier
@@ -122,6 +123,15 @@ void quick_sort(RECORD* tab[],const int taille, int filter) {
     quick_sort_rec(tab, 0, taille-1, filter);
 }
 
+/**
+ * Julien
+ * Effectue la fusion des deux sous tableaux
+ * @param tab : Tableau de pointeurs de RECORD
+ * @param debut : Indice du premier élément du sous tableau gauche
+ * @param milieu : Indice du milieu
+ * @param fin : Indice du dernier élément du sous tableau droit
+ * @param filter : 0 <= filter < 7 : Indice de la colonne dans laquelle on effectue le tri
+ */
 void merge(RECORD* tab[], int debut, int milieu, int fin, int filter) {
     int i, j, k;
     int const n1 = milieu - debut + 1;
@@ -161,6 +171,7 @@ void merge(RECORD* tab[], int debut, int milieu, int fin, int filter) {
 }
 
 /**
+ * Julien
  * Effectue le tri fusion
  * @param tab : Pointeur vers le tableau contenant les RECORD
  * @param debut : Indice du debut du sous tableau
@@ -179,7 +190,8 @@ void merge_sort_rec(RECORD* tab[], int debut, int fin, int filter) {
 }
 
 /**
- * Appelle la fonction de tri fusion récursif
+ * Julien
+ * Appelle la fonction de tri fusion recursif
  * @param tab : Pointeur vers le tableau contenant les RECORD
  * @param taille : Taille du tableau contenant les RECORD
  * @param filter : 0 <= filter <= 7 : Indice de la colonne selon laquelle les RECORD vont être trier
@@ -189,6 +201,7 @@ void merge_sort(RECORD* tab[], const int taille, int filter) {
 }
 
 /**
+ * Julien
  * Affiche tous les RECORD de le tableau
  * @param tab : Pointeur vers le tableau contenant les RECORD
  */

@@ -1,7 +1,3 @@
-//
-// Created by julie on 27/11/2021.
-//
-
 #include "../header/base_processing.h"
 #include "../header/file_processing.h"
 #include "../header/struct/ArbreBinaireRecherche.h"
@@ -12,82 +8,62 @@
 #define N 7
 
 /**
- * Affiche les champs pour remplir les données d'un abonné à ajouter et effectue l'ajout
+ * Saimati
+ * Affiche les champs pour remplir les donnees d'un abonne a ajouter et effectue l'ajout
  * @param arbre : Pointeur vers ABR
  * @param path : Chemin vers le fichier CSV
- * @param delim : Caractère délimiteur
+ * @param delim : Caractère delimiteur
  */
 void add_record(ABR **arbre, char path[], char delim) {
-    RECORD *client;
-    FILE *fp;
-    char **tmp = (char **) malloc(sizeof(char *) * N);
-    int i, n;
+    char **tab = malloc(sizeof(char*)*7);
+    int i;
+    for(i=0; i < 7 ; i++) tab[i]=malloc(sizeof(char)*50);
 
-    printf("Ajout d'un abonnée\n");
-    printf("Entrez les informations du client à ajouter\n\n");
+    RECORD *abonne;
 
-    for (i = 0; i < N; i++) {
-        switch (i) {
-            case 0:
-                printf("Entrez le prénom : ");
-                break;
-            case 1:
-                printf("Entrez le nom : ");
-                break;
-            case 2:
-                printf("Entrez la ville : ");
-                break;
-            case 3:
-                printf("Entrez le code postal : ");
-                break;
-            case 4:
-                printf("Entrez le numéro de téléphone : ");
-                break;
-            case 5:
-                printf("Entrez l'adresse email : ");
-                break;
-            case 6:
-                printf("Entrez la profession : ");
-                break;
-        }
-        tmp[i] = malloc(sizeof(char) * 150);
-        if (tmp[i] == NULL) {
-            perror("Erreur lors de l'allocation 1");
-            exit(EXIT_FAILURE);
-        }
-        fgets(tmp[i], 150, stdin);
-        n = strlen(tmp[i]);
-        tmp[i][n - 1] = '\0';
-        if (n == 1) {
-            tmp[i] = realloc(tmp[i],sizeof(char));
-            *tmp[i] = '\0';
-        } else {
-            tmp[i] = realloc(tmp[i], sizeof(char) * (n - 1));
-        }
-        if (tmp[i] == NULL) {
-            perror("Erreur lors de l'allocation 2");
-            exit(EXIT_FAILURE);
-        }
-    }
+    printf("entre le prenom :");
+    fgets(tab[0],50,stdin);
+    tab[0][strlen(tab[0])-1]='\0';
 
-    client = rinit(tmp);
-    abr_inserer(arbre, client->data[0], client->data[1], client);
+    printf("entre le nom : ");
+    fgets(tab[1],50,stdin);
+    tab[1][strlen(tab[1])-1]='\0';
 
-    fp = fopen(path, "a");
-    for (i = 0; i < 6; i++) {
-        fprintf(fp, "%s%c", client->data[i], delim);
-    }
-    fprintf(fp, "%s\n", client->data[6]);
-    fclose(fp);
-    printf("\nAjout effectué\n");
-    free(tmp);
+    printf("entre la  ville: ");
+    fgets(tab[2],50,stdin);
+    tab[2][strlen(tab[2])-1]='\0';
+
+    printf ("entre le code postal: ");
+    fgets(tab[3],50,stdin);
+    tab[3][strlen(tab[3])-1]='\0';
+
+    printf("entre le num tel: ");
+    fgets(tab[4],50,stdin);
+    tab[4][strlen(tab[4])-1]='\0';
+
+    printf("entre adresse mail:  ");
+    fgets(tab[5],50,stdin);
+    tab[5][strlen(tab[5])-1]='\0';
+
+    printf("entre la profesion: ");
+    fgets(tab[6],50,stdin);
+    tab[6][strlen(tab[6])-1]='\0';
+
+    abonne = rinit(tab);
+
+    abr_inserer(arbre,tab[0],tab[1],abonne);
+
+    for(i=0; i<=6; i++ )
+        free(tab[i]);
+    free(tab);
 }
 
 /**
- * Affiche le menu de suppression d'un abonné et effectue la suppression
+ * Saimati
+ * Affiche le menu de suppression d'un abonne et effectue la suppression
  * @param arbre : Pointeur vers ABR
  * @param path : Chemin vers le fichier CSV
- * @param delim : Caractère séparateur
+ * @param delim : Caractère separateur
  */
 void delete_record(ABR **arbre, char path[], char delim) {
     char choix[3];
@@ -95,15 +71,15 @@ void delete_record(ABR **arbre, char path[], char delim) {
     char nom[50];
     char filtre[100];
 
-    printf("Suppression d'un abonnée\n");
-    printf("Entrez les informations de l'abonné à supprimer\n\n");
+    printf("Suppression d'un abonnee\n");
+    printf("Entrez les informations de l'abonne a supprimer\n\n");
     printf("Quels inforamtions voulez-vous utiliser ?\n");
-    printf("1) Prénom, nom et numéro de téléphone\n");
-    printf("2) Prénom, nom et adresse email\n\n");
+    printf("1) Prenom, nom et numero de telephone\n");
+    printf("2) Prenom, nom et adresse email\n\n");
     printf("Entrez une valeur : ");
     fgets(choix, 3, stdin);
 
-    printf("Entrez le prénom : ");
+    printf("Entrez le prenom : ");
     fgets(prenom, 50, stdin);
     prenom[strlen(prenom) - 1] = '\0';
     printf("Entrez le nom : ");
@@ -112,7 +88,7 @@ void delete_record(ABR **arbre, char path[], char delim) {
 
     switch (choix[0]) {
         case '1':
-            printf("Entrez le numéro de téléphone : ");
+            printf("Entrez le numero de telephone : ");
             fgets(filtre, 100, stdin);
             filtre[strlen(filtre) - 1] = '\0';
             abr_supprimer(arbre, prenom, nom, TELEPHONE, filtre);
@@ -127,15 +103,15 @@ void delete_record(ABR **arbre, char path[], char delim) {
             perror("Unknown input");
             return;
     }
-    printf("\nSuppression effectué\n");
-    abr_csv(*arbre, path, delim);
+    printf("\nSuppression effectue\n");
 }
 
 /**
- * Affiche le menu de changement des données d'un abonné et effectue le changement
+ * Julien
+ * Affiche le menu de changement des donnees d'un abonne et effectue le changement
  * @param arbre : Pointeur vers ABR
  * @param path : Chemin vers le fichier CSV
- * @param delim : Caractère séparateur
+ * @param delim : Caractère separateur
  */
 void change_record(ABR *arbre, char path[], char delim) {
     char choix[3], infos[3][100];
@@ -148,10 +124,10 @@ void change_record(ABR *arbre, char path[], char delim) {
         exit(EXIT_FAILURE);
     }
 
-    printf("Changement des données d'un abonné\n");
-    printf("Comment séléctionner l'abonnée ?\n\n");
-    printf("1) Avec le prénom, nom et adresse email\n");
-    printf("2) Avec le prénom, nom et numéro de téléphone\n");
+    printf("Changement des donnees d'un abonne\n");
+    printf("Comment selectionner l'abonnee ?\n\n");
+    printf("1) Avec le prenom, nom et adresse email\n");
+    printf("2) Avec le prenom, nom et numero de telephone\n");
     printf("*) Retour\n\n");
 
     printf("Entrez une valeur : ");
@@ -159,7 +135,7 @@ void change_record(ABR *arbre, char path[], char delim) {
 
     printf("\n");
 
-    printf("Entrez le prénom : ");
+    printf("Entrez le prenom : ");
     fgets(infos[0], 100, stdin);
     infos[0][strlen(infos[0]) - 1] = '\0';
     printf("Entrez le nom : ");
@@ -174,7 +150,7 @@ void change_record(ABR *arbre, char path[], char delim) {
             abonne = abr_valeur(arbre, infos[0], infos[1], MAIL, infos[2]);
             break;
         case '2':
-            printf("Entrez le numéro de téléphone : ");
+            printf("Entrez le numero de telephone : ");
             fgets(infos[2], 100, stdin);
             infos[2][strlen(infos[2]) - 1] = '\0';
             abonne = abr_valeur(arbre, infos[0], infos[1], TELEPHONE, infos[2]);
@@ -191,11 +167,11 @@ void change_record(ABR *arbre, char path[], char delim) {
     printf("\n");
 
     printf("Quel information de %s %s voulez-vous changer ?\n\n", abonne->data[0], abonne->data[1]);
-    printf("1) Prénom\n");
+    printf("1) Prenom\n");
     printf("2) Nom\n");
     printf("3) Ville\n");
     printf("4) Code postal\n");
-    printf("5) Numéro de téléphone\n");
+    printf("5) Numero de telephone\n");
     printf("6) Adresse email\n");
     printf("7) Profession\n");
     printf("*) Retour au menu principal\n\n");
@@ -239,23 +215,22 @@ void change_record(ABR *arbre, char path[], char delim) {
         free(abonne->data[i]);
         abonne->data[i] = valeur;
     }
-
-    abr_csv(arbre, path, delim);
-    printf("\nChangement effectué\n\n");
+    printf("\nChangement effectue\n\n");
 }
 
 /**
- *  Affiche le menu d'accès à un abonné
+ * Julien
+ *  Affiche le menu d'accès a un abonne
  * @param arbre : Pointeur vers ABR
  */
 void access_record(ABR *arbre) {
     struct timespec debut, fin;
     char choix[3], infos[3][100];
     RECORD *ans;
-    printf("Accès à un abonné\n");
-    printf("Comment séléctionner l'abonné ?\n\n");
-    printf("1) Avec le prénom, nom et adresse email\n");
-    printf("2) Avec le prénom, nom et numéro de téléphone\n");
+    printf("Accss a un abonne\n");
+    printf("Comment selectionner l'abonne ?\n\n");
+    printf("1) Avec le prenom, nom et adresse email\n");
+    printf("2) Avec le prenom, nom et numero de telephone\n");
     printf("*) Retour\n\n");
 
 
@@ -266,7 +241,7 @@ void access_record(ABR *arbre) {
         return;
     }
 
-    printf("\nEntrez le prénom : ");
+    printf("\nEntrez le prenom : ");
     fgets(infos[0], 100, stdin);
     infos[0][strlen(infos[0]) - 1] = '\0';
     printf("Entrez le nom : ");
@@ -283,13 +258,13 @@ void access_record(ABR *arbre) {
             ans = abr_valeur(arbre, infos[0], infos[1], MAIL, infos[2]);
             clock_gettime(CLOCK_REALTIME, &fin);
             if (ans == NULL) {
-                printf("Aucun abonné n'est associé à ces informations");
+                printf("Aucun abonne n'est associe a ces informations");
             } else {
                 rdisplay(ans);
             }
             break;
         case '2':
-            printf("Entrez le numéro de téléphone : ");
+            printf("Entrez le numero de telephone : ");
             fgets(infos[2], 100, stdin);
             infos[2][strlen(infos[2]) - 1] = '\0';
             printf("\n");
@@ -297,7 +272,7 @@ void access_record(ABR *arbre) {
             ans = abr_valeur(arbre, infos[0], infos[1], TELEPHONE, infos[2]);
             clock_gettime(CLOCK_REALTIME, &fin);
             if (ans == NULL) {
-                printf("Aucun abonné n'est associé à ces informations\n");
+                printf("Aucun abonne n'est associe a ces informations\n");
             } else {
                 rdisplay(ans);
             }
@@ -308,6 +283,6 @@ void access_record(ABR *arbre) {
             printf("\n");
             break;
     }
-    printf("Le temps d'execution de la recherche est de : %f millisecondes\n", (fin.tv_nsec - debut.tv_nsec)*0.000001);
+    printf("Le temps d'execution de la recherche est de : %lf millisecondes\n",(fin.tv_nsec - debut.tv_nsec)*0.000001);
     printf("\n");
 }

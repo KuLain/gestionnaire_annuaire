@@ -1,7 +1,3 @@
-//
-// Created by lain on 30/11/2021.
-//
-
 #include "affichage/empty_display.h"
 #include "struct/ArbreBinaireRecherche.h"
 #include "string.h"
@@ -9,6 +5,7 @@
 #define N 7
 
 /**
+ * Julien
  * Recherche les RECORD ayant un attribut maintenant
  * @param arbre : Pointeur vers l'arbre
  * @return Nombre de RECORD ayant des informations manquantes
@@ -42,6 +39,7 @@ int missing_record_rec(ABR *arbre) {
 }
 
 /**
+ * Julien
  * Affiche les RECORD ayant un attribut vide et leur nombre
  * @param array : Pointeur vers AARRAY
  */

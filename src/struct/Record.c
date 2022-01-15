@@ -1,6 +1,3 @@
-//
-// Created by lain on 30/11/2021.
-//
 #include "../../header/struct/Record.h"
 #include <stdlib.h>
 #include <string.h>
@@ -8,6 +5,7 @@
 #define N 7
 
 /**
+ * Julien
  * Initialise les variables et alloue la mémoire du RECORD
  * @param tab : Tableau contenant des pointeurs des vers chaines de caractères allouées dynamiquement
  * @return : Pointeur vers le RECORD
@@ -26,6 +24,12 @@ RECORD* rinit(char **tab)
     return tmp;
 }
 
+/**
+ * Julien
+ * Copie le contenu du RECORD dans un nouveau RECORD
+ * @param r : Pointeur du RECORD à copier
+ * @return Pointeur vers la copie du RECORD
+ */
 RECORD* r_copy(RECORD *r) {
     RECORD *tmp = malloc(sizeof(RECORD));
     tmp->data = (char**) malloc(sizeof(char*)*N);
@@ -41,6 +45,7 @@ RECORD* r_copy(RECORD *r) {
 }
 
 /**
+ * Julien
  * Affiche le RECORD
  * @param r : Pointeur vers le RECORD
  */
@@ -53,6 +58,7 @@ void rdisplay(RECORD *r)
 }
 
 /**
+ * Julien
  * Libère toutes les allocations dynamiques du RECORD
  * @param r : Pointeur vers le RECORD
  */

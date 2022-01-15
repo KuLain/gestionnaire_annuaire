@@ -6,38 +6,37 @@
 #define N 7
 
 /**
+ * Julien
  * Sépare la ligne en N parties selon le délimiteur
  * @param line : Chaine de caractère à split
  * @param delim : Caractère séparateur
  * @return Pointeur vers le tableau de chaine de caractère dynamiquement alloué
  */
-char** tokenize(char line[], char delim)
-{
+char **tokenize(char line[], char delim) {
     int n = strlen(line);
     if (n <= 6) return NULL;
 
-    char **ans = (char**) calloc(N, sizeof(char*));
+    char **ans = (char **) calloc(N, sizeof(char *));
     if (ans == NULL) {
         perror("Erreur lors de l'allocation");
         exit(EXIT_FAILURE);
     }
     int i = 0, j = 0, k;
-    ans[0] = (char*) calloc(150, sizeof(char));
+    ans[0] = (char *) calloc(150, sizeof(char));
     if (ans[0] == NULL) {
         perror("Error while allocating");
         exit(EXIT_FAILURE);
     }
-    for (k = 0; k < n; k++)
-    {
+    for (k = 0; k < n; k++) {
         if (line[k] == delim || line[k] == '\n') {
             ans[i][j] = '\0';
-            ans[i] = (char*)realloc(ans[i], sizeof(char)*(j+1));
+            ans[i] = (char *) realloc(ans[i], sizeof(char) * (j + 1));
             if (ans[i] == NULL) {
                 perror("Error while reallocating");
                 exit(EXIT_FAILURE);
             }
             if (++i < N) {
-                ans[i] = (char*) calloc(150, sizeof(char));
+                ans[i] = (char *) calloc(150, sizeof(char));
                 if (ans[i] == NULL) {
                     perror("Erreur lors de l'allocation ");
                     exit(EXIT_FAILURE);
@@ -45,10 +44,8 @@ char** tokenize(char line[], char delim)
             }
 
             j = 0;
-        }
-        else {
-            if (!(line[k] == '.' && i == 4))
-            {
+        } else {
+            if (!(line[k] == '.' && i == 4)) {
                 ans[i][j] = line[k];
                 j++;
             }
@@ -58,13 +55,13 @@ char** tokenize(char line[], char delim)
 }
 
 /**
- * Remplis le AARRAY avec les lignes du fichier csv
- * @param array : Pointeur vers AARRAY
+ * Julien
+ * Remplis l'ABR avec les lignes du fichier csv
+ * @param arbre : Pointeur vers l'ABR qui contiendra les lignes
  * @param fp : Pointeur vers le FILE en lécture
  * @param delim : Caractère séparateur
  */
-void parse_csv(ABR** arbre, char path[],char delim)
-{
+void parse_csv(ABR **arbre, char path[], char delim) {
     RECORD *tmp;
     char buffer[150];
     char **splited;
@@ -87,26 +84,33 @@ void parse_csv(ABR** arbre, char path[],char delim)
     fclose(fp);
 }
 
-void abr_csv_rec(ABR* arbre, char path[], char delim, FILE* fp) {
-    if (!abr_est_vide(arbre->fils_gauche)) abr_csv_rec(arbre->fils_gauche, path, delim, fp);
+/**
+ * Julien
+ * Ecrit les abonnés contenus dans l'arbre dans le fichier CSV avec un parcours préfixe
+ * @param arbre : Pointeur vers l'ABR contenant les abonnés
+ * @param delim : Caractère délimiteur du CSV
+ * @param fp : Pointeur vers le flot du CSV en écriture
+ */
+void abr_csv_rec(ABR *arbre, char delim, FILE *fp) {
+    if (!abr_est_vide(arbre->fils_gauche)) abr_csv_rec(arbre->fils_gauche, delim, fp);
     for (int i = 0; i < arbre->nb_abonnes; i++) {
         for (int k = 0; k < 6; k++) {
-            fprintf(fp,"%s%c",arbre->abonnes[i]->data[k],delim);
+            fprintf(fp, "%s%c", arbre->abonnes[i]->data[k], delim);
         }
-        fprintf(fp,"%s\n",arbre->abonnes[i]->data[6]);
+        fprintf(fp, "%s\n", arbre->abonnes[i]->data[6]);
     }
-    if (!abr_est_vide(arbre->fils_droit)) abr_csv_rec(arbre->fils_droit, path, delim, fp);
+    if (!abr_est_vide(arbre->fils_droit)) abr_csv_rec(arbre->fils_droit, delim, fp);
 }
 
 /**
- * Ecris les RECORD du ABR sur le CSV
+ * Julien
+ * Appelle l'écriture des abonnés dans le fichier
  * @param array : Pointeur vers ABR
  * @param fp : Pointeur vers le FILE en écriture
  * @param delim : Caractère séparateur
  */
-void abr_csv(ABR* arbre, char path[], char delim)
-{
+void abr_csv(ABR *arbre, char path[], char delim) {
     FILE *fp = fopen(path, "w");
-    abr_csv_rec(arbre, path, delim, fp);
+    abr_csv_rec(arbre,delim, fp);
     fclose(fp);
 }

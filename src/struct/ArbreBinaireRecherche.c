@@ -1,12 +1,9 @@
-//
-// Created by julie on 11/12/2021.
-//
-
 #include "../../header/struct/ArbreBinaireRecherche.h"
 #include <stdlib.h>
 #include <string.h>
 
 /**
+ * Julien
  * @param a
  * @param b
  * @return Renvoie le plus grand entier entre a et b
@@ -17,6 +14,17 @@ int max(int a, int b) {
 }
 
 /**
+ * Julien
+ * @param chaine1 : Pointeur vers la première chaine
+ * @param chaine2 : Pointeur vers la deuxième chaine
+ * @return 1 si les chaines sont égales, 0 sinon
+ */
+int sont_egales(char *chaine1, char *chaine2) {
+    return strcmp(chaine1, chaine2) == 0;
+}
+
+/**
+ * Julien
  * Alloue de la mémoire à un ABR
  * @return Pointeur vers l'ABR avec la mémoire alloué
  */
@@ -31,6 +39,7 @@ ABR *abr_init() {
 }
 
 /**
+ * Julien
  * @param arbre : Pointeur vers l'arbre
  * @return Renvoie 1 si l'arbre est vide, 0 sinon
  */
@@ -39,6 +48,7 @@ int abr_est_vide(ABR *arbre) {
 }
 
 /**
+ * Julien
  * @param arbre : Pointeur vers l'arbre
  * @return Renvoie 1 si l'arbre est une feuille, 0 sinon
  */
@@ -46,6 +56,7 @@ int abr_est_feuille(ABR *arbre) {
     return arbre->fils_droit == NULL && arbre->fils_gauche == NULL;
 }
 /**
+ * Julien
  * @param arbre : Pointeur vers l'arbre
  * @return Le nombre de noeud non vide dans l'arbre
  */
@@ -60,6 +71,7 @@ int abr_taille(ABR *arbre) {
 }
 
 /**
+ * Julien
  * Choisis la branche dans laquelle se diriger
  * @param arbre : Pointeur vers l'arbre
  * @param prenom : Pointeur vers la chaine de caractère du prénom
@@ -67,7 +79,7 @@ int abr_taille(ABR *arbre) {
  * @return 1 si la branche choisie est la branche droite, 0 si c'est la branche gauche
  */
 int choix_branche(ABR *arbre, char prenom[], char nom[]) {
-    if (strcmp(prenom, arbre->abonnes[0]->data[PRENOM]) == 0) {
+    if (sont_egales(prenom, arbre->abonnes[0]->data[PRENOM])) {
         if (strcmp(nom, arbre->abonnes[0]->data[NOM]) > 0) {
             return 1;
         } else {
@@ -82,16 +94,9 @@ int choix_branche(ABR *arbre, char prenom[], char nom[]) {
     }
 }
 
-/**
- * @param chaine1 : Pointeur vers la première chaine
- * @param chaine2 : Pointeur vers la deuxième chaine
- * @return 1 si les chaines sont égales, 0 sinon
- */
-int sont_egales(char *chaine1, char *chaine2) {
-    return strcmp(chaine1, chaine2) == 0;
-}
 
 /**
+ * Julien
  * Recherche un abonné dans un sous tableau du noeud de l'arbre
  * @param arbre : Pointeur vers l'arbre
  * @param filtre : Pointeur vers la chaine de caractère contenant le filtre
@@ -108,6 +113,7 @@ int recherche_seq(ABR *arbre, char *filtre, int colonne) {
 }
 
 /**
+ * Julien
  * Supprime l'élément d'indice indice, libère sa mémoire associée et modifie la taille du tableau
  * @param arbre : Pointeur vers l'arbre
  * @param indice : Indice de l'élément à supprimer
@@ -119,6 +125,7 @@ void suppression_indice(ABR *arbre, int indice) {
 }
 
 /**
+ * Julien
  * Rotation Gauche - Gauche de l'AVL
  * @param noeud : Pointeur vers l'arbre
  */
@@ -133,6 +140,7 @@ void ll_rotation(ABR **noeud) {
 }
 
 /**
+ * Julien
  * Rotation Droite - Droite de l'AVL
  * @param noeud : Pointeur vers l'arbre
  */
@@ -147,6 +155,7 @@ void rr_rotation(ABR **noeud) {
 }
 
 /**
+ * Julien
  * Rotation Droite - Gauche de l'AVL
  * @param noeud : Pointeur vers l'arbre
  */
@@ -166,6 +175,7 @@ void rl_rotation(ABR **noeud) {
 }
 
 /**
+ * Julien
  * Rotation Gauche - Droite de l'AVL
  * @param noeud : Pointeur vers l'arbre
  */
@@ -186,6 +196,7 @@ void lr_rotation(ABR **noeud) {
 }
 
 /**
+ * Julien
  * Insère le RECORD dans l'arbre
  * @param arbre : Pointeur vers l'arbre
  * @param prenom :  Pointeur vers la chaîne contenant le prénom
@@ -231,6 +242,7 @@ void abr_inserer(ABR **arbre, char *prenom, char *nom, RECORD *valeur) {
 }
 
 /**
+ * Julien
  * Supprime le noeud actuel
  * @param arbre : Pointeur vers l'arbre
  */
@@ -266,6 +278,7 @@ void suppression(ABR **arbre) {
 }
 
 /**
+ * Julien
  * Supprime un RECORD de l'arbre et libère la mémoire associée
  * @param arbre : Pointeur vers l'arbre
  * @param prenom : Pointeur vers la chaine de caractère contenant le prénom
@@ -312,6 +325,7 @@ void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char fil
 }
 
 /**
+ * Julien
  * Recherche un abonné dans l'arbre
  * @param arbre : Pointeur vers l'arbre
  * @param prenom : Pointeur vers la chaine de caractère contenant le prénom
@@ -341,6 +355,7 @@ RECORD* abr_valeur(ABR *arbre, char prenom[], char nom[], int colomne, char filt
 }
 
 /**
+ * Julien
  * Affiche tous les abonnés de l'arbre avec un parcours préfixe
  * @param arbre : Pointeur vers l'arbre
  */
@@ -353,6 +368,7 @@ void abr_display(ABR *arbre) {
 }
 
 /**
+ * Julien
  * Libère la mémoire associé à chaque noeud, chaque sous tableau et chaque RECORD de l'arbre
  * @param arbre : Pointeur vers l'arbre
  */
