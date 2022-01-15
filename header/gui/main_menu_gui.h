@@ -16,6 +16,7 @@
 #define TREE_MISSING 5
 
 typedef struct global_properties {
+    GtkWindow *main_window;
     GtkBuilder *builder;
     ABR *base_data;
     char *path;

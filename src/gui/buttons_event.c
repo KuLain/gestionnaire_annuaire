@@ -4,24 +4,27 @@
 #include "gui/buttons_event.h"
 #include "gui/main_menu_gui.h"
 #include "gui/tree_display.h"
+#include "gui/call_dialogs.h"
 #include "file_processing.h"
 
 
 void path_valider_button_clicked_cb(GtkButton *bouton, gpointer *pass) {
     GLOBAL_P *proprietes = (GLOBAL_P *) pass;
+
     GtkFileChooser *fileChooser = GTK_FILE_CHOOSER(gtk_builder_get_object(proprietes->builder, "home_path"));
     GtkEntry *delimEntry = GTK_ENTRY(gtk_builder_get_object(proprietes->builder, "home_delim"));
     proprietes->path = (char *) gtk_file_chooser_get_filename(fileChooser);
     proprietes->delim = ((char *) gtk_entry_get_text(delimEntry))[0];
     if (proprietes->path != NULL) {
-        proprietes->base_data = abr_init();
+        if (proprietes->base_data == NULL) proprietes->base_data = abr_init();
         parse_csv(&proprietes->base_data, proprietes->path, proprietes->delim);
+        call_dialog(0, "Votre fichier a correctement été ouvert", proprietes);
     }
-
 }
 
 void add_button_pressed(GtkButton *button, gpointer *pass) {
     GLOBAL_P *proprietes = (GLOBAL_P *) pass;
+    FILE *fp;
     char **infos = (char **) malloc(sizeof(char *) * 7);
     RECORD *tmp;
     char labels[7][150] = {"add_prenom_entry", "add_nom_entry", "add_ville_entry", "add_cp_entry", "add_phone_entry",
@@ -31,7 +34,7 @@ void add_button_pressed(GtkButton *button, gpointer *pass) {
         infos[i] = (char *) gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(proprietes->builder, labels[i])));
     tmp = rinit(infos);
     abr_inserer(&proprietes->base_data, tmp->data[0], tmp->data[1], tmp);
-    abr_csv(proprietes->base_data, proprietes->path, proprietes->delim);
+    call_dialog(0, "L'abonné a bien été ajouté", proprietes);
     free(infos);
 }
 
@@ -72,7 +75,10 @@ void change_validate_button_pressed(GtkButton *button, gpointer *pass) {
     char entrees_labels[7][150] = {"change_prenom_entry", "change_nom_entry", "change_ville_entry", "change_cp_entry",
                                    "change_phone_entry", "change_mail_entry", "change_job_entry"};
 
-    if (proprietes->change_current == NULL) return;
+    if (proprietes->change_current == NULL) {
+        call_dialog(1, "Aucun abonné ne correspond à ces informations", proprietes);
+        return;
+    }
     for (i = 0; i < 7; i++) {
         tmp = (char *) gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(proprietes->builder, entrees_labels[i])));
         if (strcmp(tmp, "") != 0) {
@@ -95,6 +101,7 @@ void change_validate_button_pressed(GtkButton *button, gpointer *pass) {
             }
         }
     }
+    call_dialog(0, "Les informations de l'abonné ont bien été modifiés", proprietes);
 }
 
 void actualise_display_button_pressed(GtkButton *button, gpointer *pass) {
