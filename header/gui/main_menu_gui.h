@@ -23,6 +23,7 @@ typedef struct global_properties {
     char delim;
     RECORD *change_current;
     int first_call_display[NB_TREE];
+    int file_modified;
 } GLOBAL_P;
 
 enum {

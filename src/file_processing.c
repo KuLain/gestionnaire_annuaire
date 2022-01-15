@@ -1,7 +1,8 @@
-#include "../header/file_processing.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../header/file_processing.h"
+#include "../header/gui/call_dialogs.h"
 
 #define N 7
 
@@ -63,14 +64,14 @@ char** tokenize(char line[], char delim)
  * @param fp : Pointeur vers le FILE en lécture
  * @param delim : Caractère séparateur
  */
-void parse_csv(ABR** arbre, char path[],char delim)
+int parse_csv(ABR** arbre, char path[],char delim, GLOBAL_P *proprietes)
 {
     RECORD *tmp;
     char buffer[150];
     char **splited;
     FILE *fp = fopen(path, "r");
     if (fp == NULL) {
-        perror("Error while opening the file ");
+        call_dialog(1, "Erreur lors de l'ouverture du fichier", proprietes);
         exit(EXIT_FAILURE);
     }
 

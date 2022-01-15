@@ -15,10 +15,14 @@ void path_valider_button_clicked_cb(GtkButton *bouton, gpointer *pass) {
     GtkEntry *delimEntry = GTK_ENTRY(gtk_builder_get_object(proprietes->builder, "home_delim"));
     proprietes->path = (char *) gtk_file_chooser_get_filename(fileChooser);
     proprietes->delim = ((char *) gtk_entry_get_text(delimEntry))[0];
-    if (proprietes->path != NULL) {
+    if (proprietes->path != NULL && proprietes->delim != 0) {
         if (proprietes->base_data == NULL) proprietes->base_data = abr_init();
-        parse_csv(&proprietes->base_data, proprietes->path, proprietes->delim);
-        call_dialog(0, "Votre fichier a correctement été ouvert", proprietes);
+        if (parse_csv(&proprietes->base_data, proprietes->path, proprietes->delim, proprietes) != EXIT_FAILURE) {
+            proprietes->file_modified = 0;
+            call_dialog(0, "Votre fichier a correctement été ouvert", proprietes);
+        }
+    } else {
+        call_dialog(1, "Sélectionnez un fichier et entrez un caractère délimiteur", proprietes);
     }
 }
 
@@ -34,6 +38,7 @@ void add_button_pressed(GtkButton *button, gpointer *pass) {
         infos[i] = (char *) gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(proprietes->builder, labels[i])));
     tmp = rinit(infos);
     abr_inserer(&proprietes->base_data, tmp->data[0], tmp->data[1], tmp);
+    proprietes->file_modified = 1;
     call_dialog(0, "L'abonné a bien été ajouté", proprietes);
     free(infos);
 }
@@ -68,7 +73,7 @@ void change_button_pressed(GtkButton *button, gpointer *pass) {
 }
 
 void change_validate_button_pressed(GtkButton *button, gpointer *pass) {
-    int i;
+    int i, changed;
     GLOBAL_P *proprietes = (GLOBAL_P *) pass;
     RECORD *swap;
     char *tmp;
@@ -82,11 +87,12 @@ void change_validate_button_pressed(GtkButton *button, gpointer *pass) {
     for (i = 0; i < 7; i++) {
         tmp = (char *) gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(proprietes->builder, entrees_labels[i])));
         if (strcmp(tmp, "") != 0) {
+            changed = 1;
             if (i < 2) {
                 swap = r_copy(proprietes->change_current);
                 abr_supprimer(&proprietes->base_data, proprietes->change_current->data[0],
                               proprietes->change_current->data[1], MAIL,
-                              proprietes->change_current->data[MAIL]);
+                              proprietes->change_current->data[MAIL], proprietes);
                 swap->data[i] = realloc(swap->data[i], sizeof(char) * 150);
                 strcpy(swap->data[i], tmp);
                 swap->data[i] = realloc(swap->data[i], sizeof(char) * (strlen(swap->data[i]) + 1));
@@ -101,7 +107,10 @@ void change_validate_button_pressed(GtkButton *button, gpointer *pass) {
             }
         }
     }
-    call_dialog(0, "Les informations de l'abonné ont bien été modifiés", proprietes);
+    if (changed) {
+        proprietes->file_modified = 1;
+        call_dialog(0, "Les informations de l'abonné ont bien été modifiés", proprietes);
+    }
 }
 
 void actualise_display_button_pressed(GtkButton *button, gpointer *pass) {
@@ -128,8 +137,9 @@ void suppr_del_button_pressed(GtkButton *button, gpointer *pass) {
     } else {
         abr_supprimer(&proprietes->base_data, prenom, nom, TELEPHONE, filtre);
     }
-    abr_csv(proprietes->base_data, proprietes->path, proprietes->delim);
     actualise_del_button_pressed(NULL, pass);
+    proprietes->file_modified = 1;
+    call_dialog(0, "L'abonné a été supprimé", proprietes);
 }
 
 void access_button_pressed(GtkButton *button, gpointer *pass) {

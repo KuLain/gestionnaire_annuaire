@@ -3,6 +3,8 @@
 //
 
 #include "../../header/struct/ArbreBinaireRecherche.h"
+#include "../../header/gui/main_menu_gui.h"
+#include "../../header/gui/call_dialogs.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -273,9 +275,9 @@ void suppression(ABR **arbre) {
  * @param colomne - 0 <= colomne < 7 : Indice de la colonne correspondant au critère choisi
  * @param filtre : Pointeur vers la chaine de caractère contenant le filtre
  */
-void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char filtre[]) {
+void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char filtre[], GLOBAL_P *proprietes) {
     if (abr_est_vide(*arbre)) {
-        printf("Aucun abonné n'est associé à ces informations\n");
+        call_dialog(1, "L'abonné n'existe pas", proprietes);
     } else {
         if (sont_egales(prenom, (*arbre)->abonnes[0]->data[PRENOM]) && sont_egales(nom, (*arbre)->abonnes[0]->data[NOM])){
             if ((*arbre)->nb_abonnes > 1) {
@@ -286,7 +288,7 @@ void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char fil
         } else {
             switch (choix_branche((*arbre), prenom, nom)) {
                 case 1:
-                    abr_supprimer(&(*arbre)->fils_droit, prenom, nom, colomne, filtre);
+                    abr_supprimer(&(*arbre)->fils_droit, prenom, nom, colomne, filtre, proprietes);
                     (*arbre)->hauteur = max((*arbre)->fils_gauche->hauteur, (*arbre)->fils_droit->hauteur) + 1;
                     (*arbre)->facteur_eq = (*arbre)->fils_gauche->hauteur - (*arbre)->fils_droit->hauteur;
                     if ((*arbre)->facteur_eq == -2) {
@@ -296,7 +298,7 @@ void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char fil
                     }
                     break;
                 case 0:
-                    abr_supprimer(&(*arbre)->fils_gauche, prenom, nom, colomne, filtre);
+                    abr_supprimer(&(*arbre)->fils_gauche, prenom, nom, colomne, filtre, proprietes);
                     (*arbre)->hauteur = max((*arbre)->fils_gauche->hauteur, (*arbre)->fils_droit->hauteur) + 1;
                     (*arbre)->facteur_eq = (*arbre)->fils_gauche->hauteur - (*arbre)->fils_droit->hauteur;
                     if ((*arbre)->facteur_eq == 2) {

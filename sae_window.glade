@@ -1690,6 +1690,9 @@
                     <property name="position">7</property>
                   </packing>
                 </child>
+                <child>
+                  <placeholder/>
+                </child>
               </object>
               <packing>
                 <property name="resize">True</property>
