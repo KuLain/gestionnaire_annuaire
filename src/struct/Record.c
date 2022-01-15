@@ -47,7 +47,7 @@ RECORD* r_copy(RECORD *r) {
 void rdisplay(RECORD *r)
 {
     if (r != NULL) {
-        printf("%-25s%-30s%-25s%-15s%-20s%-50s%-20s\n", r->data[0], r->data[1], r->data[2], r->data[3], r->data[4], r->data[5], r->data[6]);
+        printf("%-25s%-30s%-25s%-15s%-20s%-50s%-30s\n", r->data[0], r->data[1], r->data[2], r->data[3], r->data[4], r->data[5], r->data[6]);
         // printf("%s %s %s %s %s %s %s\n", r->data[0], r->data[1], r->data[2], r->data[3], r->data[4], r->data[5], r->data[6]);
     }
 }

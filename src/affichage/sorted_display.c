@@ -161,15 +161,6 @@ void merge_sort(RECORD* tab[], const int taille, int filter) {
     merge_sort_rec(tab, 0, taille-1, filter);
 }
 
-/**
- * Affiche tous les RECORD de le tableau
- * @param tab : Pointeur vers le tableau contenant les RECORD
- */
-void display_sorted_records(RECORD* tab[], const int taille)
-{
-    int i;
-    for (i = 0; i < taille; i++) rdisplay(tab[i]);
-}
 
 void fill_model_tab(RECORD *tab[], int taille, GtkListStore *store, GtkTreeIter *iter) {
     for (int i = 0; i < taille; i++) {

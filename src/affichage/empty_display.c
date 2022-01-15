@@ -1,7 +1,3 @@
-//
-// Created by lain on 30/11/2021.
-//
-
 #include "affichage/empty_display.h"
 #include "struct/ArbreBinaireRecherche.h"
 #include "string.h"

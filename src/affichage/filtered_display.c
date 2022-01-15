@@ -1,6 +1,3 @@
-//
-// Created by julie on 29/11/2021.
-//
 #include "struct/ArbreBinaireRecherche.h"
 #include "affichage/filtered_display.h"
 #include "affichage/sorted_display.h"

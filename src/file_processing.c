@@ -58,8 +58,8 @@ char** tokenize(char line[], char delim)
 }
 
 /**
- * Remplis le AARRAY avec les lignes du fichier csv
- * @param array : Pointeur vers AARRAY
+ * Remplis le ABR avec les lignes du fichier csv
+ * @param arbre : Pointeur vers ABR
  * @param fp : Pointeur vers le FILE en lécture
  * @param delim : Caractère séparateur
  */
