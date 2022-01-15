@@ -2,10 +2,17 @@
 #include "affichage/filtered_display.h"
 #include "affichage/sorted_display.h"
 #include <string.h>
-#include <stdlib.h>
 
 
-
+/**
+ * Ajoute les abonnés correspondant au filtre
+ * @param arbre : Pointeur vers ABR
+ * @param column : 0 <= column < 7 : Indice de la colonne à filtrer
+ * @param filtre : Chaine de caractère correspondant au filtre
+ * @param taille_filtre : Taille du filtre
+ * @param tab : Tableau de pointeur vers les abonnés correspondant au filtre
+ * @param i : Indice du pointeur actuel dans le tableau
+ */
 void matching_filter_rec(ABR* arbre,int column,char filtre[], int taille_filtre, RECORD* tab[], int* i) {
     if (!abr_est_vide(arbre)) {
         int k;
@@ -34,6 +41,5 @@ void matching_filter(ABR* arbre, int column, char *filter, GtkListStore* store, 
     matching_filter_rec(arbre, column, filter, n, matching_patterns, &i);
 
     fill_model_tab(matching_patterns, i, store, iter);
-    for (j = 0; j < i; j++) rdisplay(matching_patterns[j]);
 }
 

@@ -7,7 +7,12 @@
 #include "gui/call_dialogs.h"
 #include "file_processing.h"
 
-
+/**
+ * Fonction appelé lorsque le bouton valider de l'accueil est pressé
+ * Affecte les entrées dans pass et crée un ABR avec les lignes du CSV, affiche une fenêtre d'erreur sinon
+ * @param bouton : Pointeur vers le bouton appelant la fonction
+ * @param pass : Pointeur vers un GLOBAL_P à caster
+ */
 void path_valider_button_clicked_cb(GtkButton *bouton, gpointer *pass) {
     GLOBAL_P *proprietes = (GLOBAL_P *) pass;
 
@@ -26,6 +31,12 @@ void path_valider_button_clicked_cb(GtkButton *bouton, gpointer *pass) {
     }
 }
 
+/**
+ * Fonction appelé lorsque le bouton ajouter est pressé
+ * Ajoute les données de l'abonnée entrée dans l'ABR
+ * @param bouton : Pointeur vers le bouton appelant la fonction
+ * @param pass : Pointeur vers un GLOBAL_P à caster
+ */
 void add_button_pressed(GtkButton *button, gpointer *pass) {
     GLOBAL_P *proprietes = (GLOBAL_P *) pass;
     FILE *fp;
@@ -43,6 +54,12 @@ void add_button_pressed(GtkButton *button, gpointer *pass) {
     free(infos);
 }
 
+/**
+ * Fonction appelé lorsque le bouton valider du menu Modification est pressé
+ * Remplis les champs avec les informations de l'abonnée, affiche une fenêtre d'erreur sinon
+ * @param bouton : Pointeur vers le bouton appelant la fonction
+ * @param pass : Pointeur vers un GLOBAL_P à caster
+ */
 void change_button_pressed(GtkButton *button, gpointer *pass) {
     int i;
     GLOBAL_P *proprietes = (GLOBAL_P *) pass;
@@ -72,6 +89,12 @@ void change_button_pressed(GtkButton *button, gpointer *pass) {
     }
 }
 
+/**
+ * Fonction appelé lorsque le bouton appliquer du menu modification est pressé
+ * Modifie les données de l'abonné
+ * @param bouton : Pointeur vers le bouton appelant la fonction
+ * @param pass : Pointeur vers un GLOBAL_P à caster
+ */
 void change_validate_button_pressed(GtkButton *button, gpointer *pass) {
     int i, changed;
     GLOBAL_P *proprietes = (GLOBAL_P *) pass;
@@ -113,18 +136,36 @@ void change_validate_button_pressed(GtkButton *button, gpointer *pass) {
     }
 }
 
+/**
+ * Fonction appelé lorsque le bouton actualiser du menu afficher est pressé
+ * Affiche les abonnés contenus dans l'arbre
+ * @param bouton : Pointeur vers le bouton appelant la fonction
+ * @param pass : Pointeur vers un GLOBAL_P à caster
+ */
 void actualise_display_button_pressed(GtkButton *button, gpointer *pass) {
     GLOBAL_P *proprietes = (GLOBAL_P *) pass;
     GtkTreeView *view = GTK_TREE_VIEW(gtk_builder_get_object(proprietes->builder, "display_tree_view"));
     fill_view(view, proprietes, 0, proprietes->base_data);
 }
 
+/**
+ * Fonction appelé lorsque le bouton actualiser du menu supprimer est pressé
+ * Affiche les abonnés contenus dans l'arbre
+ * @param bouton : Pointeur vers le bouton appelant la fonction
+ * @param pass : Pointeur vers un GLOBAL_P à caster
+ */
 void actualise_del_button_pressed(GtkButton *button, gpointer *pass) {
     GLOBAL_P *proprietes = (GLOBAL_P *) pass;
     GtkTreeView *view = GTK_TREE_VIEW(gtk_builder_get_object(proprietes->builder, "del_tree_view"));
     fill_view(view, proprietes, 1, proprietes->base_data);
 }
 
+/**
+ * Fonction appelé lorsque le bouton Valider du menu Supprimer est pressé
+ * Supprime l'abonnée correspondant, affiche une fenêtre d'erreur sinon
+ * @param bouton : Pointeur vers le bouton appelant la fonction
+ * @param pass : Pointeur vers un GLOBAL_P à caster
+ */
 void suppr_del_button_pressed(GtkButton *button, gpointer *pass) {
     GLOBAL_P *proprietes = (GLOBAL_P *) pass;
     char *prenom = (char *) gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(proprietes->builder, "del_prenom")));
@@ -133,15 +174,21 @@ void suppr_del_button_pressed(GtkButton *button, gpointer *pass) {
     GtkRadioButton *toggleButton = GTK_RADIO_BUTTON(gtk_builder_get_object(proprietes->builder, "del_mail"));
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(toggleButton))) {
-        abr_supprimer(&proprietes->base_data, prenom, nom, MAIL, filtre);
+        abr_supprimer(&proprietes->base_data, prenom, nom, MAIL, filtre, proprietes);
     } else {
-        abr_supprimer(&proprietes->base_data, prenom, nom, TELEPHONE, filtre);
+        abr_supprimer(&proprietes->base_data, prenom, nom, TELEPHONE, filtre, proprietes);
     }
     actualise_del_button_pressed(NULL, pass);
     proprietes->file_modified = 1;
     call_dialog(0, "L'abonné a été supprimé", proprietes);
 }
 
+/**
+ * Fonction appelé lorsque le bouton Valider du menu afficher est pressé
+ * Affiche l'abonné correspondant aux informations, affiche une fenêtre d'erreur sinon
+ * @param bouton : Pointeur vers le bouton appelant la fonction
+ * @param pass : Pointeur vers un GLOBAL_P à caster
+ */
 void access_button_pressed(GtkButton *button, gpointer *pass) {
     GLOBAL_P *proprietes = (GLOBAL_P *) pass;
     char *prenom = (char *) gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(proprietes->builder, "search_prenom")));
@@ -228,6 +275,12 @@ void access_button_pressed(GtkButton *button, gpointer *pass) {
     abr_free(tmp);
 }
 
+/**
+ * Fonction appelé lorsque le bouton Appliquer du menu Affichage trié est pressé
+ * Affiche la liste des abonné trié selon un critère choisi
+ * @param bouton : Pointeur vers le bouton appelant la fonction
+ * @param pass : Pointeur vers un GLOBAL_P à caster
+ */
 void sorted_button_pressed(GtkButton *bouton, gpointer *pass) {
     GLOBAL_P *proprietes = (GLOBAL_P *) pass;
     GtkRadioButton *filtres[4];
@@ -255,6 +308,12 @@ void sorted_button_pressed(GtkButton *bouton, gpointer *pass) {
     gtk_label_set_text(temps_label, float_time);
 }
 
+/**
+ * Fonction appelé lorsque le bouton Appliquer du menu Affichage filtré est pressé
+ * Affiche les abonnés filtré selon un critère
+ * @param bouton : Pointeur vers le bouton appelant la fonction
+ * @param pass : Pointeur vers un GLOBAL_P à caster
+ */
 void filtered_button_pressed(GtkButton *bouton, gpointer *pass) {
     GLOBAL_P *proprietes = (GLOBAL_P *) pass;
     GtkRadioButton *radios[4];
@@ -291,6 +350,12 @@ void filtered_button_pressed(GtkButton *bouton, gpointer *pass) {
     gtk_label_set_text(titre, float_time);
 }
 
+/**
+ * Fonction appelé lorsque le bouton Actualiser du menu Imcomplets est pressé
+ * Affiche les abonnés ayant une information manquante
+ * @param bouton : Pointeur vers le bouton appelant la fonction
+ * @param pass : Pointeur vers un GLOBAL_P à caster
+ */
 void missing_button_pressed(GtkButton *bouton, gpointer *pass) {
     GLOBAL_P *proprietes = (GLOBAL_P *) pass;
     int nb_elt;
@@ -301,6 +366,10 @@ void missing_button_pressed(GtkButton *bouton, gpointer *pass) {
     gtk_label_set_text(GTK_LABEL(gtk_builder_get_object(proprietes->builder, "nb_missing")), nombre);
 }
 
+/**
+ * Relie les actions des boutons à leur fonction
+ * @param proprietes Pointeur vers un GLOBAL_P contenant les informations globales du fichier
+ */
 void object_connect(GLOBAL_P *proprietes) {
     GtkWidget *path_button, *add_button, *change_button, *change_validate, *actualise_display, *del_actualise,
             *del_valider, *search_valider, *sorted_valider, *filtered_valider, *missing_actualise;

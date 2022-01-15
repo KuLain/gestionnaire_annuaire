@@ -1,6 +1,12 @@
 #include <stdlib.h>
 #include "gui/call_dialogs.h"
 
+/**
+ * Affiche un pop-up d'information ou d'erreur
+ * @param is_error : 1 si le pop-up affiche une erreur, 0 sinon
+ * @param message : Message à afficher
+ * @param proprietes : Pointeur vers un GLOBAL_P
+ */
 void call_dialog(int is_error, char message[], GLOBAL_P *proprietes) {
     WIN_CALL *infos = (WIN_CALL*) malloc(sizeof(WIN_CALL));
     infos->main_window = proprietes->main_window;
@@ -13,6 +19,11 @@ void call_dialog(int is_error, char message[], GLOBAL_P *proprietes) {
     free(infos);
 }
 
+/**
+ * Affiche un pop-up d'information
+ * @param widget : Widget appelant la fonction
+ * @param pass : Pointeur vers un GLOBAL_P à caster
+ */
 void call_window_info(GtkWidget *widget, gpointer *pass) {
     WIN_CALL *parametres = (WIN_CALL*) pass;
     GtkWidget *dialog = gtk_message_dialog_new(parametres->main_window,
@@ -25,6 +36,11 @@ void call_window_info(GtkWidget *widget, gpointer *pass) {
     gtk_widget_destroy(dialog);
 }
 
+/**
+ * Affiche un pop-up d'erreur
+ * @param widget : Widget appelant la fonction
+ * @param pass : Pointeur vers un GLOBAL_P à caster
+ */
 void call_window_error(GtkWidget *widget, gpointer *pass) {
     WIN_CALL *parametres = (WIN_CALL*) pass;
     GtkWidget *dialog = gtk_message_dialog_new(parametres->main_window,

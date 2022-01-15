@@ -532,7 +532,7 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="change_validate_button">
-                            <property name="label" translatable="yes">Valider</property>
+                            <property name="label" translatable="yes">Appliquer</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>

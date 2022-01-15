@@ -10,6 +10,6 @@
 void sorted_records(ABR* arbre);
 void ABR_list(ABR* arbre, RECORD* tab[], int* i);
 void quick_sort(RECORD* tab[],const int taille, int filter, GtkListStore *store, GtkTreeIter *iter);
-void merge_sort(RECORD* tab[], const int taille, int filter);
+void merge_sort(RECORD* tab[],const int taille, int filter, GtkListStore *store, GtkTreeIter *iter);
 void fill_model_tab(RECORD *tab[], int taille, GtkListStore *store, GtkTreeIter *iter);
 #endif //SAE_1_2_SORTED_DISPLAY_H

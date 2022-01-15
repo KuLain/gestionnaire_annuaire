@@ -50,7 +50,7 @@ int partition(RECORD* tab[], int gauche, int droite, int filter) {
     RECORD *tmp;
     int i, j;
 
-    clef = tab[rand()%(droite-gauche)+gauche]->data[filter];
+    clef = tab[rand()%(droite + 1 - gauche)]->data[filter];
     i = gauche-1;
     j = droite;
     while (i <= j) {
@@ -85,16 +85,26 @@ void quick_sort_rec(RECORD* tab[], int gauche, int droite, int filter) {
 }
 
 /**
- * Appelle la fonction de tri rapide récursif
- * @param tab : Pointeur vers le tableau contenant les RECORD
- * @param taille : Taille du tableau contenant tous les RECORD
- * @param filter : 0 <= filter <= 7 : Indice de la colonne selon laquelle les RECORD vont être trier
+ * Appelle le tri rapide et remplis le modèle
+ * @param tab : Tableau de pointeur vers des RECORD
+ * @param taille : Taille du tableau
+ * @param filter : 0 <= filter < 7 : Indice de la colonne à trier
+ * @param store : Pointeur vers GtkListStore
+ * @param iter : Pointeur vers GtkTreeIter
  */
 void quick_sort(RECORD* tab[],const int taille, int filter, GtkListStore *store, GtkTreeIter *iter) {
     quick_sort_rec(tab, 0, taille-1, filter);
     fill_model_tab(tab, taille, store, iter);
 }
 
+/**
+ * Effectue la fusion des tableaux tab[debut:milieu] et tab[milieu:fin]
+ * @param tab : Tableau de pointeur vers des RECORD
+ * @param debut : Indice du début du sous tableau gauche
+ * @param milieu : Indice du milieu du tableau
+ * @param fin : Indice de la fin du sous tableau droite
+ * @param filter
+ */
 void merge(RECORD* tab[], int debut, int milieu, int fin, int filter) {
     int i, j, k;
     int const n1 = milieu - debut + 1;
@@ -157,11 +167,18 @@ void merge_sort_rec(RECORD* tab[], int debut, int fin, int filter) {
  * @param taille : Taille du tableau contenant les RECORD
  * @param filter : 0 <= filter <= 7 : Indice de la colonne selon laquelle les RECORD vont être trier
  */
-void merge_sort(RECORD* tab[], const int taille, int filter) {
+void merge_sort(RECORD* tab[],const int taille, int filter, GtkListStore *store, GtkTreeIter *iter) {
     merge_sort_rec(tab, 0, taille-1, filter);
+    fill_model_tab(tab, taille, store, iter);
 }
 
-
+/**
+ * Remplis le TreeView avec les informations des abonnés dans le tableau
+ * @param tab : Tableau de pointeurs de RECORD
+ * @param taille : Taille du tableau
+ * @param store : Pointeur vers GtkListStore
+ * @param iter : Pointeur vers GtkTreeIter
+ */
 void fill_model_tab(RECORD *tab[], int taille, GtkListStore *store, GtkTreeIter *iter) {
     for (int i = 0; i < taille; i++) {
         gtk_list_store_append (store, iter);

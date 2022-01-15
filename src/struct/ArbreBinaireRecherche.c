@@ -1,7 +1,3 @@
-//
-// Created by julie on 11/12/2021.
-//
-
 #include "../../header/struct/ArbreBinaireRecherche.h"
 #include "../../header/gui/main_menu_gui.h"
 #include "../../header/gui/call_dialogs.h"
@@ -274,10 +270,11 @@ void suppression(ABR **arbre) {
  * @param nom : Pointeur vers la chaine de caractère contenant le nom
  * @param colomne - 0 <= colomne < 7 : Indice de la colonne correspondant au critère choisi
  * @param filtre : Pointeur vers la chaine de caractère contenant le filtre
+ * @param proprietes : Pointeur vers GLOBAL_P à caster contenant les informations globales du fichier
  */
-void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char filtre[], GLOBAL_P *proprietes) {
+void abr_supprimer(ABR **arbre, char prenom[], char nom[], int colomne, char filtre[], void *proprietes) {
     if (abr_est_vide(*arbre)) {
-        call_dialog(1, "L'abonné n'existe pas", proprietes);
+        call_dialog(1, "L'abonné n'existe pas", (GLOBAL_P*) proprietes);
     } else {
         if (sont_egales(prenom, (*arbre)->abonnes[0]->data[PRENOM]) && sont_egales(nom, (*arbre)->abonnes[0]->data[NOM])){
             if ((*arbre)->nb_abonnes > 1) {
@@ -342,17 +339,6 @@ RECORD* abr_valeur(ABR *arbre, char prenom[], char nom[], int colomne, char filt
     }
 }
 
-/**
- * Affiche tous les abonnés de l'arbre avec un parcours préfixe
- * @param arbre : Pointeur vers l'arbre
- */
-void abr_display(ABR *arbre) {
-    if (!abr_est_vide(arbre)) {
-        abr_display(arbre->fils_gauche);
-        for (int i = 0; i < arbre->nb_abonnes; i++) rdisplay(arbre->abonnes[i]);
-        abr_display(arbre->fils_droit);
-    }
-}
 
 /**
  * Libère la mémoire associé à chaque noeud, chaque sous tableau et chaque RECORD de l'arbre

@@ -6,9 +6,11 @@
 #define N 7
 
 /**
- * Recherche les RECORD ayant un attribut maintenant
- * @param arbre : Pointeur vers l'arbre
- * @return Nombre de RECORD ayant des informations manquantes
+ * Affecte les abonnés de arbre ayant une information manquante dans tab
+ * @param arbre : Pointeur vers l'ABR
+ * @param tab : Tableau de pointeur qui contiendra les abonné ayant une information manquante
+ * @param indice : indice du pointeur actuel dans le tableau
+ * @return Nombre d'abonnés ayant une information manquante
  */
 int missing_record_rec(ABR *arbre, RECORD *tab[], int *indice) {
     if (abr_est_vide(arbre)) {
@@ -39,8 +41,11 @@ int missing_record_rec(ABR *arbre, RECORD *tab[], int *indice) {
 }
 
 /**
- * Affiche les RECORD ayant un attribut vide et leur nombre
- * @param array : Pointeur vers AARRAY
+ * Remplis le modèle avec les abonnés ayant information manquante
+ * @param arbre : Pointeur vers ABR
+ * @param store : Pointeur vers GtkListStore
+ * @param iter : Pointeur vers GtkTreeIter
+ * @param nb_abo : Pointeur vers int qui contiendra le nombre d'abonnés
  */
 void missing_record(ABR *arbre, GtkListStore *store, GtkTreeIter *iter, int *nb_abo) {
     const int n = abr_taille(arbre);

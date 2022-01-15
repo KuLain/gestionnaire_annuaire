@@ -6,7 +6,6 @@
 #define SAE_1_2_ARBREBINAIRERECHERCHE_H
 
 #include "Record.h"
-#include "../gui/main_menu_gui.h"
 
 typedef struct ArbreBinaireRecherche {
     RECORD **abonnes;
@@ -26,11 +25,9 @@ int abr_taille(ABR *);
 
 void abr_inserer(ABR **, char *, char *, RECORD *);
 
-void abr_supprimer(ABR **, char[], char[], int, char[], GLOBAL_P *);
+void abr_supprimer(ABR **, char[], char[], int, char[], void*);
 
 RECORD *abr_valeur(ABR *, char[], char[], int, char[]);
-
-void abr_display(ABR *);
 
 void abr_free(ABR *);
 
