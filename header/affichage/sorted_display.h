@@ -1,8 +1,8 @@
 #ifndef SAE_1_2_SORTED_DISPLAY_H
 #define SAE_1_2_SORTED_DISPLAY_H
 
-#include "struct/Record.h"
-#include "struct/ArbreBinaireRecherche.h"
+#include "../struct/Record.h"
+#include "../struct/ArbreBinaireRecherche.h"
 
 void sorted_records(ABR *arbre);
 

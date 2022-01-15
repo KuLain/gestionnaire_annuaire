@@ -3,9 +3,9 @@
 
 #include "header/file_processing.h"
 #include "header/base_processing.h"
-#include "affichage/filtered_display.h"
-#include "affichage/sorted_display.h"
-#include "affichage/empty_display.h"
+#include "header/affichage/filtered_display.h"
+#include "header/affichage/sorted_display.h"
+#include "header/affichage/empty_display.h"
 
 /**
  * Saimati
