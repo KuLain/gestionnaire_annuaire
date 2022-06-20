@@ -1,6 +1,6 @@
 package domain.model;
 
-public class Person {
+public class Person implements Comparable<Person>{
 
     private Identity identity = null;
     private Location location = null;
@@ -34,5 +34,14 @@ public class Person {
         }
         sb.setLength(sb.length()-1);
         return sb.toString();
+    }
+
+    @Override
+    public int compareTo(Person o) {
+        if (o.identity.getLastName().equals(identity.getLastName())) {
+            return identity.getFirstName().compareTo(o.identity.getFirstName());
+        } else {
+            return identity.getLastName().compareTo(o.identity.getLastName());
+        }
     }
 }
