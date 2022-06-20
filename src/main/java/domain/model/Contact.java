@@ -23,7 +23,7 @@ public class Contact {
 
     @Override
     public String toString() {
-        return  emailAdress + " " + phone;
+        return  emailAdress + " & " + phone;
     }
 
     @Override

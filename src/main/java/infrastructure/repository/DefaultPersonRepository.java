@@ -1,5 +1,6 @@
 package infrastructure.repository;
 
+import com.google.inject.Singleton;
 import domain.model.Person;
 import infrastructure.exceptions.AlreadyExistInRepositoryException;
 import infrastructure.exceptions.NotInRepositoryException;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+@Singleton
 public class DefaultPersonRepository implements PersonRepository {
 
     private final Set<Person> personSet = new TreeSet<>();

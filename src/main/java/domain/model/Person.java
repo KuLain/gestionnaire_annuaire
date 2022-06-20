@@ -29,7 +29,7 @@ public class Person implements Comparable<Person>{
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(identity).append("\n");
-        for (Object object : new Object[]{identity, location, contact, job}) {
+        for (Object object : new Object[]{location, contact, job}) {
             if (object != null) {
                 sb.append("\t").append(object).append("\n");
             }
