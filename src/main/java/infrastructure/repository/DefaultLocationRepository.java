@@ -43,7 +43,7 @@ public class DefaultLocationRepository implements LocationRepository {
             }
         }
 
-        return location;
+        return null;
     }
 
     @Override
