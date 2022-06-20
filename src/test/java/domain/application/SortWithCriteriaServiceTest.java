@@ -1,5 +1,8 @@
 package domain.application;
 
+import domain.application.options.sort.Order;
+import domain.application.options.sort.SortWithCriteriaService;
+import domain.application.options.sort.SortingCriteria;
 import domain.model.Person;
 import infrastructure.repository.PersonRepository;
 import org.junit.jupiter.api.BeforeEach;

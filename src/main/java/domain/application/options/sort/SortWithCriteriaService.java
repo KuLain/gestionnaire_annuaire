@@ -1,10 +1,9 @@
-package domain.application;
+package domain.application.options.sort;
 
 import domain.model.Person;
 import infrastructure.repository.PersonRepository;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
