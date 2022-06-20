@@ -1,5 +1,7 @@
 package domain.model;
 
+import java.util.Objects;
+
 public class Person implements Comparable<Person>{
 
     private Identity identity = null;
@@ -43,5 +45,35 @@ public class Person implements Comparable<Person>{
         } else {
             return identity.getLastName().compareTo(o.identity.getLastName());
         }
+    }
+
+
+    public Identity getIdentity() {
+        return identity;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(identity, person.identity) && Objects.equals(location, person.location) && Objects.equals(contact, person.contact) && Objects.equals(job, person.job);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(identity, location, contact, job);
     }
 }

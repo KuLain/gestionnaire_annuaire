@@ -13,7 +13,7 @@ public class PersonBuilder {
         person = new Person();
     }
 
-    private Person build() {
+    public Person build() {
         return person;
     }
 
