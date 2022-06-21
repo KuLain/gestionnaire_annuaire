@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-class DefaultPersonRepositoryTest {
+class SetPersonRepositoryTest {
 
     PersonRepository personRepository;
     Person person1;
@@ -18,7 +18,7 @@ class DefaultPersonRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        personRepository = new DefaultPersonRepository();
+        personRepository = new SetPersonRepository();
         person1 = PersonBuilder.generatePerson()
                 .withIdentity("Joel", "Miller")
                 .withContact("0123456789", "joelmiller@gmail.com")

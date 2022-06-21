@@ -69,7 +69,6 @@ public class CSVPersonLoader implements PersonLoader {
                         || location.getPostalCode().equals("") && !infos[3].equals("")) {
                     locationRepository.add(new Location(infos[2], infos[3]));
                 }
-
             }
 
         } catch (FileNotFoundException e) {
@@ -79,17 +78,20 @@ public class CSVPersonLoader implements PersonLoader {
 
     private String[] processSplit(Scanner scanner) {
         String line = scanner.nextLine();
-        String[] infos = line.split(",");
-        if (infos.length < 7) {
-            if (infos.length == 6) {
-                infos = new String[7];
-                String[] tmp = line.split(",");
-                System.arraycopy(tmp, 0, infos, 0, tmp.length);
-                infos[6] = "";
+        String[] infos = new String[7];
+        StringBuilder currentString = new StringBuilder();
+        int i = 0;
+
+        for (char c : line.toCharArray()) {
+            if (c == ',') {
+                infos[i] = currentString.toString();
+                currentString = new StringBuilder();
+                i++;
             } else {
-                throw new InvalidLineFormatException(line);
+                currentString.append(c);
             }
         }
+
         return infos;
     }
 

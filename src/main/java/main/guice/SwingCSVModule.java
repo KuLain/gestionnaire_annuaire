@@ -20,7 +20,7 @@ public class SwingCSVModule extends AbstractModule {
     protected void configure() {
         bind(FilePath.class).toInstance(path);
 
-        bind(PersonRepository.class).to(DefaultPersonRepository.class).in(Singleton.class);
+        bind(PersonRepository.class).to(ListPersonRepository.class).in(Singleton.class);
         bind(LocationRepository.class).to(DefaultLocationRepository.class).in(Singleton.class);
 
         bind(PersonLoader.class).to(CSVPersonLoader.class);

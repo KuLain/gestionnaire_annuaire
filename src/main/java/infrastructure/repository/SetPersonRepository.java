@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 @Singleton
-public class DefaultPersonRepository implements PersonRepository {
+public class SetPersonRepository implements PersonRepository {
 
     private final Set<Person> personSet = new TreeSet<>();
 
