@@ -2,7 +2,9 @@ package main.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
+import infrastructure.loader.CSVPersonLoader;
 import infrastructure.loader.FilePath;
+import infrastructure.loader.PersonLoader;
 import infrastructure.repository.*;
 
 public class SwingCSVModule extends AbstractModule {
@@ -20,6 +22,8 @@ public class SwingCSVModule extends AbstractModule {
 
         bind(PersonRepository.class).to(DefaultPersonRepository.class).in(Singleton.class);
         bind(LocationRepository.class).to(DefaultLocationRepository.class).in(Singleton.class);
+
+        bind(PersonLoader.class).to(CSVPersonLoader.class);
     }
 
 }
