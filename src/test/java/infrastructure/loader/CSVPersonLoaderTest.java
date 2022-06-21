@@ -1,12 +1,11 @@
 package infrastructure.loader;
 
 import infrastructure.repository.DefaultLocationRepository;
-import infrastructure.repository.DefaultPersonRepository;
+import infrastructure.repository.SetPersonRepository;
 import infrastructure.repository.LocationRepository;
 import infrastructure.repository.PersonRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +17,7 @@ class CSVPersonLoaderTest {
 
     @BeforeEach
     void setUp() {
-        personRepository = new DefaultPersonRepository();
+        personRepository = new SetPersonRepository();
         locationRepository = new DefaultLocationRepository();
     }
 

@@ -18,25 +18,16 @@ public class SortWithCriteriaService {
     }
 
     public List<Person> sortWithCriteria(SortingCriteria criteria, Order order) {
-        List<Person> personList = null;
+        List<Person> personList = switch (criteria) {
+            case FIRST_NAME -> sortByFirstName();
+            case LAST_NAME -> sortByLastName();
+            case CITY -> sortByCity();
+            case POSTAL_CODE -> sortByPostalCode();
+            case PHONE_NUMBER -> sortByPhoneNumber();
+            case EMAIL -> sortByEmail();
+            case JOB -> sortByJob();
+        };
 
-        switch (criteria) {
-            case CITY -> {
-                personList = sortByCity();
-            }
-            case POSTAL_CODE -> {
-                personList = sortByPostalCode();
-            }
-            case PHONE_NUMBER -> {
-                personList = sortByPhoneNumber();
-            }
-            case EMAIL -> {
-                personList = sortByEmail();
-            }
-            case JOB -> {
-                personList = sortByJob();
-            }
-        }
         if (personList != null && order == Order.DESC) {
             reverseList(personList);
         }
@@ -76,6 +67,20 @@ public class SortWithCriteriaService {
         return personRepository.getListPerson()
                 .stream()
                 .sorted(Comparator.comparing(Person::getJob))
+                .collect(Collectors.toList());
+    }
+
+    private List<Person> sortByFirstName() {
+        return personRepository.getListPerson()
+                .stream()
+                .sorted(Comparator.comparing(p -> p.getIdentity().getFirstName()))
+                .collect(Collectors.toList());
+    }
+
+    private List<Person> sortByLastName() {
+        return personRepository.getListPerson()
+                .stream()
+                .sorted(Comparator.comparing(p -> p.getIdentity().getLastName()))
                 .collect(Collectors.toList());
     }
 
