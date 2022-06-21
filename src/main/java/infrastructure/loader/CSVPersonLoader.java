@@ -34,19 +34,7 @@ public class CSVPersonLoader implements PersonLoader {
             Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8);
 
             while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] infos = line.split(",");
-
-                if (infos.length < 7) {
-                    if (infos.length == 6) {
-                        infos = new String[7];
-                        String[] tmp = line.split(",");
-                        System.arraycopy(tmp, 0, infos, 0, tmp.length);
-                        infos[6] = "";
-                    } else {
-                        throw new InvalidLineFormatException(line);
-                    }
-                }
+                String[] infos = processSplit(scanner);
 
                 Person currentPerson = PersonBuilder.generatePerson()
                         .withIdentity(infos[0], infos[1])
@@ -73,20 +61,7 @@ public class CSVPersonLoader implements PersonLoader {
             Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8);
 
             while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] infos = line.split(",");
-
-                if (infos.length < 7) {
-                    if (infos.length == 6) {
-                        infos = new String[7];
-                        String[] tmp = line.split(",");
-                        System.arraycopy(tmp, 0, infos, 0, tmp.length);
-                        infos[6] = "";
-                    } else {
-                        throw new InvalidLineFormatException(line);
-                    }
-                }
-
+                String[] infos = processSplit(scanner);
                 Location location = locationRepository.searchWithName(infos[2]);
 
                 if (location == null
@@ -100,6 +75,22 @@ public class CSVPersonLoader implements PersonLoader {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String[] processSplit(Scanner scanner) {
+        String line = scanner.nextLine();
+        String[] infos = line.split(",");
+        if (infos.length < 7) {
+            if (infos.length == 6) {
+                infos = new String[7];
+                String[] tmp = line.split(",");
+                System.arraycopy(tmp, 0, infos, 0, tmp.length);
+                infos[6] = "";
+            } else {
+                throw new InvalidLineFormatException(line);
+            }
+        }
+        return infos;
     }
 
     @Override
