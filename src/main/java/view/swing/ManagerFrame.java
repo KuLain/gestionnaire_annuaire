@@ -17,7 +17,9 @@ public class ManagerFrame extends JFrame {
         JMenu fileMenu = new JMenu("Fichier");
         JMenuItem changeFile = new JMenuItem("Changer fichier");
         // TODO: add function to change file
-        JMenuItem quit = new JMenuItem("Quitter");
+        JMenuItem quitAndSave = new JMenuItem("Quitter et sauvegarder");
+        // TODO: add function to quit and save
+        JMenuItem quit = new JMenuItem("Quitter sans sauvegarder");
         quit.addActionListener(e -> System.exit(0));
 
         JMenu sortMenu = new JMenu("Trier");
