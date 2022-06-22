@@ -45,6 +45,11 @@ public class SetPersonRepository implements PersonRepository {
     }
 
     @Override
+    public void clear() {
+        personSet.clear();
+    }
+
+    @Override
     public List<Person> getListPerson() {
         return personSet.stream().toList();
     }

@@ -42,6 +42,11 @@ public class ListPersonRepository implements PersonRepository {
     }
 
     @Override
+    public void clear() {
+        listPerson.clear();
+    }
+
+    @Override
     public List<Person> getListPerson() {
         return listPerson;
     }

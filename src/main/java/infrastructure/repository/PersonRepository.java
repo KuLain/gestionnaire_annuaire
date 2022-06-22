@@ -10,6 +10,7 @@ public interface PersonRepository {
     void remove(Person person);
     Person searchWithMail(String firstName, String lastName, String mail);
     Person searchWithPhone(String firstName, String lastName, String phoneNumber);
+    void clear();
     List<Person> getListPerson();
 
 }
