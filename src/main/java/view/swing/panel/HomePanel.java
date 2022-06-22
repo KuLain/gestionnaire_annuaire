@@ -1,23 +1,22 @@
 package view.swing.panel;
 
+import domain.model.Person;
 import infrastructure.repository.PersonRepository;
 import view.HomeView;
 
 import javax.inject.Inject;
 import javax.swing.*;
+import java.util.List;
 
 public class HomePanel extends PanelView implements HomeView {
 
-    private final PersonRepository personRepository;
-
     @Inject
-    public HomePanel(JFrame frame, PersonRepository personRepository) {
+    public HomePanel(JFrame frame) {
         super(frame);
-        this.personRepository = personRepository;
     }
 
     @Override
-    public void display() {
+    public void display(List<Person> personList) {
         JPanel panel = new JPanel();
 
         // TODO: implement JTable
