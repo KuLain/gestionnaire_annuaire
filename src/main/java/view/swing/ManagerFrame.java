@@ -42,6 +42,13 @@ public class ManagerFrame extends JFrame {
         JMenuItem searchByPhone = new JMenuItem("Par téléphone");
         // TODO: add action listener to search by phone
 
+        JMenu resetMenu = new JMenu("Réinitialiser");
+        JMenuItem reset = new JMenuItem("Réinitialiser affichage");
+        // TODO: add action listener to reset display
+
+        fileMenu.add(changeFile);
+        fileMenu.add(quit);
+
         for (JMenuItem item : new JMenuItem[] { sortByName, sortByFirstName, sortByEmail, sortByPhone, sortByCity, sortByZipCode, sortByJob }) {
             sortMenu.add(item);
         }
@@ -50,11 +57,12 @@ public class ManagerFrame extends JFrame {
             searchMenu.add(item);
         }
 
-        fileMenu.add(changeFile);
-        fileMenu.add(quit);
+        resetMenu.add(reset);
+
         menuBar.add(fileMenu);
         menuBar.add(sortMenu);
         menuBar.add(searchMenu);
+        menuBar.add(resetMenu);
         return menuBar;
     }
 
