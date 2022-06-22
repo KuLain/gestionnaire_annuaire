@@ -1,26 +1,26 @@
 package view.swing.panel;
 
-import ui.HomeView;
+import infrastructure.repository.PersonRepository;
+import view.HomeView;
 
 import javax.inject.Inject;
 import javax.swing.*;
 
-public class HomePanel implements HomeView {
+public class HomePanel extends PanelView implements HomeView {
 
-    private final JFrame frame;
+    private final PersonRepository personRepository;
 
     @Inject
-    public HomePanel(JFrame frame) {
-        this.frame = frame;
+    public HomePanel(JFrame frame, PersonRepository personRepository) {
+        super(frame);
+        this.personRepository = personRepository;
     }
 
     @Override
     public void display() {
         JPanel panel = new JPanel();
 
-        JButton button = new JButton("Click me");
-
-        panel.add(button);
+        // TODO: implement JTable
 
         frame.setContentPane(panel);
     }

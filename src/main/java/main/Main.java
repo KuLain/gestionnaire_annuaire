@@ -4,7 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import infrastructure.loader.PersonLoader;
 import main.guice.SwingCSVModule;
-import ui.HomeView;
+import view.HomeView;
 
 import javax.swing.*;
 

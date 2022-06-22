@@ -6,7 +6,7 @@ import infrastructure.loader.CSVPersonLoader;
 import infrastructure.loader.FilePath;
 import infrastructure.loader.PersonLoader;
 import infrastructure.repository.*;
-import ui.HomeView;
+import view.HomeView;
 import view.swing.ManagerFrame;
 import view.swing.panel.HomePanel;
 
