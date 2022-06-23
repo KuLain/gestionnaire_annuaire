@@ -64,6 +64,7 @@ public class SortWithCriteriaService {
     }
 
     private List<Person> sortByJob() {
+        // FIXME: Problem with null values
         return personRepository.getListPerson()
                 .stream()
                 .sorted(Comparator.comparing(Person::getJob))
