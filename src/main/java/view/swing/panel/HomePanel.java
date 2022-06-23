@@ -1,6 +1,7 @@
 package view.swing.panel;
 
 import domain.model.Person;
+import infrastructure.writer.CSVPersonWriter;
 import ui.*;
 import view.HomeView;
 
@@ -17,9 +18,10 @@ public class HomePanel extends PanelView implements HomeView {
     private final HomeUI homeUI;
     private final ModifyUI modifyUI;
     private final FilterUI filterUI;
+    private final CSVPersonWriter csvPersonWriter;
 
     @Inject
-    public HomePanel(JFrame frame, PathUI pathUI, SortUI sortUI, SearchUI searchUI, HomeUI homeUI, ModifyUI modifyUI, FilterUI filterUI) {
+    public HomePanel(JFrame frame, PathUI pathUI, SortUI sortUI, SearchUI searchUI, HomeUI homeUI, ModifyUI modifyUI, FilterUI filterUI, CSVPersonWriter csvPersonWriter) {
         super(frame);
         this.pathUI = pathUI;
         this.sortUI = sortUI;
@@ -27,6 +29,7 @@ public class HomePanel extends PanelView implements HomeView {
         this.homeUI = homeUI;
         this.modifyUI = modifyUI;
         this.filterUI = filterUI;
+        this.csvPersonWriter = csvPersonWriter;
     }
 
     @Override
@@ -53,7 +56,7 @@ public class HomePanel extends PanelView implements HomeView {
         panel.add(scrollPane);
 
         if (frame.getJMenuBar() == null) {
-            frame.setJMenuBar(new OptionMenuBar(frame, pathUI, sortUI, searchUI, homeUI, modifyUI, filterUI));
+            frame.setJMenuBar(new OptionMenuBar(frame, pathUI, sortUI, searchUI, homeUI, modifyUI, filterUI, csvPersonWriter));
         }
 
         frame.setContentPane(panel);

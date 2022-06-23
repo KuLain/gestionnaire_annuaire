@@ -7,6 +7,8 @@ import infrastructure.loader.FilePath;
 import infrastructure.loader.PersonLoader;
 import infrastructure.repository.ListPersonRepository;
 import infrastructure.repository.PersonRepository;
+import infrastructure.writer.CSVPersonWriter;
+import infrastructure.writer.PersonWriter;
 import ui.*;
 import ui.swing.*;
 import view.HomeView;
@@ -33,6 +35,7 @@ public class SwingCSVModule extends AbstractModule {
         bind(PersonRepository.class).to(ListPersonRepository.class).in(Singleton.class);
 
         bind(PersonLoader.class).to(CSVPersonLoader.class);
+        bind(PersonWriter.class).to(CSVPersonWriter.class);
 
         bind(HomeUI.class).to(SwingHomeUI.class);
         bind(SortUI.class).to(SwingSortUI.class);

@@ -5,6 +5,7 @@ import domain.application.options.sort.Order;
 import domain.application.options.sort.SortingCriteria;
 import domain.model.Person;
 import infrastructure.exceptions.PersonNotInBaseException;
+import infrastructure.writer.PersonWriter;
 import ui.*;
 import ui.swing.components.SearchType;
 
@@ -24,8 +25,10 @@ public class OptionMenuBar extends JMenuBar {
     private final HomeUI homeUI;
     private final ModifyUI modifyUI;
     private final FilterUI filterUI;
+    private final PersonWriter personWriter;
+
     public OptionMenuBar(JFrame frame, PathUI pathUI, SortUI sortUI, SearchUI searchUI,
-                         HomeUI homeUI, ModifyUI modifyUI, FilterUI filterUI) {
+                         HomeUI homeUI, ModifyUI modifyUI, FilterUI filterUI, PersonWriter personWriter) {
         this.frame = frame;
         this.pathUI = pathUI;
         this.sortUI = sortUI;
@@ -33,6 +36,7 @@ public class OptionMenuBar extends JMenuBar {
         this.homeUI = homeUI;
         this.modifyUI = modifyUI;
         this.filterUI = filterUI;
+        this.personWriter = personWriter;
 
         buildMenuBar();
     }
@@ -50,7 +54,6 @@ public class OptionMenuBar extends JMenuBar {
         JMenu fileMenu = new JMenu("Fichier");
         JMenuItem changeFile = new JMenuItem("Changer fichier");
         JMenuItem quitAndSave = new JMenuItem("Quitter et sauvegarder");
-        // TODO: add function to quit and save
         JMenuItem quit = new JMenuItem("Quitter sans sauvegarder");
 
         fileMenu.add(changeFile);
@@ -59,6 +62,16 @@ public class OptionMenuBar extends JMenuBar {
             pathUI.changePath(newPath);
         });
         fileMenu.add(quitAndSave);
+        quitAndSave.addActionListener(e -> {
+            try {
+                personWriter.write();
+                JOptionPane.showMessageDialog(frame, "Sauvegarde effectuée", "Sauvegarde", JOptionPane.INFORMATION_MESSAGE);
+                System.exit(0);
+            } catch (RuntimeException runtimeException) {
+                JOptionPane.showMessageDialog(frame, "Erreur lors de la sauvegarde", "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+
+        });
         fileMenu.add(quit);
         quit.addActionListener(e -> System.exit(0));
 
