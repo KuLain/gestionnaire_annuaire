@@ -10,22 +10,23 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class CSVPersonLoader implements PersonLoader {
 
-    private final String path;
+    private final FilePath filePath;
     private final PersonRepository personRepository;
 
     @Inject
     public CSVPersonLoader(FilePath filePath, PersonRepository personRepository) {
-        this.path = filePath.path;
+        this.filePath = filePath;
         this.personRepository = personRepository;
     }
 
     private void loadPersons() {
         try {
-            InputStream inputStream = new FileInputStream(path);
+            InputStream inputStream = new FileInputStream(filePath.path);
             Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8);
 
             while (scanner.hasNextLine()) {
@@ -66,6 +67,8 @@ public class CSVPersonLoader implements PersonLoader {
                 currentString.append(c);
             }
         }
+
+        infos[i] = currentString.toString();
 
         return infos;
     }

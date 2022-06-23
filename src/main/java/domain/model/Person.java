@@ -61,7 +61,7 @@ public class Person implements Comparable<Person>{
     }
 
     public String getJob() {
-        return job;
+        return (job == null) ? "" : job;
     }
 
     @Override
