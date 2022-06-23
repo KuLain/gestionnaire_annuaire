@@ -31,11 +31,6 @@ public class PersonBuilder {
         return this;
     }
 
-    public PersonBuilder withLocation(Location location) {
-        person.setLocation(location);
-        return this;
-    }
-
     public PersonBuilder withContact(String phone, String mail) {
         person.setContact(new Contact(phone, mail));
         return this;

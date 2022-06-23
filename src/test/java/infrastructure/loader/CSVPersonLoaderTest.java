@@ -1,7 +1,5 @@
 package infrastructure.loader;
 
-import infrastructure.repository.DefaultLocationRepository;
-import infrastructure.repository.LocationRepository;
 import infrastructure.repository.PersonRepository;
 import infrastructure.repository.SetPersonRepository;
 import org.junit.jupiter.api.BeforeEach;

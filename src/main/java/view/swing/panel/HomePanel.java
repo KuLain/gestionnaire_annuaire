@@ -1,10 +1,7 @@
 package view.swing.panel;
 
 import domain.model.Person;
-import ui.HomeUI;
-import ui.PathUI;
-import ui.SearchUI;
-import ui.SortUI;
+import ui.*;
 import view.HomeView;
 
 import javax.inject.Inject;
@@ -18,14 +15,16 @@ public class HomePanel extends PanelView implements HomeView {
     private final SortUI sortUI;
     private final SearchUI searchUI;
     private final HomeUI homeUI;
+    private final ModifyUI modifyUI;
 
     @Inject
-    public HomePanel(JFrame frame, PathUI pathUI, SortUI sortUI, SearchUI searchUI, HomeUI homeUI) {
+    public HomePanel(JFrame frame, PathUI pathUI, SortUI sortUI, SearchUI searchUI, HomeUI homeUI, ModifyUI modifyUI) {
         super(frame);
         this.pathUI = pathUI;
         this.sortUI = sortUI;
         this.searchUI = searchUI;
         this.homeUI = homeUI;
+        this.modifyUI = modifyUI;
     }
 
     @Override
@@ -52,7 +51,7 @@ public class HomePanel extends PanelView implements HomeView {
         panel.add(scrollPane);
 
         if (frame.getJMenuBar() == null) {
-            frame.setJMenuBar(new OptionMenuBar(pathUI, sortUI, searchUI, homeUI));
+            frame.setJMenuBar(new OptionMenuBar(frame, pathUI, sortUI, searchUI, homeUI, modifyUI));
         }
 
         frame.setContentPane(panel);

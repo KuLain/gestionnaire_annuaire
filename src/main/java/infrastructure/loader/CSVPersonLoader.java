@@ -1,10 +1,8 @@
 package infrastructure.loader;
 
 import domain.application.PersonBuilder;
-import domain.model.Location;
 import domain.model.Person;
 import infrastructure.exceptions.AlreadyExistInRepositoryException;
-import infrastructure.repository.LocationRepository;
 import infrastructure.repository.PersonRepository;
 
 import javax.inject.Inject;
@@ -18,13 +16,11 @@ public class CSVPersonLoader implements PersonLoader {
 
     private final String path;
     private final PersonRepository personRepository;
-    private final LocationRepository locationRepository;
 
     @Inject
-    public CSVPersonLoader(FilePath filePath, PersonRepository personRepository, LocationRepository locationRepository) {
+    public CSVPersonLoader(FilePath filePath, PersonRepository personRepository) {
         this.path = filePath.path;
         this.personRepository = personRepository;
-        this.locationRepository = locationRepository;
     }
 
     private void loadPersons() {
@@ -37,7 +33,7 @@ public class CSVPersonLoader implements PersonLoader {
 
                 Person currentPerson = PersonBuilder.generatePerson()
                         .withIdentity(infos[0], infos[1])
-                        .withLocation(locationRepository.searchWithName(infos[2]))
+                        .withLocation(infos[2], infos[3])
                         .withContact(infos[4], infos[5])
                         .withJob(infos[6])
                         .build();
@@ -54,26 +50,6 @@ public class CSVPersonLoader implements PersonLoader {
         }
     }
 
-    private void loadLocations() {
-        try {
-            InputStream inputStream = new FileInputStream(path);
-            Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8);
-
-            while (scanner.hasNextLine()) {
-                String[] infos = processSplit(scanner);
-                Location location = locationRepository.searchWithName(infos[2]);
-
-                if (location == null
-                        || location.getCity().equals("") && !infos[2].equals("")
-                        || location.getPostalCode().equals("") && !infos[3].equals("")) {
-                    locationRepository.add(new Location(infos[2], infos[3]));
-                }
-            }
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     private String[] processSplit(Scanner scanner) {
         String line = scanner.nextLine();
@@ -96,7 +72,6 @@ public class CSVPersonLoader implements PersonLoader {
 
     @Override
     public void load() {
-        loadLocations();
         loadPersons();
     }
 }

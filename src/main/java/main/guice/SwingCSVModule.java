@@ -5,18 +5,10 @@ import com.google.inject.Singleton;
 import infrastructure.loader.CSVPersonLoader;
 import infrastructure.loader.FilePath;
 import infrastructure.loader.PersonLoader;
-import infrastructure.repository.DefaultLocationRepository;
 import infrastructure.repository.ListPersonRepository;
-import infrastructure.repository.LocationRepository;
 import infrastructure.repository.PersonRepository;
-import ui.HomeUI;
-import ui.PathUI;
-import ui.SearchUI;
-import ui.SortUI;
-import ui.swing.SwingHomeUI;
-import ui.swing.SwingPathUI;
-import ui.swing.SwingSearchUI;
-import ui.swing.SwingSortUI;
+import ui.*;
+import ui.swing.*;
 import view.HomeView;
 import view.SearchView;
 import view.swing.ManagerFrame;
@@ -39,7 +31,6 @@ public class SwingCSVModule extends AbstractModule {
         bind(JFrame.class).to(ManagerFrame.class).in(Singleton.class);
 
         bind(PersonRepository.class).to(ListPersonRepository.class).in(Singleton.class);
-        bind(LocationRepository.class).to(DefaultLocationRepository.class).in(Singleton.class);
 
         bind(PersonLoader.class).to(CSVPersonLoader.class);
 
@@ -47,6 +38,7 @@ public class SwingCSVModule extends AbstractModule {
         bind(SortUI.class).to(SwingSortUI.class);
         bind(SearchUI.class).to(SwingSearchUI.class);
         bind(PathUI.class).to(SwingPathUI.class);
+        bind(ModifyUI.class).to(SwingModifyUI.class);
 
         bind(HomeView.class).to(HomePanel.class);
         bind(SearchView.class).to(SwingSearchView.class);

@@ -1,11 +1,11 @@
 package view.swing.panel;
 
+import domain.application.PersonBuilder;
 import domain.application.options.sort.Order;
 import domain.application.options.sort.SortingCriteria;
-import ui.HomeUI;
-import ui.PathUI;
-import ui.SearchUI;
-import ui.SortUI;
+import domain.model.Person;
+import infrastructure.exceptions.PersonNotInBaseException;
+import ui.*;
 import ui.swing.components.SearchType;
 
 import javax.swing.*;
@@ -16,16 +16,20 @@ import java.util.Map;
 
 public class OptionMenuBar extends JMenuBar {
 
+    private final JFrame frame;
     private final PathUI pathUI;
     private final SortUI sortUI;
     private final SearchUI searchUI;
     private final HomeUI homeUI;
+    private final ModifyUI modifyUI;
 
-    public OptionMenuBar(PathUI pathUI, SortUI sortUI, SearchUI searchUI, HomeUI homeUI) {
+    public OptionMenuBar(JFrame frame, PathUI pathUI, SortUI sortUI, SearchUI searchUI, HomeUI homeUI, ModifyUI modifyUI) {
+        this.frame = frame;
         this.pathUI = pathUI;
         this.sortUI = sortUI;
         this.searchUI = searchUI;
         this.homeUI = homeUI;
+        this.modifyUI = modifyUI;
 
         buildMenuBar();
     }
@@ -34,6 +38,7 @@ public class OptionMenuBar extends JMenuBar {
         add(buildFileMenu());
         add(buildSortMenu());
         add(buildSearchMenu());
+        add(buildModifyMenu());
         add(buildResetMenu());
     }
 
@@ -73,8 +78,8 @@ public class OptionMenuBar extends JMenuBar {
 
         sortMenu.add(reverseCheckbox);
         sortMenu.add(new JSeparator());
-        for (JMenuItem item : new JMenuItem[] { sortByFirstName, sortByName, sortByCity,
-                sortByZipCode, sortByPhone, sortByEmail, sortByJob }) {
+        for (JMenuItem item : new JMenuItem[]{sortByFirstName, sortByName, sortByCity,
+                sortByZipCode, sortByPhone, sortByEmail, sortByJob}) {
             sortMenu.add(item);
             addEventToSortMenu(item, reverseCheckbox, sortingCriteria[i++]);
         }
@@ -82,7 +87,7 @@ public class OptionMenuBar extends JMenuBar {
         return sortMenu;
     }
 
-    private void addEventToSortMenu(JMenuItem item, JCheckBoxMenuItem checkBox,SortingCriteria criteria) {
+    private void addEventToSortMenu(JMenuItem item, JCheckBoxMenuItem checkBox, SortingCriteria criteria) {
         item.addActionListener(e -> {
             if (checkBox.getState()) {
                 sortUI.interact(criteria, Order.DESC);
@@ -111,6 +116,55 @@ public class OptionMenuBar extends JMenuBar {
         });
 
         return searchMenu;
+    }
+
+    private JMenu buildModifyMenu() {
+        JMenu modifyMenu = new JMenu("Modifier");
+        JMenuItem add = new JMenuItem("Ajouter une personne");
+        JMenuItem suppress = new JMenuItem("Supprimer par email");
+        JMenuItem suppressByPhone = new JMenuItem("Supprimer par téléphone");
+
+        modifyMenu.add(add);
+        modifyMenu.add(new JSeparator());
+        modifyMenu.add(suppress);
+        modifyMenu.add(suppressByPhone);
+
+        add.addActionListener(e -> {
+            String[] inputs = callFieldsInput(SortingCriteria.FIRST_NAME, SortingCriteria.LAST_NAME, SortingCriteria.CITY,
+                    SortingCriteria.POSTAL_CODE, SortingCriteria.PHONE_NUMBER, SortingCriteria.EMAIL, SortingCriteria.JOB);
+            Person person = PersonBuilder.generatePerson()
+                    .withIdentity(inputs[0], inputs[1])
+                    .withLocation(inputs[2], inputs[3])
+                    .withContact(inputs[4], inputs[5])
+                    .withJob(inputs[6])
+                    .build();
+
+            modifyUI.interact(inputs, null);
+        });
+
+        suppress.addActionListener(e -> {
+            String[] inputs = callFieldsInput(SortingCriteria.FIRST_NAME, SortingCriteria.LAST_NAME, SortingCriteria.EMAIL);
+            try {
+                modifyUI.interact(inputs, SearchType.EMAIL);
+            } catch (PersonNotInBaseException exception) {
+                JOptionPane.showMessageDialog(frame, "Cette personne n'existe pas dans la base",
+                        "Personne introuvable",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        suppressByPhone.addActionListener(e -> {
+            String[] inputs = callFieldsInput(SortingCriteria.FIRST_NAME, SortingCriteria.LAST_NAME, SortingCriteria.PHONE_NUMBER);
+            try {
+                modifyUI.interact(inputs, SearchType.PHONE);
+            } catch (PersonNotInBaseException exception) {
+                JOptionPane.showMessageDialog(frame, "Cette personne n'existe pas dans la base",
+                        "Personne introuvable",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        return modifyMenu;
     }
 
     private JMenu buildResetMenu() {

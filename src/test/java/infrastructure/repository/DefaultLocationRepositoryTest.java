@@ -1,6 +1,5 @@
 package infrastructure.repository;
 
-import domain.model.Location;
 import infrastructure.exceptions.AlreadyExistInRepositoryException;
 import infrastructure.exceptions.NotInRepositoryException;
 import org.junit.jupiter.api.BeforeEach;
