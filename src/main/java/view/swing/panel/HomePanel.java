@@ -9,6 +9,7 @@ import view.HomeView;
 
 import javax.inject.Inject;
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 public class HomePanel extends PanelView implements HomeView {
@@ -29,7 +30,7 @@ public class HomePanel extends PanelView implements HomeView {
 
     @Override
     public void display(List<Person> personList) {
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel(new BorderLayout());
         String[] columnNames = {"Prénom", "Nom", "Ville", "Code postal", "Téléphone", "Email", "Profession"};
         String[][] data = new String[personList.size()][columnNames.length];
         int i = 0;
@@ -47,8 +48,6 @@ public class HomePanel extends PanelView implements HomeView {
 
         JTable table = new JTable(data, columnNames);
         JScrollPane scrollPane = new JScrollPane(table);
-
-        // TODO : Fix table size
 
         panel.add(scrollPane);
 
