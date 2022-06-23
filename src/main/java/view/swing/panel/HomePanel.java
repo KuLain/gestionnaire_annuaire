@@ -1,7 +1,10 @@
 package view.swing.panel;
 
 import domain.model.Person;
-import infrastructure.repository.PersonRepository;
+import ui.HomeUI;
+import ui.PathUI;
+import ui.SearchUI;
+import ui.SortUI;
 import view.HomeView;
 
 import javax.inject.Inject;
@@ -10,9 +13,18 @@ import java.util.List;
 
 public class HomePanel extends PanelView implements HomeView {
 
+    private final PathUI pathUI;
+    private final SortUI sortUI;
+    private final SearchUI searchUI;
+    private final HomeUI homeUI;
+
     @Inject
-    public HomePanel(JFrame frame) {
+    public HomePanel(JFrame frame, PathUI pathUI, SortUI sortUI, SearchUI searchUI, HomeUI homeUI) {
         super(frame);
+        this.pathUI = pathUI;
+        this.sortUI = sortUI;
+        this.searchUI = searchUI;
+        this.homeUI = homeUI;
     }
 
     @Override
@@ -36,8 +48,15 @@ public class HomePanel extends PanelView implements HomeView {
         JTable table = new JTable(data, columnNames);
         JScrollPane scrollPane = new JScrollPane(table);
 
-        // TODO: implement JTable
+        // TODO : Fix table size
+
         panel.add(scrollPane);
+
+        if (frame.getJMenuBar() == null) {
+            frame.setJMenuBar(new OptionMenuBar(pathUI, sortUI, searchUI, homeUI));
+        }
+
         frame.setContentPane(panel);
+        panel.updateUI();
     }
 }

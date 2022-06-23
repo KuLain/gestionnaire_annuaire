@@ -2,20 +2,20 @@ package main.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
-import infrastructure.loader.CSVPersonLoader;
-import infrastructure.loader.FilePath;
-import infrastructure.loader.PersonLoader;
+import infrastructure.loader.*;
 import infrastructure.repository.*;
+import ui.*;
+import ui.swing.*;
 import view.HomeView;
-import view.swing.ManagerFrame;
-import view.swing.panel.HomePanel;
+import view.SearchView;
+import view.swing.*;
+import view.swing.panel.*;
 
 import javax.swing.*;
 
 public class SwingCSVModule extends AbstractModule {
 
     private final FilePath path;
-
     public SwingCSVModule(String path) {
         this.path = new FilePath(path);
     }
@@ -31,7 +31,14 @@ public class SwingCSVModule extends AbstractModule {
 
         bind(PersonLoader.class).to(CSVPersonLoader.class);
 
+        bind(HomeUI.class).to(SwingHomeUI.class);
+        bind(SortUI.class).to(SwingSortUI.class);
+        bind(SearchUI.class).to(SwingSearchUI.class);
+        bind(PathUI.class).to(SwingPathUI.class);
+
         bind(HomeView.class).to(HomePanel.class);
+        bind(SearchView.class).to(SwingSearchView.class);
+
     }
 
 }
