@@ -9,6 +9,7 @@ import ui.*;
 import ui.swing.components.SearchType;
 
 import javax.swing.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,14 +23,16 @@ public class OptionMenuBar extends JMenuBar {
     private final SearchUI searchUI;
     private final HomeUI homeUI;
     private final ModifyUI modifyUI;
-
-    public OptionMenuBar(JFrame frame, PathUI pathUI, SortUI sortUI, SearchUI searchUI, HomeUI homeUI, ModifyUI modifyUI) {
+    private final FilterUI filterUI;
+    public OptionMenuBar(JFrame frame, PathUI pathUI, SortUI sortUI, SearchUI searchUI,
+                         HomeUI homeUI, ModifyUI modifyUI, FilterUI filterUI) {
         this.frame = frame;
         this.pathUI = pathUI;
         this.sortUI = sortUI;
         this.searchUI = searchUI;
         this.homeUI = homeUI;
         this.modifyUI = modifyUI;
+        this.filterUI = filterUI;
 
         buildMenuBar();
     }
@@ -37,6 +40,7 @@ public class OptionMenuBar extends JMenuBar {
     private void buildMenuBar() {
         add(buildFileMenu());
         add(buildSortMenu());
+        add(buildFilterMenu());
         add(buildSearchMenu());
         add(buildModifyMenu());
         add(buildResetMenu());
@@ -97,6 +101,35 @@ public class OptionMenuBar extends JMenuBar {
         });
     }
 
+    private JMenu buildFilterMenu() {
+        JMenu filterMenu = new JMenu("Filtrer");
+        JMenuItem filterByFirstName = new JMenuItem("Par prénom");
+        JMenuItem filterByName = new JMenuItem("Par nom");
+        JMenuItem filterByCity = new JMenuItem("Par ville");
+        JMenuItem filterByZipCode = new JMenuItem("Par code postal");
+        JMenuItem filterByPhone = new JMenuItem("Par téléphone");
+        JMenuItem filterByEmail = new JMenuItem("Par email");
+        JMenuItem filterByJob = new JMenuItem("Par poste");
+
+        SortingCriteria[] sortingCriteria = SortingCriteria.values();
+        int i = 0;
+
+        for (JMenuItem item : new JMenuItem[]{filterByFirstName, filterByName, filterByCity,
+                filterByZipCode, filterByPhone, filterByEmail, filterByJob}) {
+            filterMenu.add(item);
+            addEventToFilterMenu(item, sortingCriteria[i++]);
+        }
+
+        return filterMenu;
+    }
+
+    private void addEventToFilterMenu(JMenuItem item, SortingCriteria sortingCriteria) {
+        item.addActionListener(e -> {
+            String pattern = callFieldsInput(2, sortingCriteria)[0];
+            filterUI.interact(pattern, sortingCriteria);
+        });
+    }
+
     private JMenu buildSearchMenu() {
         JMenu searchMenu = new JMenu("Rechercher");
         JMenuItem searchByEmail = new JMenuItem("Par email");
@@ -104,13 +137,13 @@ public class OptionMenuBar extends JMenuBar {
 
         searchMenu.add(searchByEmail);
         searchByEmail.addActionListener(e -> {
-            String[] inputs = callFieldsInput(SortingCriteria.FIRST_NAME, SortingCriteria.LAST_NAME,
+            String[] inputs = callFieldsInput(1, SortingCriteria.FIRST_NAME, SortingCriteria.LAST_NAME,
                     SortingCriteria.EMAIL);
             searchUI.interact(inputs[0], inputs[1], inputs[2], SearchType.EMAIL);
         });
         searchMenu.add(searchByPhone);
         searchByPhone.addActionListener(e -> {
-            String[] inputs = callFieldsInput(SortingCriteria.FIRST_NAME, SortingCriteria.LAST_NAME,
+            String[] inputs = callFieldsInput(1, SortingCriteria.FIRST_NAME, SortingCriteria.LAST_NAME,
                     SortingCriteria.PHONE_NUMBER);
             searchUI.interact(inputs[0], inputs[1], inputs[2], SearchType.PHONE);
         });
@@ -130,7 +163,7 @@ public class OptionMenuBar extends JMenuBar {
         modifyMenu.add(suppressByPhone);
 
         add.addActionListener(e -> {
-            String[] inputs = callFieldsInput(SortingCriteria.FIRST_NAME, SortingCriteria.LAST_NAME, SortingCriteria.CITY,
+            String[] inputs = callFieldsInput(1, SortingCriteria.FIRST_NAME, SortingCriteria.LAST_NAME, SortingCriteria.CITY,
                     SortingCriteria.POSTAL_CODE, SortingCriteria.PHONE_NUMBER, SortingCriteria.EMAIL, SortingCriteria.JOB);
             Person person = PersonBuilder.generatePerson()
                     .withIdentity(inputs[0], inputs[1])
@@ -143,7 +176,7 @@ public class OptionMenuBar extends JMenuBar {
         });
 
         suppress.addActionListener(e -> {
-            String[] inputs = callFieldsInput(SortingCriteria.FIRST_NAME, SortingCriteria.LAST_NAME, SortingCriteria.EMAIL);
+            String[] inputs = callFieldsInput(1, SortingCriteria.FIRST_NAME, SortingCriteria.LAST_NAME, SortingCriteria.EMAIL);
             try {
                 modifyUI.interact(inputs, SearchType.EMAIL);
             } catch (PersonNotInBaseException exception) {
@@ -154,7 +187,7 @@ public class OptionMenuBar extends JMenuBar {
         });
 
         suppressByPhone.addActionListener(e -> {
-            String[] inputs = callFieldsInput(SortingCriteria.FIRST_NAME, SortingCriteria.LAST_NAME, SortingCriteria.PHONE_NUMBER);
+            String[] inputs = callFieldsInput(1, SortingCriteria.FIRST_NAME, SortingCriteria.LAST_NAME, SortingCriteria.PHONE_NUMBER);
             try {
                 modifyUI.interact(inputs, SearchType.PHONE);
             } catch (PersonNotInBaseException exception) {
@@ -189,7 +222,7 @@ public class OptionMenuBar extends JMenuBar {
         }
     }
 
-    private String[] callFieldsInput(SortingCriteria... criterias) {
+    private String[] callFieldsInput(int messageType, SortingCriteria... criterias) {
         List<String> inputFields = new ArrayList<>();
         Map<SortingCriteria, String> dictionnaire = new HashMap<>();
         dictionnaire.put(SortingCriteria.FIRST_NAME, "prénom");
@@ -200,9 +233,11 @@ public class OptionMenuBar extends JMenuBar {
         dictionnaire.put(SortingCriteria.EMAIL, "adresse email");
         dictionnaire.put(SortingCriteria.JOB, "profession");
 
+        String message = (messageType == 1) ? "l'information suivante" : "le patterne de l'informations suivante";
+
         for (SortingCriteria criteria : criterias) {
             String currentInput = JOptionPane.showInputDialog(this,
-                    "Entrez l'information suivante : " + dictionnaire.get(criteria),
+                    "Entrez " + message + " : " + dictionnaire.get(criteria),
                     "Entrez une informations",
                     JOptionPane.QUESTION_MESSAGE);
             inputFields.add(currentInput);

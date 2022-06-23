@@ -39,6 +39,7 @@ public class SwingCSVModule extends AbstractModule {
         bind(SearchUI.class).to(SwingSearchUI.class);
         bind(PathUI.class).to(SwingPathUI.class);
         bind(ModifyUI.class).to(SwingModifyUI.class);
+        bind(FilterUI.class).to(SwingFilterUI.class);
 
         bind(HomeView.class).to(HomePanel.class);
         bind(SearchView.class).to(SwingSearchView.class);

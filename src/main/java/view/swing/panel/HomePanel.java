@@ -16,15 +16,17 @@ public class HomePanel extends PanelView implements HomeView {
     private final SearchUI searchUI;
     private final HomeUI homeUI;
     private final ModifyUI modifyUI;
+    private final FilterUI filterUI;
 
     @Inject
-    public HomePanel(JFrame frame, PathUI pathUI, SortUI sortUI, SearchUI searchUI, HomeUI homeUI, ModifyUI modifyUI) {
+    public HomePanel(JFrame frame, PathUI pathUI, SortUI sortUI, SearchUI searchUI, HomeUI homeUI, ModifyUI modifyUI, FilterUI filterUI) {
         super(frame);
         this.pathUI = pathUI;
         this.sortUI = sortUI;
         this.searchUI = searchUI;
         this.homeUI = homeUI;
         this.modifyUI = modifyUI;
+        this.filterUI = filterUI;
     }
 
     @Override
@@ -51,7 +53,7 @@ public class HomePanel extends PanelView implements HomeView {
         panel.add(scrollPane);
 
         if (frame.getJMenuBar() == null) {
-            frame.setJMenuBar(new OptionMenuBar(frame, pathUI, sortUI, searchUI, homeUI, modifyUI));
+            frame.setJMenuBar(new OptionMenuBar(frame, pathUI, sortUI, searchUI, homeUI, modifyUI, filterUI));
         }
 
         frame.setContentPane(panel);
