@@ -5,9 +5,8 @@ import domain.model.Person;
 import infrastructure.exceptions.AlreadyExistInRepositoryException;
 import infrastructure.exceptions.NotInRepositoryException;
 
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Singleton
 public class SetPersonRepository implements PersonRepository {
@@ -51,6 +50,6 @@ public class SetPersonRepository implements PersonRepository {
 
     @Override
     public List<Person> getListPerson() {
-        return personSet.stream().toList();
+        return new ArrayList<>(personSet);
     }
 }

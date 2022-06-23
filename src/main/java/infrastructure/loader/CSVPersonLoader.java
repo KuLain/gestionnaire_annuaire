@@ -27,7 +27,7 @@ public class CSVPersonLoader implements PersonLoader {
     private void loadPersons() {
         try {
             InputStream inputStream = new FileInputStream(filePath.path);
-            Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8);
+            Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name());
 
             while (scanner.hasNextLine()) {
                 String[] infos = processSplit(scanner);

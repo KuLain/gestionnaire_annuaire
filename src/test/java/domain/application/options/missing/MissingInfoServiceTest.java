@@ -9,6 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,21 +50,21 @@ class MissingInfoServiceTest {
 
     @Test
     void findPersonsWithMissingInfo_shouldReturnListOfPersonWithMissingInfo_whenInfoAreNull() {
-        when(personRepository.getListPerson()).thenReturn(List.of(person1, person2));
+        when(personRepository.getListPerson()).thenReturn(Arrays.asList(person1, person2));
 
-        assertEquals(List.of(person2), service.findPersonsWithMissingInfos());
+        assertEquals(Collections.singletonList(person2), service.findPersonsWithMissingInfos());
     }
 
     @Test
     void findPersonsWithMissingInfo_shouldReturnListOfPersonWithMissingInfo_whenInfoAreEmpty() {
-        when(personRepository.getListPerson()).thenReturn(List.of(person3,person1));
+        when(personRepository.getListPerson()).thenReturn(Arrays.asList(person3,person1));
 
-        assertEquals(List.of(person3), service.findPersonsWithMissingInfos());
+        assertEquals(Collections.singletonList(person3), service.findPersonsWithMissingInfos());
     }
 
     @Test
     void findPersonsWithMissingInfo_shouldReturnEmptyList_whenAllInfosAreFilled() {
-        when(personRepository.getListPerson()).thenReturn(List.of(person1));
+        when(personRepository.getListPerson()).thenReturn(Collections.singletonList(person1));
 
         List<Person> testResult = service.findPersonsWithMissingInfos();
 

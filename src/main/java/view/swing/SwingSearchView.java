@@ -6,6 +6,7 @@ import view.SearchView;
 
 import javax.inject.Inject;
 import javax.swing.*;
+import java.util.Collections;
 import java.util.List;
 
 public class SwingSearchView implements SearchView {
@@ -26,7 +27,7 @@ public class SwingSearchView implements SearchView {
                     "Personne introuvable",
                     JOptionPane.ERROR_MESSAGE);
         } else {
-            homeView.display(List.of(person));
+            homeView.display(Collections.singletonList(person));
         }
     }
 }

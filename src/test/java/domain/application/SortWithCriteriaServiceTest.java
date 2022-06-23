@@ -11,6 +11,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,7 +50,8 @@ class SortWithCriteriaServiceTest {
                 .withContact("091827364", "uwu@gmail.com")
                 .withJob("Student")
                 .build();
-        when(personRepository.getListPerson()).thenReturn(List.of(person2, person1, person3));
+
+        when(personRepository.getListPerson()).thenReturn(Arrays.asList(person2, person1, person3));
     }
 
     @Test

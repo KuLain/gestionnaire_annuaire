@@ -18,14 +18,30 @@ public class SortWithCriteriaService {
     }
 
     public List<Person> sortWithCriteria(SortingCriteria criteria, Order order) {
-        List<Person> personList = switch (criteria) {
-            case FIRST_NAME -> sortByFirstName();
-            case LAST_NAME -> sortByLastName();
-            case CITY -> sortByCity();
-            case POSTAL_CODE -> sortByPostalCode();
-            case PHONE_NUMBER -> sortByPhoneNumber();
-            case EMAIL -> sortByEmail();
-            case JOB -> sortByJob();
+        List<Person> personList = null;
+
+        switch (criteria) {
+            case FIRST_NAME:
+                personList = sortByFirstName();
+                break;
+            case LAST_NAME:
+                personList = sortByLastName();
+                break;
+            case CITY:
+                personList = sortByCity();
+                break;
+            case POSTAL_CODE:
+                personList = sortByPostalCode();
+                break;
+            case PHONE_NUMBER:
+                personList = sortByPhoneNumber();
+                break;
+            case EMAIL:
+                personList = sortByEmail();
+                break;
+            case JOB:
+                personList = sortByJob();
+                break;
         };
 
         if (personList != null && order == Order.DESC) {

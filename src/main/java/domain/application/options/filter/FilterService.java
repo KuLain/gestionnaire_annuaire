@@ -22,41 +22,41 @@ public class FilterService {
 
         for (Person person : personRepository.getListPerson()) {
             switch (sortingCriteria) {
-                case FIRST_NAME -> {
+                case FIRST_NAME:
                     if (person.getIdentity().getFirstName().contains(pattern)) {
                         matchingPersons.add(person);
                     }
-                }
-                case LAST_NAME -> {
+                    break;
+                case LAST_NAME:
                     if (person.getIdentity().getLastName().contains(pattern)) {
                         matchingPersons.add(person);
                     }
-                }
-                case CITY -> {
+                    break;
+                case CITY:
                     if (person.getLocation().getCity().contains(pattern)) {
                         matchingPersons.add(person);
                     }
-                }
-                case POSTAL_CODE -> {
+                    break;
+                case POSTAL_CODE:
                     if (person.getLocation().getPostalCode().contains(pattern)) {
                         matchingPersons.add(person);
                     }
-                }
-                case PHONE_NUMBER -> {
+                    break;
+                case PHONE_NUMBER:
                     if (person.getContact().getPhone().contains(pattern)) {
                         matchingPersons.add(person);
                     }
-                }
-                case EMAIL -> {
+                    break;
+                case EMAIL:
                     if (person.getContact().getEmailAdress().contains(pattern)) {
                         matchingPersons.add(person);
                     }
-                }
-                case JOB -> {
+                    break;
+                case JOB:
                     if (person.getJob().contains(pattern)) {
                         matchingPersons.add(person);
                     }
-                }
+                    break;
             }
         }
 
