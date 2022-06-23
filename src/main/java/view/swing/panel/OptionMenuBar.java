@@ -7,9 +7,7 @@ import ui.PathUI;
 import ui.SearchUI;
 import ui.SortUI;
 import ui.swing.components.SearchType;
-import ui.swing.events.SortCallEvent;
 
-import javax.inject.Inject;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;

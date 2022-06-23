@@ -4,7 +4,6 @@ import domain.application.PersonBuilder;
 import domain.model.Location;
 import domain.model.Person;
 import infrastructure.exceptions.AlreadyExistInRepositoryException;
-import infrastructure.exceptions.InvalidLineFormatException;
 import infrastructure.repository.LocationRepository;
 import infrastructure.repository.PersonRepository;
 

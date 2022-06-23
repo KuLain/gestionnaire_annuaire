@@ -2,14 +2,26 @@ package main.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
-import infrastructure.loader.*;
-import infrastructure.repository.*;
-import ui.*;
-import ui.swing.*;
+import infrastructure.loader.CSVPersonLoader;
+import infrastructure.loader.FilePath;
+import infrastructure.loader.PersonLoader;
+import infrastructure.repository.DefaultLocationRepository;
+import infrastructure.repository.ListPersonRepository;
+import infrastructure.repository.LocationRepository;
+import infrastructure.repository.PersonRepository;
+import ui.HomeUI;
+import ui.PathUI;
+import ui.SearchUI;
+import ui.SortUI;
+import ui.swing.SwingHomeUI;
+import ui.swing.SwingPathUI;
+import ui.swing.SwingSearchUI;
+import ui.swing.SwingSortUI;
 import view.HomeView;
 import view.SearchView;
-import view.swing.*;
-import view.swing.panel.*;
+import view.swing.ManagerFrame;
+import view.swing.SwingSearchView;
+import view.swing.panel.HomePanel;
 
 import javax.swing.*;
 

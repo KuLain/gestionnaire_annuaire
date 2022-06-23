@@ -4,12 +4,9 @@ import domain.model.Person;
 import infrastructure.repository.PersonRepository;
 import ui.SearchUI;
 import ui.swing.components.SearchType;
-import view.HomeView;
 import view.SearchView;
 
 import javax.inject.Inject;
-import javax.swing.*;
-import java.util.List;
 
 public class SwingSearchUI implements SearchUI {
 
